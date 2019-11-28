@@ -24,6 +24,9 @@ public interface UserMapper
     @Select("select * from user where username=#{num}")
     User findById(Long num);
 
-    @Update("update user set is_leader=0, teamleader=0,invitation_id=0 where teamleader<>0")
+    @Update("update user set is_leader=0, teamleader=0 where teamleader<>0")
     void deleteMembers();
+
+    @Update("update user set invitation_id=0 where invitation_id<>0")
+    void deleteInvitations();
 }

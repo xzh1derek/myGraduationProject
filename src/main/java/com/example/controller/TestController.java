@@ -22,6 +22,7 @@ public class TestController
     {
         teamMapper.deleteTeams();
         userMapper.deleteMembers();
+        userMapper.deleteInvitations();
         return "0";
     }
 }
