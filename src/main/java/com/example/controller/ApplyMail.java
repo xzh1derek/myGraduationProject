@@ -115,16 +115,15 @@ public class ApplyMail
     /**
      * 甲拒绝丙的申请
      * @param user 丙的学号
-     * @param reason 拒绝理由
      * @return 状态信息 测试通过
      */
     @RequestMapping(value="reject",method = RequestMethod.GET)
     @ResponseBody
-    public String rejectApplication(@RequestParam("sender")String user,@RequestParam("reason")String reason)
+    public String rejectApplication(@RequestParam("sender")String user)
     {
         Long sender = Long.parseLong(user);
         mailService.deleteMail(sender);
-        userService.updateApplication(sender,"申请未通过，理由："+reason);
+        userService.updateApplication(sender,"申请未通过，对方拒接了你的申请");
         return "0";
     }
 }

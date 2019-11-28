@@ -29,5 +29,4 @@ public class UserController
         User user = userService.getUser(num);
         return user;
     }
-
 }
