@@ -19,4 +19,6 @@ public interface IUserDao
     List<User> findByTeamleader(Long leader);
 
     Boolean existUser(Long num);
+
+    void saveUser(User user);
 }

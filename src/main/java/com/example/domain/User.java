@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.io.Serializable;
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class User implements Serializable
 {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private int id;
     @Id
     private Long username;

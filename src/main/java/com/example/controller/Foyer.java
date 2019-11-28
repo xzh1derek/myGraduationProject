@@ -23,7 +23,7 @@ public class Foyer
 
     /**
      * 进入大厅，显示所有（愿意被显示的）组的信息
-     * @return 组的列表 多表联查 本地测试通过
+     * @return 组的列表 多表联查 测试通过
      */
     @RequestMapping(value = "foyer",method = RequestMethod.GET)
     @ResponseBody
@@ -35,7 +35,7 @@ public class Foyer
     /**
      * 搜索某个队长的队伍
      * @param user 队长学号
-     * @return 没有就是null，有就是team对象 多表联查 本地测试通过
+     * @return 没有就是null，有就是team对象 多表联查 测试通过
      */
     @RequestMapping(value = "search",method = RequestMethod.GET)
     @ResponseBody

@@ -48,7 +48,7 @@ public class Invite
      * @param answer 回复信息（是/否)
      * 测试通过
      */
-    @RequestMapping(value = "answerInvite",method = RequestMethod.GET)
+    @RequestMapping(value = "answerInvite",method = RequestMethod.POST)
     @ResponseBody
     public String answerInvite(@RequestParam("userId")String num, @RequestParam("answer")String answer)
     {

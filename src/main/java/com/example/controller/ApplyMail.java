@@ -32,7 +32,7 @@ public class ApplyMail
      * @param user2 甲的学号
      * @return 返回状态信息 测试通过
      */
-    @RequestMapping(value = "apply",method = RequestMethod.GET)
+    @RequestMapping(value = "apply",method = RequestMethod.POST)
     @ResponseBody
     public String apply(@RequestParam("sender")String user1,@RequestParam("receiver")String user2)
     {
@@ -50,7 +50,7 @@ public class ApplyMail
      * 丙撤回申请
      * @param id 丙的学号 测试通过
      */
-    @RequestMapping(value = "withdraw",method = RequestMethod.GET)
+    @RequestMapping(value = "withdraw",method = RequestMethod.POST)
     @ResponseBody
     public String withdraw(@RequestParam("userId")String id)
     {
@@ -85,7 +85,7 @@ public class ApplyMail
      * @param user2 甲的学号
      * @return 状态信息 测试通过
      */
-    @RequestMapping(value="approve",method = RequestMethod.GET)
+    @RequestMapping(value="approve",method = RequestMethod.POST)
     @ResponseBody
     public String approveApplication(@RequestParam("sender")String user1,@RequestParam("receiver")String user2)
     {
@@ -117,7 +117,7 @@ public class ApplyMail
      * @param user 丙的学号
      * @return 状态信息 测试通过
      */
-    @RequestMapping(value="reject",method = RequestMethod.GET)
+    @RequestMapping(value="reject",method = RequestMethod.POST)
     @ResponseBody
     public String rejectApplication(@RequestParam("sender")String user)
     {

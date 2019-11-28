@@ -24,9 +24,12 @@ public interface UserMapper
     @Select("select * from user where username=#{num}")
     User findById(Long num);
 
-    @Update("update user set is_leader=0, teamleader=0 where teamleader<>0")
+    @Update("update user set is_leader=0, teamleader=0, application_status=null where teamleader<>0")
     void deleteMembers();
 
-    @Update("update user set invitation_id=0 where invitation_id<>0")
+    @Update("update user set invitation_id=0, application_status=null where invitation_id<>0")
     void deleteInvitations();
+
+    @Update("update user set password=#{p}, name=#{n}, school=#{s}, qq=#{q} where username=#{u}")
+    void saveUser(Long u, String p, String n, String s, String q);
 }

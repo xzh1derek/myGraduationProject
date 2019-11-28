@@ -55,4 +55,10 @@ public class UserServiceImpl implements IUserService
     {
         return userDao.existUser(num);
     }
+
+    @Override
+    public void saveUser(User user)
+    {
+        userDao.saveUser(user);
+    }
 }

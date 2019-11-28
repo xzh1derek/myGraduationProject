@@ -60,4 +60,10 @@ public class UserDaoImpl implements IUserDao
     {
         return userRepository.existsById(num);
     }
+
+    @Override
+    public void saveUser(User user)
+    {
+        userMapper.saveUser(user.getUsername(),user.getPassword(),user.getName(),user.getSchool(),user.getQq());
+    }
 }

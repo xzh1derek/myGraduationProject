@@ -61,7 +61,7 @@ public class SetTeam
      * @param status 1=接收申请 0=不接受申请
      * @return 测试通过
      */
-    @RequestMapping(value = "/setAvailable",method = RequestMethod.GET)
+    @RequestMapping(value = "/setAvailable",method = RequestMethod.POST)
     @ResponseBody
     public String setAvailable(@RequestParam("leader")String user, @RequestParam("status")String status)
     {
@@ -85,7 +85,7 @@ public class SetTeam
      * @param status 1=打开发布组队 0=关闭发布
      * @return 测试通过
      */
-    @RequestMapping(value = "/setDisplay", method = RequestMethod.GET)
+    @RequestMapping(value = "/setDisplay", method = RequestMethod.POST)
     @ResponseBody
     public String setDisplay(@RequestParam("leader")String user, @RequestParam("status")String status)
     {
