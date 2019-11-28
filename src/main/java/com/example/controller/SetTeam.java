@@ -51,6 +51,7 @@ public class SetTeam
         userService.updateLeader(username,true);
         userService.updateTeam(username,username);
         userService.updateApplication(username,null);
+        userService.updateInvitation(username,0L);
         return "0";
     }
 

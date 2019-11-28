@@ -97,6 +97,7 @@ public class ApplyMail
         teamService.addAMember(receiver,sender);
         userService.updateTeam(sender,receiver);
         userService.updateApplication(sender,"你的申请已通过");
+        userService.updateInvitation(sender,0L);
         mailService.deleteMail(sender);
         if(team.getCurrent_num()==team.getMax_num())//加完人后判断小组是否满员，是则自动删除所有相关申请邮件
         {
