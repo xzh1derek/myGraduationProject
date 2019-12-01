@@ -62,8 +62,8 @@ public class UserDaoImpl implements IUserDao
     }
 
     @Override
-    public void saveUser(User user)
+    public void saveUser(Long username, String password, String name, String school, String qq)
     {
-        userMapper.saveUser(user.getUsername(),user.getPassword(),user.getName(),user.getSchool(),user.getQq());
+        userMapper.saveUser(username,password,name,school,qq);
     }
 }

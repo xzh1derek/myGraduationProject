@@ -31,5 +31,4 @@ public interface TeamMapper
 
     @Delete("delete from team")
     void deleteTeams();
-
 }

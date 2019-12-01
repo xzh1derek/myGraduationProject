@@ -20,5 +20,5 @@ public interface IUserDao
 
     Boolean existUser(Long num);
 
-    void saveUser(User user);
+    void saveUser(Long username, String password, String name, String school, String qq);
 }
