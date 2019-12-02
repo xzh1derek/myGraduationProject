@@ -16,17 +16,17 @@ public class Mail implements Serializable
     @Id
     private Long sender;
     private Long receiver;
-    private User user;
-
-    public User getUser()
-    {
-        return user;
-    }
-
-    public void setUser(User user)
-    {
-        this.user = user;
-    }
+//    private User user;
+//
+//    public User getUser()
+//    {
+//        return user;
+//    }
+//
+//    public void setUser(User user)
+//    {
+//        this.user = user;
+//    }
 
     public int getId()
     {
@@ -65,7 +65,7 @@ public class Mail implements Serializable
                 "id=" + id +
                 ", sender=" + sender +
                 ", receiver=" + receiver +
-                ", user=" + user +
+//                ", user=" + user +
                 '}';
     }
 }

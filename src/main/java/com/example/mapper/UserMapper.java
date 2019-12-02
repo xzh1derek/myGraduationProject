@@ -30,6 +30,6 @@ public interface UserMapper
     @Update("update user set invitation_id=0, application_status=null where invitation_id<>0")
     void deleteInvitations();
 
-    @Update("update user set password=#{p}, name=#{n}, school=#{s}, qq=#{q} where username=#{u}")
-    void saveUser(Long u, String p, String n, String s, String q);
+    @Update("insert into user(username,name,school,qq) values(#{u},#{n},#{s},#{q})")
+    void saveUser(Long u, String n, String s, String q);
 }

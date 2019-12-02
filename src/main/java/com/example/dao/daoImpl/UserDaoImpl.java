@@ -3,6 +3,7 @@ package com.example.dao.daoImpl;
 import com.example.dao.IUserDao;
 import com.example.domain.Team;
 import com.example.domain.User;
+import com.example.mapper.AccountMapper;
 import com.example.mapper.UserMapper;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class UserDaoImpl implements IUserDao
 {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private AccountMapper accountMapper;
     @Autowired
     private UserRepository userRepository;
 
@@ -62,8 +65,9 @@ public class UserDaoImpl implements IUserDao
     }
 
     @Override
-    public void saveUser(Long username, String password, String name, String school, String qq)
+    public void saveUser(String username, String password, String name, String school, String qq)
     {
-        userMapper.saveUser(username,password,name,school,qq);
+        accountMapper.updatePassword(username,password);
+        userMapper.saveUser(Long.parseLong(username),name,school,qq);
     }
 }

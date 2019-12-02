@@ -20,5 +20,5 @@ public interface IUserService
 
     Boolean existUser(Long num);
 
-    void saveUser(Long username, String password, String name, String school, String qq);
+    void saveUser(String username, String password, String name, String school, String qq);
 }

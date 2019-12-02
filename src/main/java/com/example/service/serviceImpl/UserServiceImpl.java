@@ -57,7 +57,7 @@ public class UserServiceImpl implements IUserService
     }
 
     @Override
-    public void saveUser(Long username, String password, String name, String school, String qq)
+    public void saveUser(String username, String password, String name, String school, String qq)
     {
         userDao.saveUser(username,password,name,school,qq);
     }

@@ -15,7 +15,6 @@ public class User implements Serializable
     private int id;
     @Id
     private Long username;
-    private String password;
     private String name;
     private String school;
     private String qq;
@@ -25,15 +24,6 @@ public class User implements Serializable
     private Long invitation_id;
 
     //public User(){}
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
 
     public int getId()
     {
@@ -131,7 +121,6 @@ public class User implements Serializable
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                "，password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", school='" + school + '\'' +
                 ", qq='" + qq + '\'' +
