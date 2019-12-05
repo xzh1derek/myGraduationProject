@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -18,12 +19,7 @@ public class User implements Serializable
     private String name;
     private String school;
     private String qq;
-    private boolean isLeader;
-    private Long teamleader;
-    private String applicationStatus;
-    private Long invitation_id;
-
-    //public User(){}
+    private List<UserCourse> userCourses;
 
     public int getId()
     {
@@ -75,44 +71,14 @@ public class User implements Serializable
         this.qq = qq;
     }
 
-    public boolean isLeader()
+    public List<UserCourse> getUserCourses()
     {
-        return isLeader;
+        return userCourses;
     }
 
-    public void setLeader(boolean leader)
+    public void setUserCourses(List<UserCourse> userCourses)
     {
-        isLeader = leader;
-    }
-
-    public Long getTeamleader()
-    {
-        return teamleader;
-    }
-
-    public void setTeamleader(Long teamleader)
-    {
-        this.teamleader = teamleader;
-    }
-
-    public String getApplicationStatus()
-    {
-        return applicationStatus;
-    }
-
-    public void setApplicationStatus(String applicationStatus)
-    {
-        this.applicationStatus = applicationStatus;
-    }
-
-    public Long getInvitation_id()
-    {
-        return invitation_id;
-    }
-
-    public void setInvitation_id(Long invitation_id)
-    {
-        this.invitation_id = invitation_id;
+        this.userCourses = userCourses;
     }
 
     @Override
@@ -120,14 +86,11 @@ public class User implements Serializable
     {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", username=" + username +
                 ", name='" + name + '\'' +
                 ", school='" + school + '\'' +
                 ", qq='" + qq + '\'' +
-                ", isLeader=" + isLeader +
-                ", team_id=" + teamleader +
-                ", applicationStatus='" + applicationStatus + '\'' +
-                ", invitation_id=" + invitation_id +
+                ", userCourses=" + userCourses +
                 '}';
     }
 }

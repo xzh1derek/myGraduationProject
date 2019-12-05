@@ -18,7 +18,7 @@ public class Account implements Serializable
     @Id
     private String username;
     private String password;
-    private Integer identity;
+    private Integer identity;//0是管理员，1是学生，2是老师
 
     public Integer getId()
     {

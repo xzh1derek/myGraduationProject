@@ -19,6 +19,8 @@ public class Team implements Serializable
     private Long member2;
     private Long member3;
     private Long member4;
+    private Long member5;
+    private Long member6;
     private int current_num;
     private int max_num;
     private boolean is_display;
@@ -98,6 +100,26 @@ public class Team implements Serializable
         this.member4 = member4;
     }
 
+    public Long getMember5()
+    {
+        return member5;
+    }
+
+    public void setMember5(Long member5)
+    {
+        this.member5 = member5;
+    }
+
+    public Long getMember6()
+    {
+        return member6;
+    }
+
+    public void setMember6(Long member6)
+    {
+        this.member6 = member6;
+    }
+
     public int getCurrent_num()
     {
         return current_num;
@@ -158,6 +180,8 @@ public class Team implements Serializable
                 ", member2=" + member2 +
                 ", member3=" + member3 +
                 ", member4=" + member4 +
+                ", member5=" + member5 +
+                ", member6=" + member6 +
                 ", current_num=" + current_num +
                 ", max_num=" + max_num +
                 ", is_display=" + is_display +
