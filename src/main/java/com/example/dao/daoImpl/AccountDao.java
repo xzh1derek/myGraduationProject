@@ -26,4 +26,10 @@ public class AccountDao implements IAccountDao
     {
         return accountRepository.getOne(username);
     }
+
+    @Override
+    public void updatePassword(String u,String p)
+    {
+        accountMapper.updatePassword(u,p);
+    }
 }

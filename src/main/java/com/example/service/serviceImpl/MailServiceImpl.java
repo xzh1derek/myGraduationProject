@@ -15,32 +15,45 @@ public class MailServiceImpl implements IMailService
     private IMailDao mailDao;
 
     @Override
-    public void newMail(Long sender, Long receiver)
+    public void sendMail(Mail mail)
     {
-        mailDao.newMail(sender, receiver);
+        mailDao.sendMail(mail);
     }
 
     @Override
-    public Mail getMail(Long sender)
+    public Mail getMail(Integer id)
     {
-        return mailDao.getMail(sender);
+        return mailDao.getMail(id);
     }
 
     @Override
-    public List<Mail> getMails(Long receiver)
+    public List<Mail> getMailsByReceiver(Long receiver)
     {
-        return mailDao.getMails(receiver);
+        return mailDao.getMailsByReceiver(receiver);
     }
 
     @Override
-    public void deleteMail(Long sender)
+    public void deleteMail(Integer id)
     {
-        mailDao.deleteMail(sender);
+        mailDao.deleteMail(id);
     }
 
     @Override
-    public boolean existMail(Long sender)
+    public List<Mail> myApplication(Long username)
     {
-        return mailDao.existMail(sender);
+        return mailDao.getMailsBySender(username,2);
+    }
+
+    @Override
+    public boolean hasApplied(Long username)
+    {
+        List<Mail> mailList = mailDao.getMailsBySender(username,2);
+        return !mailList.isEmpty();
+    }
+
+    @Override
+    public void deleteMailBySender(Long sender,Integer type)
+    {
+        mailDao.deleteMailBySender(sender,type);
     }
 }

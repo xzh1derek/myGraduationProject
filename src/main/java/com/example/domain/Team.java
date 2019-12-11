@@ -1,6 +1,4 @@
 package com.example.domain;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -11,9 +9,9 @@ import java.io.Serializable;
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class Team implements Serializable
 {
-    @JsonIgnore
-    private int id;
     @Id
+    private Integer id;
+    private Integer course_id;
     private Long leader;
     private Long member1;
     private Long member2;
@@ -21,24 +19,12 @@ public class Team implements Serializable
     private Long member4;
     private Long member5;
     private Long member6;
-    private int current_num;
-    private int max_num;
-    private boolean is_display;
+    private Integer current_num;
+    private Integer max_num;
+    private Boolean is_display;
     private String description;
-    private boolean available;
+    private Boolean available;
     private User user;
-
-    //public Team(){}
-
-    public User getUser()
-    {
-        return user;
-    }
-
-    public void setUser(User user)
-    {
-        this.user = user;
-    }
 
     public int getId()
     {
@@ -48,6 +34,16 @@ public class Team implements Serializable
     public void setId(int id)
     {
         this.id = id;
+    }
+
+    public int getCourseId()
+    {
+        return course_id;
+    }
+
+    public void setCourseId(int courseId)
+    {
+        this.course_id = courseId;
     }
 
     public Long getLeader()
@@ -120,34 +116,34 @@ public class Team implements Serializable
         this.member6 = member6;
     }
 
-    public int getCurrent_num()
+    public int getCurrentNum()
     {
         return current_num;
     }
 
-    public void setCurrent_num(int current_num)
+    public void setCurrentNum(int currentNum)
     {
-        this.current_num = current_num;
+        this.current_num = currentNum;
     }
 
-    public int getMax_num()
+    public int getMaxNum()
     {
         return max_num;
     }
 
-    public void setMax_num(int max_num)
+    public void setMaxNum(int maxNum)
     {
-        this.max_num = max_num;
+        this.max_num = maxNum;
     }
 
-    public boolean isIs_display()
+    public boolean isDisplay()
     {
         return is_display;
     }
 
-    public void setIs_display(boolean is_display)
+    public void setDisplay(boolean display)
     {
-        this.is_display = is_display;
+        is_display = display;
     }
 
     public String getDescription()
@@ -170,11 +166,22 @@ public class Team implements Serializable
         this.available = available;
     }
 
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
     @Override
     public String toString()
     {
         return "Team{" +
                 "id=" + id +
+                ", courseId=" + course_id +
                 ", leader=" + leader +
                 ", member1=" + member1 +
                 ", member2=" + member2 +
@@ -182,9 +189,9 @@ public class Team implements Serializable
                 ", member4=" + member4 +
                 ", member5=" + member5 +
                 ", member6=" + member6 +
-                ", current_num=" + current_num +
-                ", max_num=" + max_num +
-                ", is_display=" + is_display +
+                ", currentNum=" + current_num +
+                ", maxNum=" + max_num +
+                ", isDisplay=" + is_display +
                 ", description='" + description + '\'' +
                 ", available=" + available +
                 ", user=" + user +

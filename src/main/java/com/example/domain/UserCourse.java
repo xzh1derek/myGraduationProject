@@ -15,12 +15,12 @@ public class UserCourse implements Serializable
     @Id
     private Integer id;
     private Long username;
-    private Integer courseId;
-    private Boolean courseIsTeam;
-    private Boolean isLeader;
-    private Long teamleader;
-    private String applicationStatus;
-    private Long invitationId;
+    private Integer course_id;
+    private String course_name;
+    private Boolean is_leader;
+    private Integer team_id;
+    private Float score;
+    private String file;
 
     public Integer getId()
     {
@@ -42,64 +42,64 @@ public class UserCourse implements Serializable
         this.username = username;
     }
 
-    public Integer getCourseId()
+    public Integer getCourse_id()
     {
-        return courseId;
+        return course_id;
     }
 
-    public void setCourseId(Integer courseId)
+    public void setCourse_id(Integer course_id)
     {
-        this.courseId = courseId;
+        this.course_id = course_id;
     }
 
-    public Boolean getTeam()
+    public String getCourse_name()
     {
-        return courseIsTeam;
+        return course_name;
     }
 
-    public void setTeam(Boolean team)
+    public void setCourse_name(String course_name)
     {
-        courseIsTeam = team;
+        this.course_name = course_name;
     }
 
-    public Boolean getLeader()
+    public Boolean getIs_leader()
     {
-        return isLeader;
+        return is_leader;
     }
 
-    public void setLeader(Boolean leader)
+    public void setIs_leader(Boolean is_leader)
     {
-        isLeader = leader;
+        this.is_leader = is_leader;
     }
 
-    public Long getTeamleader()
+    public Integer getTeam_id()
     {
-        return teamleader;
+        return team_id;
     }
 
-    public void setTeamleader(Long teamleader)
+    public void setTeam_id(Integer team_id)
     {
-        this.teamleader = teamleader;
+        this.team_id = team_id;
     }
 
-    public String getApplicationStatus()
+    public Float getScore()
     {
-        return applicationStatus;
+        return score;
     }
 
-    public void setApplicationStatus(String applicationStatus)
+    public void setScore(Float grade)
     {
-        this.applicationStatus = applicationStatus;
+        this.score = grade;
     }
 
-    public Long getInvitationId()
+    public String getFile()
     {
-        return invitationId;
+        return file;
     }
 
-    public void setInvitationId(Long invitationId)
+    public void setFile(String file)
     {
-        this.invitationId = invitationId;
+        this.file = file;
     }
 
     @Override
@@ -108,12 +108,12 @@ public class UserCourse implements Serializable
         return "UserCourse{" +
                 "id=" + id +
                 ", username=" + username +
-                ", courseId=" + courseId +
-                ", isTeam=" + courseIsTeam +
-                ", isLeader=" + isLeader +
-                ", teamleader=" + teamleader +
-                ", applicationStatus='" + applicationStatus + '\'' +
-                ", invitationId=" + invitationId +
+                ", course_id=" + course_id +
+                ", course_name='" + course_name + '\'' +
+                ", is_leader=" + is_leader +
+                ", team_id=" + team_id +
+                ", score=" + score +
+                ", file='" + file + '\'' +
                 '}';
     }
 }

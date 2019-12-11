@@ -23,7 +23,7 @@ public class Foyer
 
     /**
      * 进入大厅，显示所有（愿意被显示的）组的信息
-     * @return 组的列表 多表联查 测试通过
+     * @return 组的列表 多表联查 本地测试通过
      */
     @RequestMapping(value = "foyer",method = RequestMethod.GET)
     @ResponseBody
@@ -34,15 +34,25 @@ public class Foyer
 
     /**
      * 搜索某个队长的队伍
-     * @param user 队长学号
-     * @return 没有就是null，有就是team对象 多表联查 测试通过
+     * @param leader 队长学号
+     * @return 组的列表 多表联查 本地测试通过
      */
-    @RequestMapping(value = "search",method = RequestMethod.GET)
+    @RequestMapping(value = "searchLeader",method = RequestMethod.GET)
     @ResponseBody
-    public List<Team> queryOneTeam(@RequestParam("leader")String user)
+    public List<Team> queryTeamsByLeader(Long leader)
     {
-        Long leader = Long.parseLong(user);
-        if(!teamService.existTeam(leader)) return null;
-        return teamService.queryATeam(leader);
+        return teamService.queryTeamsByLeader(leader);
+    }
+
+    /**
+     * 搜索特定课程的队伍
+     * @param courseId 课程编号
+     * @return 组的列表 多表联查 本地测试通过
+     */
+    @RequestMapping(value = "searchCourse",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Team> queryTeamsByCourse(Integer courseId)
+    {
+        return teamService.queryTeamsByCourse(courseId);
     }
 }

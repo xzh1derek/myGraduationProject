@@ -2,6 +2,7 @@ package com.example.dao.daoImpl;
 
 import com.example.dao.IMailDao;
 import com.example.domain.Mail;
+import com.example.mapper.MailMapper;
 import com.example.repository.MailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,37 +14,42 @@ public class MailDaoImpl implements IMailDao
 {
     @Autowired
     private MailRepository mailRepository;
+    @Autowired
+    private MailMapper mailMapper;
 
     @Override
-    public void newMail(Long sender, Long receiver)
+    public void sendMail(Mail mail)
     {
-        Mail mail = new Mail();
-        mail.setSender(sender);
-        mail.setReceiver(receiver);
         mailRepository.save(mail);
     }
 
     @Override
-    public Mail getMail(Long sender)
+    public Mail getMail(Integer id)
     {
-        return mailRepository.getOne(sender);
+        return mailRepository.getOne(id);
     }
 
     @Override
-    public List<Mail> getMails(Long receiver)
+    public List<Mail> getMailsByReceiver(Long receiver)
     {
-        return mailRepository.findByReceiver(receiver);
+        return mailMapper.getMailsByReceiver(receiver);
     }
 
     @Override
-    public void deleteMail(Long sender)
+    public void deleteMail(Integer id)
     {
-        mailRepository.deleteById(sender);
+        mailRepository.deleteById(id);
     }
 
     @Override
-    public boolean existMail(Long sender)
+    public List<Mail> getMailsBySender(Long sender, Integer type)
     {
-        return mailRepository.existsById(sender);
+        return mailMapper.getMailsBySender(sender,type);
+    }
+
+    @Override
+    public void deleteMailBySender(Long sender,Integer type)
+    {
+        mailMapper.deleteMail(sender,type);
     }
 }

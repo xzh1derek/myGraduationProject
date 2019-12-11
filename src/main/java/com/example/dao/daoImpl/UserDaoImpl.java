@@ -3,8 +3,11 @@ package com.example.dao.daoImpl;
 import com.example.dao.IUserDao;
 import com.example.domain.Team;
 import com.example.domain.User;
+import com.example.domain.UserCourse;
 import com.example.mapper.AccountMapper;
+import com.example.mapper.UserCourseMapper;
 import com.example.mapper.UserMapper;
+import com.example.repository.UserCourseRepository;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,44 +21,29 @@ public class UserDaoImpl implements IUserDao
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private AccountMapper accountMapper;
+    private UserCourseMapper userCourseMapper;
     @Autowired
     private UserRepository userRepository;
 
     @Override
-    public void updateLeader(Long num, boolean b)
-    {
-        userMapper.updateLeader(num,b);
-    }
+    public void updateLeader(Long num, boolean b,Integer courseId){userCourseMapper.updateLeader(num,courseId,b);}
 
     @Override
-    public void updateTeam(Long num, Long teamleader)
+    public void updateTeamId(Long num, Integer teamId, Integer courseId)
     {
-        userMapper.updateTeam(num,teamleader);
+        userCourseMapper.updateTeamId(num,teamId,courseId);
     }
 
     @Override
     public User getUser(Long num)
     {
-        return userRepository.getOne(num);
+        return userMapper.getUser(num);
     }
 
     @Override
-    public void updateInvitation(Long num, Long invitationId)
+    public User findAUser(Long num)
     {
-        userMapper.updateInvitation(num,invitationId);
-    }
-
-    @Override
-    public void updateApplication(Long num, String s)
-    {
-        userMapper.updateApplication(num,s);
-    }
-
-    @Override
-    public List<User> findByTeamleader(Long leader)
-    {
-        return userRepository.findByTeamleader(leader);
+        return userMapper.findAUser(num);
     }
 
     @Override
@@ -65,9 +53,8 @@ public class UserDaoImpl implements IUserDao
     }
 
     @Override
-    public void saveUser(String username, String password, String name, String school, String qq)
+    public UserCourse getUserCourse(Long u,Integer c)
     {
-        accountMapper.updatePassword(username,password);
-        userMapper.saveUser(Long.parseLong(username),name,school,qq);
+        return userCourseMapper.getUserCourse(u,c);
     }
 }

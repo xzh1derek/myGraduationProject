@@ -2,6 +2,7 @@ package com.example.service.serviceImpl;
 
 import com.example.dao.IUserDao;
 import com.example.domain.User;
+import com.example.domain.UserCourse;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +16,15 @@ public class UserServiceImpl implements IUserService
     private IUserDao userDao;
 
     @Override
-    public void updateLeader(Long num, boolean b)
+    public void updateLeader(Long num, boolean b,int courseId)
     {
-        userDao.updateLeader(num,b);
+        userDao.updateLeader(num,b,courseId);
     }
 
     @Override
-    public void updateTeam(Long num, Long teamleader)
+    public void updateTeamId(Long num, int teamId, int courseId)
     {
-        userDao.updateTeam(num,teamleader);
+        userDao.updateTeamId(num,teamId,courseId);
     }
 
     @Override
@@ -33,21 +34,9 @@ public class UserServiceImpl implements IUserService
     }
 
     @Override
-    public void updateInvitation(Long num, Long invitationId)
+    public User findAUser(Long num)
     {
-        userDao.updateInvitation(num,invitationId);
-    }
-
-    @Override
-    public void updateApplication(Long num, String s)
-    {
-        userDao.updateApplication(num,s);
-    }
-
-    @Override
-    public List<User> findByTeamleader(Long leader)
-    {
-        return userDao.findByTeamleader(leader);
+        return userDao.findAUser(num);
     }
 
     @Override
@@ -57,8 +46,24 @@ public class UserServiceImpl implements IUserService
     }
 
     @Override
-    public void saveUser(String username, String password, String name, String school, String qq)
+    public UserCourse getUserCourse(Long username,Integer courseId)
     {
-        userDao.saveUser(username,password,name,school,qq);
+        return userDao.getUserCourse(username,courseId);
     }
+
+    @Override
+    public Boolean hasATeam(Long username,Integer courseId)
+    {
+        UserCourse userCourse = userDao.getUserCourse(username,courseId);
+        return userCourse.getTeam_id() != 0;
+    }
+
+    @Override
+    public Boolean userMatchCourse(Long username, Integer courseId)
+    {
+        UserCourse userCourse = userDao.getUserCourse(username,courseId);
+        System.out.println(userCourse);
+        return userCourse == null;
+    }
+
 }

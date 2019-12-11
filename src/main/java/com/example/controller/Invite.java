@@ -1,6 +1,8 @@
 package com.example.controller;
-
+import com.example.domain.Mail;
 import com.example.domain.Team;
+import com.example.domain.UserCourse;
+import com.example.service.IMailService;
 import com.example.service.ITeamService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,58 +20,79 @@ public class Invite
     private IUserService userService;
     @Autowired
     private ITeamService teamService;
+    @Autowired
+    private IMailService mailService;
 
     /**
-     * 甲同学邀请乙同学加入队伍
-     * @param user1 甲同学学号
-     * @param user2 乙同学学号
-     * @return 状态字符串 测试通过
+     * 甲邀请乙同学加入队伍
+     * @param teamId 队伍编号
+     * @param receiver 乙同学学号
+     * @return 状态字符串 本地测试通过
      */
     @RequestMapping(value = "invite", method = RequestMethod.POST)
     @ResponseBody
-    public String invite(@RequestParam("sender") String user1, @RequestParam("receiver") String user2)
+    public String invite(Integer teamId, Long receiver)
     {
-        Long sender = Long.parseLong(user1);
-        Long receiver = Long.parseLong(user2);
         if(!userService.existUser(receiver)) return "1";//User does not exist.
-        Long leader = userService.getUser(receiver).getTeamleader();
-        Team myteam = teamService.getTeam(sender);
-        if(leader!=0L) return "6";//He has a team.
-        else if(myteam.getCurrent_num()==myteam.getMax_num()) return "7";//Your team is full
+        Team team = teamService.getTeam(teamId);
+        if(userService.userMatchCourse(receiver,team.getCourseId())) return "8";//He is not involved in this course.
+        if(userService.hasATeam(receiver,team.getCourseId())) return "6";//He has a team.
+        else if(team.getCurrentNum()==team.getMaxNum()) return "7";//Your team is full
         else{
-            userService.updateInvitation(receiver,sender);
+            Mail mail = new Mail();
+            mail.setSender(team.getLeader());
+            mail.setReceiver(receiver);
+            mail.setType(1);//send a invitation
+            mail.setTeamId(teamId);
+            mail.setText("邀请入队");
+            mailService.sendMail(mail);
             return "0";
         }
     }
 
     /**
-     * 乙同学回应甲同学的邀请信息
-     * @param num 乙同学学号
-     * @param answer 回复信息（是/否)
-     * 测试通过
+     * 乙同学同意邀请
+     * @param mailId 邮件编号
+     * @return 状态字符串 本地测试通过
      */
-    @RequestMapping(value = "answerInvite",method = RequestMethod.POST)
+    @RequestMapping(value = "approveInvite",method = RequestMethod.POST)
     @ResponseBody
-    public String answerInvite(@RequestParam("userId")String num, @RequestParam("answer")String answer)
+    public String approveInvite(Integer mailId)
     {
-        Long userId = Long.parseLong(num);
-        Long teamleader = userService.getUser(userId).getInvitation_id();
-        if(answer.equals("1"))
-        {
-            if(userService.getUser(userId).getTeamleader()!=0L) {
-                userService.updateInvitation(userId,0L);
-                return "2";//You have a team
-            }
-            Team team = teamService.getTeam(teamleader);
-            if(team.getMax_num()==team.getCurrent_num()){
-                userService.updateInvitation(userId,0L);
-                return "3";//The team you applied is full or not available
-            }
-            teamService.addAMember(teamleader,userId);
-            userService.updateTeam(userId,teamleader);
-            userService.updateApplication(userId,null);
-        }
-        userService.updateInvitation(userId,0L);
+        Long userId = mailService.getMail(mailId).getReceiver();
+        Integer teamId = mailService.getMail(mailId).getTeamId();
+        Team team = teamService.getTeam(teamId);
+        if(userService.hasATeam(userId,team.getCourseId())) return "2";//You have a team
+        if(!team.isAvailable()) return "3";//The team you applied is full or not available
+        teamService.addAMember(teamId,userId);
+        userService.updateTeamId(userId,teamId,team.getCourseId());
+        mailService.deleteMail(mailId);
+        Mail mail = new Mail();
+        mail.setSender(0L);
+        mail.setReceiver(team.getLeader());
+        mail.setType(0);
+        mail.setText("邀请被通过，成员"+ userId +"已入队");
+        mailService.sendMail(mail);//发一个系统邮件，告知队长入队成功
+        return "0";
+    }
+
+    /**
+     * 乙同学拒绝邀请
+     * @param mailId 邮件编号
+     * @return 状态字符串 本地测试通过
+     */
+    @RequestMapping(value = "rejectInvite",method = RequestMethod.POST)
+    @ResponseBody
+    public String rejectInvite(Integer mailId)
+    {
+        Integer teamId = mailService.getMail(mailId).getTeamId();
+        mailService.deleteMail(mailId);
+        Mail mail = new Mail();
+        mail.setSender(0L);
+        mail.setReceiver(teamService.getTeam(teamId).getLeader());
+        mail.setType(0);
+        mail.setText("邀请未通过，"+ mailService.getMail(mailId).getReceiver() +"没有同意入队");
+        mailService.sendMail(mail);
         return "0";
     }
 }

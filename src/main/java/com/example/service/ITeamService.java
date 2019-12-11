@@ -8,17 +8,21 @@ public interface ITeamService
 {
     List<Team> queryTeamList();
 
-    List<Team> queryATeam(Long team);
+    List<Team> queryTeamsByLeader(Long leader);
 
-    void createTeam(Long leader);
+    List<Team> queryTeamsByCourse(Integer courseId);
 
-    Team getTeam(Long leader);
+    List<Team> showMyTeam(Long username);
 
-    void addAMember(Long leader, Long id);
+    Integer createTeam(Long leader,Integer courseId);
 
-    void updateAvailable(Long leader, Boolean status);
+    Team getTeam(int teamId);
 
-    void updateDisplay(Long leader, boolean status);
+    void addAMember(int teamId, Long id);
 
-    Boolean existTeam(Long leader);
+    void updateAvailable(int teamId, Boolean status);
+
+    void updateDisplay(int teamId, boolean status);
+
+    Boolean existTeam(int teamId);
 }

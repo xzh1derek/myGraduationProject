@@ -8,17 +8,19 @@ public interface ITeamDao
 {
     List<Team> queryTeamList();
 
-    List<Team> queryATeam(Long num);
+    List<Team> queryTeamsByLeader(Long num);
 
-    void createTeam(Long leader);
+    List<Team> queryTeamsByCourse(Integer courseId);
 
-    Team getTeam(Long leader);
+    Integer createTeam(Long leader, Integer courseId);
+
+    Team getTeam(Integer teamId);
 
     void updateTeam(Team team);
 
-    void updateAvailable(Long leader,boolean status);
+    void updateAvailable(int teamId,boolean status);
 
-    void updateDisplay(Long leader, boolean status);
+    void updateDisplay(int teamId, boolean status);
 
-    Boolean existTeam(Long leader);
+    Boolean existTeam(int teamId);
 }

@@ -24,21 +24,27 @@ public class TeamDaoImpl implements ITeamDao
     }
 
     @Override
-    public List<Team> queryATeam(Long num)
+    public List<Team> queryTeamsByLeader(Long num)
     {
-        return teamMapper.queryATeam(num);
+        return teamMapper.queryTeamsByLeader(num);
     }
 
     @Override
-    public void createTeam(Long num)
+    public List<Team> queryTeamsByCourse(Integer courseId)
     {
-        teamMapper.createTeam(num);
+        return teamMapper.queryTeamsByCourse(courseId);
     }
 
     @Override
-    public Team getTeam(Long num)
+    public Integer createTeam(Long num,Integer courseId)
     {
-        return teamRepository.getOne(num);
+        return teamMapper.createTeam(num,courseId);
+    }
+
+    @Override
+    public Team getTeam(Integer teamId)
+    {
+        return teamRepository.getOne(teamId);
     }
 
     @Override
@@ -48,20 +54,20 @@ public class TeamDaoImpl implements ITeamDao
     }
 
     @Override
-    public void updateAvailable(Long leader, boolean status)
+    public void updateAvailable(int teamId, boolean status)
     {
-        teamMapper.updateAvailable(leader,status);
+        teamMapper.updateAvailable(teamId,status);
     }
 
     @Override
-    public void updateDisplay(Long leader, boolean status)
+    public void updateDisplay(int teamId, boolean status)
     {
-        teamMapper.updateDisplay(leader,status);
+        teamMapper.updateDisplay(teamId,status);
     }
 
     @Override
-    public Boolean existTeam(Long leader)
+    public Boolean existTeam(int teamId)
     {
-        return teamRepository.existsById(leader);
+        return teamRepository.existsById(teamId);
     }
 }

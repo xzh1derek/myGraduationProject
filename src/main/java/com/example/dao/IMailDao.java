@@ -6,13 +6,15 @@ import java.util.List;
 
 public interface IMailDao
 {
-    void newMail(Long sender,Long receiver);
+    void sendMail(Mail mail);
 
-    Mail getMail(Long sender);
+    Mail getMail(Integer id);
 
-    List<Mail> getMails(Long receiver);
+    List<Mail> getMailsByReceiver(Long receiver);
 
-    void deleteMail(Long sender);
+    void deleteMail(Integer id);
 
-    boolean existMail(Long sender);
+    List<Mail> getMailsBySender(Long sender,Integer type);
+
+    void deleteMailBySender(Long sender,Integer type);
 }

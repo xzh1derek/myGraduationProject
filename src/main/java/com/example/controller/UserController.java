@@ -18,14 +18,12 @@ public class UserController
     /**
      * 进入个人主界面
      * @param userId 当前用户学号
-     * @return 返回用户信息 测试通过
+     * @return 返回用户信息 多表联查 一对多 本地测试通过
      */
-    @RequestMapping(value = "")
+    @RequestMapping("")
     @ResponseBody
-    public User index(@RequestParam("userId") String userId)
+    public User userInfo(Long userId)
     {
-        Long num = Long.parseLong(userId);
-        User user = userService.getUser(num);
-        return user;
+        return userService.getUser(userId);
     }
 }

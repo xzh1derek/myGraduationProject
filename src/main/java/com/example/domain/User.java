@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+
 @Entity
 @Table(name = "user")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
@@ -18,8 +19,10 @@ public class User implements Serializable
     private Long username;
     private String name;
     private String school;
+    private Integer class_id;
     private String qq;
-    private List<UserCourse> userCourses;
+    @Transient//属于实体的临时数据，jpa不写在数据库字段里
+    private List<UserCourse> user_courses;
 
     public int getId()
     {
@@ -51,6 +54,16 @@ public class User implements Serializable
         this.name = name;
     }
 
+    public Integer getClassNum()
+    {
+        return class_id;
+    }
+
+    public void setClassNum(Integer classId)
+    {
+        this.class_id = classId;
+    }
+
     public String getSchool()
     {
         return school;
@@ -73,12 +86,12 @@ public class User implements Serializable
 
     public List<UserCourse> getUserCourses()
     {
-        return userCourses;
+        return user_courses;
     }
 
     public void setUserCourses(List<UserCourse> userCourses)
     {
-        this.userCourses = userCourses;
+        this.user_courses = userCourses;
     }
 
     @Override
@@ -89,8 +102,9 @@ public class User implements Serializable
                 ", username=" + username +
                 ", name='" + name + '\'' +
                 ", school='" + school + '\'' +
+                ", classNum=" + class_id +
                 ", qq='" + qq + '\'' +
-                ", userCourses=" + userCourses +
+                ", userCourses=" + user_courses +
                 '}';
     }
 }
