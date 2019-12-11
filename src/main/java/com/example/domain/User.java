@@ -54,12 +54,12 @@ public class User implements Serializable
         this.name = name;
     }
 
-    public Integer getClassNum()
+    public Integer getClass_id()
     {
         return class_id;
     }
 
-    public void setClassNum(Integer classId)
+    public void setClass_id(Integer classId)
     {
         this.class_id = classId;
     }
@@ -102,7 +102,7 @@ public class User implements Serializable
                 ", username=" + username +
                 ", name='" + name + '\'' +
                 ", school='" + school + '\'' +
-                ", classNum=" + class_id +
+                ", class_id=" + class_id +
                 ", qq='" + qq + '\'' +
                 ", userCourses=" + user_courses +
                 '}';

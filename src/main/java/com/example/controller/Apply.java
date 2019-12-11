@@ -1,7 +1,6 @@
 package com.example.controller;
 import com.example.domain.Mail;
 import com.example.domain.Team;
-import com.example.domain.User;
 import com.example.service.IMailService;
 import com.example.service.ITeamService;
 import com.example.service.IUserService;
@@ -9,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -46,7 +42,7 @@ public class Apply
         mail.setReceiver(team.getLeader());
         mail.setType(2);
         mail.setTeamId(teamId);
-        mail.setText(sender+"申请加入队伍ID:"+teamId);
+        mail.setText(sender+"同学申请加入队伍ID:"+teamId);
         mailService.sendMail(mail);
         return "0";
     }
@@ -73,52 +69,6 @@ public class Apply
     public String withdraw(Integer mailId)
     {
         mailService.deleteMail(mailId);
-        return "0";
-    }
-
-    /**
-     * 同意申请
-     * @param mailId 邮件编号
-     * @return 状态码 本地测试通过
-     */
-    @RequestMapping(value="approveApplication",method = RequestMethod.POST)
-    @ResponseBody
-    public String approveApplication(Integer mailId)
-    {
-        Long userId = mailService.getMail(mailId).getSender();
-        Team team = teamService.getTeam(mailService.getMail(mailId).getTeamId());
-        if(!team.isAvailable()) return "5";//Your team is full or not available
-        if(team.getCurrentNum()==team.getMaxNum()) return "7";//Your team is full
-        if(userService.hasATeam(userId,team.getCourseId())) return "6";//He has a team
-        teamService.addAMember(team.getId(),userId);
-        userService.updateTeamId(userId,team.getId(),team.getCourseId());
-        mailService.deleteMail(mailId);
-        Mail mail = new Mail();
-        mail.setSender(0L);
-        mail.setReceiver(userId);
-        mail.setType(0);
-        mail.setText("队伍申请已通过，你已入队");
-        mailService.sendMail(mail);//发送系统邮件告知申请通过
-        return "0";
-    }
-
-    /**
-     * 拒绝申请
-     * @param mailId 邮件编号
-     * @return 状态码 本地测试通过
-     */
-    @RequestMapping(value="rejectApplication",method = RequestMethod.POST)
-    @ResponseBody
-    public String rejectApplication(Integer mailId)
-    {
-        Long userId = mailService.getMail(mailId).getSender();
-        mailService.deleteMail(mailId);
-        Mail mail = new Mail();
-        mail.setSender(0L);
-        mail.setReceiver(userId);
-        mail.setType(0);
-        mail.setText("队伍申请未通过，对方已满员或不接受申请");
-        mailService.sendMail(mail);
         return "0";
     }
 }

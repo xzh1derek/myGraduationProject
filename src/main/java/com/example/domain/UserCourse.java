@@ -16,11 +16,11 @@ public class UserCourse implements Serializable
     private Integer id;
     private Long username;
     private Integer course_id;
-    private String course_name;
     private Boolean is_leader;
     private Integer team_id;
     private Float score;
     private String file;
+    private Course course;
 
     public Integer getId()
     {
@@ -50,16 +50,6 @@ public class UserCourse implements Serializable
     public void setCourse_id(Integer course_id)
     {
         this.course_id = course_id;
-    }
-
-    public String getCourse_name()
-    {
-        return course_name;
-    }
-
-    public void setCourse_name(String course_name)
-    {
-        this.course_name = course_name;
     }
 
     public Boolean getIs_leader()
@@ -102,6 +92,16 @@ public class UserCourse implements Serializable
         this.file = file;
     }
 
+    public Course getCourse()
+    {
+        return course;
+    }
+
+    public void setCourse(Course course)
+    {
+        this.course = course;
+    }
+
     @Override
     public String toString()
     {
@@ -109,11 +109,11 @@ public class UserCourse implements Serializable
                 "id=" + id +
                 ", username=" + username +
                 ", course_id=" + course_id +
-                ", course_name='" + course_name + '\'' +
                 ", is_leader=" + is_leader +
                 ", team_id=" + team_id +
                 ", score=" + score +
                 ", file='" + file + '\'' +
+                ", course=" + course +
                 '}';
     }
 }

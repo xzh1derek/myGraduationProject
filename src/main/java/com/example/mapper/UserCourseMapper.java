@@ -2,15 +2,21 @@ package com.example.mapper;
 
 import com.example.domain.User;
 import com.example.domain.UserCourse;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
 
 @Mapper
 public interface UserCourseMapper
 {
+    @Select("select * from user_course where username=#{u}")
+    @Results(id="courseMap",value = {
+            @Result(column = "course_id", property = "course_id"),
+            @Result(property = "course", column = "course_id", one = @One(select = "com.example.mapper.CourseMapper.getCourse",fetchType = FetchType.EAGER))
+    })
+    List<UserCourse> getUsers(Long u);
+
     @Select("select * from user_course where username=#{u}")
     List<UserCourse> findUsers(Long u);
 

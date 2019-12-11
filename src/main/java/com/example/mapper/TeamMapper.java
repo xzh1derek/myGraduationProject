@@ -10,7 +10,7 @@ public interface TeamMapper
 {
     @Select("select * from team where is_display=1")
     @Results(id="teamMap",value = {
-            @Result(id = true, column = "id", property = "id"),
+            @Result(column = "leader", property = "leader"),
             @Result(property = "user", column = "leader", one = @One(select = "com.example.mapper.UserMapper.findAUser",fetchType = FetchType.EAGER))
     })
     List<Team> queryTeamList();
