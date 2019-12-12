@@ -12,7 +12,7 @@ public interface ITeamDao
 
     List<Team> queryTeamsByCourse(Integer courseId);
 
-    Integer createTeam(Long leader, Integer courseId);
+    int createTeam(Long leader, Integer courseId, Integer maxNum);
 
     Team getTeam(Integer teamId);
 

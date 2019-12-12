@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name="team")
@@ -24,7 +25,12 @@ public class Team implements Serializable
     private Boolean is_display;
     private String description;
     private Boolean available;
-    private User user;
+    @Transient
+    private Course course;
+    @Transient
+    private User leaderDetail;
+    @Transient
+    private List<User> memberDetails;
 
     public int getId()
     {
@@ -166,14 +172,34 @@ public class Team implements Serializable
         this.available = available;
     }
 
-    public User getUser()
+    public Course getCourse()
     {
-        return user;
+        return course;
     }
 
-    public void setUser(User user)
+    public void setCourse(Course course)
     {
-        this.user = user;
+        this.course = course;
+    }
+
+    public User getLeaderDetail()
+    {
+        return leaderDetail;
+    }
+
+    public void setLeaderDetail(User leaderDetail)
+    {
+        this.leaderDetail = leaderDetail;
+    }
+
+    public List<User> getMemberDetails()
+    {
+        return memberDetails;
+    }
+
+    public void setMemberDetails(List<User> memberDetails)
+    {
+        this.memberDetails = memberDetails;
     }
 
     @Override
@@ -181,7 +207,7 @@ public class Team implements Serializable
     {
         return "Team{" +
                 "id=" + id +
-                ", courseId=" + course_id +
+                ", course_id=" + course_id +
                 ", leader=" + leader +
                 ", member1=" + member1 +
                 ", member2=" + member2 +
@@ -189,12 +215,14 @@ public class Team implements Serializable
                 ", member4=" + member4 +
                 ", member5=" + member5 +
                 ", member6=" + member6 +
-                ", currentNum=" + current_num +
-                ", maxNum=" + max_num +
-                ", isDisplay=" + is_display +
+                ", current_num=" + current_num +
+                ", max_num=" + max_num +
+                ", is_display=" + is_display +
                 ", description='" + description + '\'' +
                 ", available=" + available +
-                ", user=" + user +
+                ", course=" + course +
+                ", leaderDetail=" + leaderDetail +
+                ", memberDetails=" + memberDetails +
                 '}';
     }
 }

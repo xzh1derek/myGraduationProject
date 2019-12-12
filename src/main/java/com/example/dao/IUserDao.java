@@ -20,4 +20,8 @@ public interface IUserDao
     Boolean existUser(Long num);
 
     UserCourse getUserCourse(Long u, Integer c);
+
+    void updateQQ(Long u, String qq);
+
+    List<User> findUsersByClass(Integer c);
 }

@@ -24,4 +24,8 @@ public interface IUserService
     Boolean hasATeam(Long username,Integer courseId);
 
     Boolean userMatchCourse(Long username, Integer courseId);
+
+    void updateQQ(Long u, String qq);
+
+    List<User> findUsersByClass(Integer c);
 }

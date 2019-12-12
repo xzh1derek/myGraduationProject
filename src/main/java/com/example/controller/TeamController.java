@@ -1,19 +1,18 @@
 package com.example.controller;
 import com.example.domain.Team;
-import com.example.domain.User;
 import com.example.domain.UserCourse;
+import com.example.service.ICourseService;
 import com.example.service.ITeamService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("team")
 public class TeamController
 {
@@ -21,6 +20,8 @@ public class TeamController
     private IUserService userService;
     @Autowired
     private ITeamService teamService;
+    @Autowired
+    private ICourseService courseService;
 
     /**
      * 返回自己所有加的队伍
@@ -28,19 +29,17 @@ public class TeamController
      * @return 队伍的List 多表联查 本地测试通过
      */
     @RequestMapping(value = "",method = RequestMethod.GET)
-    @ResponseBody
     public List<Team> showMyTeam(Long userId)
     {
         return teamService.showMyTeam(userId);
     }
 
     /**
-     * 返回所有待选课程
+     * 所有可组队的课程（需要组队且未组队）
      * @param userId 学号
      * @return 待选课程的List
      */
     @RequestMapping(value = "/myCourse",method = RequestMethod.GET)
-    @ResponseBody
     public List<UserCourse> myCourse(Long userId)
     {
         List<UserCourse> myUserCourses = new ArrayList<>();
@@ -62,11 +61,10 @@ public class TeamController
      * @return 状态码 本地测试通过
      */
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    @ResponseBody
     public String createTeam(Long userId, Integer courseId)
     {
         if(userService.hasATeam(userId,courseId)) return "2";//You have a team
-        Integer teamId = teamService.createTeam(userId,courseId);
+        Integer teamId = teamService.createTeam(userId,courseId,courseService.getCourse(courseId).getMax_num());
         userService.updateLeader(userId,true,courseId);
         userService.updateTeamId(userId,teamId,courseId);
         return "0";
@@ -79,7 +77,6 @@ public class TeamController
      * @return 状态码 本地测试通过
      */
     @RequestMapping(value = "/setAvailable",method = RequestMethod.POST)
-    @ResponseBody
     public String setAvailable(Integer teamId, String status)
     {
         Team team = teamService.getTeam(teamId);
@@ -102,7 +99,6 @@ public class TeamController
      * @return 状态码 本地测试通过
      */
     @RequestMapping(value = "/setDisplay", method = RequestMethod.POST)
-    @ResponseBody
     public String setDisplay(Integer teamId, String status)
     {
         if(status.equals("1")) teamService.updateDisplay(teamId,true);

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 @Entity
@@ -18,8 +19,10 @@ public class UserCourse implements Serializable
     private Integer course_id;
     private Boolean is_leader;
     private Integer team_id;
+    private Integer hours_left;
     private Float score;
     private String file;
+    @Transient
     private Course course;
 
     public Integer getId()
@@ -72,6 +75,16 @@ public class UserCourse implements Serializable
         this.team_id = team_id;
     }
 
+    public Integer getHours_left()
+    {
+        return hours_left;
+    }
+
+    public void setHours_left(Integer hours_left)
+    {
+        this.hours_left = hours_left;
+    }
+
     public Float getScore()
     {
         return score;
@@ -111,6 +124,7 @@ public class UserCourse implements Serializable
                 ", course_id=" + course_id +
                 ", is_leader=" + is_leader +
                 ", team_id=" + team_id +
+                ", hours_left=" + hours_left +
                 ", score=" + score +
                 ", file='" + file + '\'' +
                 ", course=" + course +

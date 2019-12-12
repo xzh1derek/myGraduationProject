@@ -6,13 +6,13 @@ import com.example.service.IMailService;
 import com.example.service.ITeamService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("mail")
 public class MailController
 {
@@ -29,7 +29,6 @@ public class MailController
      * @return 本地测试通过
      */
     @RequestMapping("")
-    @ResponseBody
     public List<Mail> showMails(Long userId)
     {
         return mailService.getMailsByReceiver(userId);
@@ -41,7 +40,6 @@ public class MailController
      * @return 本地测试通过
      */
     @RequestMapping("/userDetail")
-    @ResponseBody
     public User showUserDetail(Long sender)
     {
         return userService.findAUser(sender);
@@ -53,7 +51,6 @@ public class MailController
      * @return 本地测试通过
      */
     @RequestMapping("/teamDetail")
-    @ResponseBody
     public Team showTeamDetail(Integer teamId)
     {
         return teamService.getTeam(teamId);
@@ -65,7 +62,6 @@ public class MailController
      * @return 状态字符串
      */
     @RequestMapping("/approve")
-    @ResponseBody
     public String approve(Integer mailId)
     {
         Mail myMail = mailService.getMail(mailId);
@@ -114,7 +110,6 @@ public class MailController
      * @return 状态字符串
      */
     @RequestMapping("/reject")
-    @ResponseBody
     public String reject(Integer mailId)
     {
         Mail myMail = mailService.getMail(mailId);
@@ -142,7 +137,6 @@ public class MailController
      * @return 本地测试通过
      */
     @RequestMapping(value="/delete",method = RequestMethod.DELETE)
-    @ResponseBody
     public String deleteMail(Integer mailId)
     {
         mailService.deleteMail(mailId);

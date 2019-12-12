@@ -5,12 +5,11 @@ import com.example.service.IMailService;
 import com.example.service.ITeamService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class Invite
 {
     @Autowired
@@ -27,7 +26,6 @@ public class Invite
      * @return 状态字符串 本地测试通过
      */
     @RequestMapping(value = "invite", method = RequestMethod.POST)
-    @ResponseBody
     public String invite(Integer teamId, Long receiver)
     {
         if(!userService.existUser(receiver)) return "1";//User does not exist.

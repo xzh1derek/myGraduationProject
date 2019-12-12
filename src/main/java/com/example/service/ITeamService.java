@@ -14,7 +14,7 @@ public interface ITeamService
 
     List<Team> showMyTeam(Long username);
 
-    Integer createTeam(Long leader,Integer courseId);
+    Integer createTeam(Long leader,Integer courseId,Integer maxNum);
 
     Team getTeam(int teamId);
 

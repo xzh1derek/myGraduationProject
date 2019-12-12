@@ -1,8 +1,10 @@
 package com.example.service.serviceImpl;
 
+import com.example.dao.ICourseDao;
 import com.example.dao.ITeamDao;
 import com.example.dao.IUserDao;
 import com.example.domain.Team;
+import com.example.domain.User;
 import com.example.domain.UserCourse;
 import com.example.service.ITeamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ public class TeamServiceImpl implements ITeamService
     private ITeamDao teamDao;
     @Autowired
     private IUserDao userDao;
+    @Autowired
+    private ICourseDao courseDao;
 
     @Override
     public List<Team> queryTeamList()
@@ -38,9 +42,9 @@ public class TeamServiceImpl implements ITeamService
     }
 
     @Override
-    public Integer createTeam(Long leader,Integer courseId)
+    public Integer createTeam(Long leader,Integer courseId,Integer maxNum)
     {
-        return teamDao.createTeam(leader,courseId);
+        return teamDao.createTeam(leader,courseId,maxNum);
     }
 
     @Override
@@ -84,6 +88,11 @@ public class TeamServiceImpl implements ITeamService
         teamDao.updateTeam(team);
     }
 
+    /**
+     * 返回自己的队伍所有成员信息，手动注入
+     * @param username 学号
+     * @return 队伍的List
+     */
     @Override
     public List<Team> showMyTeam(Long username)
     {
@@ -92,7 +101,25 @@ public class TeamServiceImpl implements ITeamService
         for(UserCourse userCourse : userCourses)
         {
             if(userCourse.getTeam_id()==0) continue;
-            teams.add(teamDao.getTeam(userCourse.getTeam_id()));
+            Team team = teamDao.getTeam(userCourse.getTeam_id());
+            List<User> memberDetails = new ArrayList<>();
+            memberDetails.add(userDao.findAUser(team.getLeader()));
+            if(team.getMember1()!=0L){
+                memberDetails.add(userDao.findAUser(team.getMember1()));
+            }if(team.getMember2()!=0L){
+            memberDetails.add(userDao.findAUser(team.getMember2()));
+            }if(team.getMember3()!=0L){
+            memberDetails.add(userDao.findAUser(team.getMember3()));
+            }if(team.getMember4()!=0L){
+            memberDetails.add(userDao.findAUser(team.getMember4()));
+            }if(team.getMember5()!=0L){
+            memberDetails.add(userDao.findAUser(team.getMember5()));
+            }if(team.getMember6()!=0L){
+            memberDetails.add(userDao.findAUser(team.getMember6()));
+            }
+            team.setMemberDetails(memberDetails);
+            team.setCourse(courseDao.getCourse(team.getCourseId()));
+            teams.add(team);
         }
         return teams;
     }

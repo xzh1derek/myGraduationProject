@@ -3,15 +3,14 @@ package com.example.controller;
 import com.example.domain.Team;
 import com.example.service.ITeamService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("")
+@RestController
+@RequestMapping("foyer")
 public class Foyer
 {
     @Autowired
@@ -21,8 +20,7 @@ public class Foyer
      * 进入大厅，显示所有（愿意被显示的）组的信息
      * @return 组的列表 多表联查 本地测试通过
      */
-    @RequestMapping(value = "foyer",method = RequestMethod.GET)
-    @ResponseBody
+    @RequestMapping(value = "")
     public List<Team> queryTeamList()
     {
         return teamService.queryTeamList();
@@ -33,8 +31,7 @@ public class Foyer
      * @param leader 队长学号
      * @return 组的列表 多表联查 本地测试通过
      */
-    @RequestMapping(value = "searchLeader",method = RequestMethod.GET)
-    @ResponseBody
+    @RequestMapping(value = "/searchLeader",method = RequestMethod.GET)
     public List<Team> queryTeamsByLeader(Long leader)
     {
         return teamService.queryTeamsByLeader(leader);
@@ -45,8 +42,7 @@ public class Foyer
      * @param courseId 课程编号
      * @return 组的列表 多表联查 本地测试通过
      */
-    @RequestMapping(value = "searchCourse",method = RequestMethod.GET)
-    @ResponseBody
+    @RequestMapping(value = "/searchCourse",method = RequestMethod.GET)
     public List<Team> queryTeamsByCourse(Integer courseId)
     {
         return teamService.queryTeamsByCourse(courseId);

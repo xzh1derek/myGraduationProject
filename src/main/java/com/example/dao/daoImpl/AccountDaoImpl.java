@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AccountDao implements IAccountDao
+public class AccountDaoImpl implements IAccountDao
 {
     @Autowired
     private AccountMapper accountMapper;

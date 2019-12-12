@@ -23,7 +23,6 @@ public class Course implements Serializable
     private Integer teachers;
     private Boolean is_team;
     private Integer max_num;
-    private Date create_time;
     private Integer stu_num;
     private Integer project_num;
     private String template;
@@ -108,16 +107,6 @@ public class Course implements Serializable
         this.max_num = max_num;
     }
 
-    public Date getCreate_time()
-    {
-        return create_time;
-    }
-
-    public void setCreate_time(Date create_time)
-    {
-        this.create_time = create_time;
-    }
-
     public Integer getStu_num()
     {
         return stu_num;
@@ -160,7 +149,6 @@ public class Course implements Serializable
                 ", teachers=" + teachers +
                 ", is_team=" + is_team +
                 ", max_num=" + max_num +
-                ", create_time=" + create_time +
                 ", stu_num=" + stu_num +
                 ", project_num=" + project_num +
                 ", template='" + template + '\'' +

@@ -7,4 +7,6 @@ public interface IAccountService
     boolean existAccount(String username);
 
     Account getAccount(String username);
+
+    void updatePassword(String userId, String password);
 }

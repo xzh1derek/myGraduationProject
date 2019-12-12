@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 @Entity
@@ -19,6 +20,7 @@ public class Module implements Serializable
     private String time;
     private String location;
     private Integer stu_num;
+    @Transient
     private Project project;
 
     public Integer getId()

@@ -43,7 +43,7 @@ public class UserDaoImpl implements IUserDao
     @Override
     public User findAUser(Long num)
     {
-        return userMapper.findAUser(num);
+        return userRepository.getOne(num);
     }
 
     @Override
@@ -62,5 +62,17 @@ public class UserDaoImpl implements IUserDao
     public List<UserCourse> getUserCourses(Long u)
     {
         return userCourseMapper.getUserCourses(u);
+    }
+
+    @Override
+    public void updateQQ(Long u, String qq)
+    {
+        userMapper.updateQq(u,qq);
+    }
+
+    @Override
+    public List<User> findUsersByClass(Integer c)
+    {
+        return userMapper.findUsersByClass(c);
     }
 }

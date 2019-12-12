@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 @Entity
@@ -19,6 +20,7 @@ public class Project implements Serializable
     private Integer hours;
     private Integer teachers;
     private Boolean is_fixed;//true为固定，false为任选
+    @Transient
     private Course course;
 
     public Integer getId()

@@ -36,9 +36,14 @@ public class TeamDaoImpl implements ITeamDao
     }
 
     @Override
-    public Integer createTeam(Long num,Integer courseId)
+    public int createTeam(Long num,Integer courseId,Integer maxNum)
     {
-        return teamMapper.createTeam(num,courseId);
+        Team team = new Team();
+        team.setLeader(num);
+        team.setCourseId(courseId);
+        team.setMaxNum(maxNum);
+        teamMapper.createTeam(team);
+        return team.getId();
     }
 
     @Override

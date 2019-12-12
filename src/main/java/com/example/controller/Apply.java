@@ -5,13 +5,13 @@ import com.example.service.IMailService;
 import com.example.service.ITeamService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("")
 public class Apply
 {
@@ -29,7 +29,6 @@ public class Apply
      * @return 返回状态码 本地测试通过
      */
     @RequestMapping(value = "apply",method = RequestMethod.POST)
-    @ResponseBody
     public String apply(Long sender, Integer teamId)
     {
         Team team = teamService.getTeam(teamId);
@@ -53,7 +52,6 @@ public class Apply
      * @return 申请邮件 本地测试通过
      */
     @RequestMapping("myApplication")
-    @ResponseBody
     public List<Mail> myApplication(Long userId)
     {
         return mailService.myApplication(userId);
@@ -65,7 +63,6 @@ public class Apply
      * @return 状态码 本地测试通过
      */
     @RequestMapping(value = "withdraw",method = RequestMethod.POST)
-    @ResponseBody
     public String withdraw(Integer mailId)
     {
         mailService.deleteMail(mailId);

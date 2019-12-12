@@ -72,4 +72,15 @@ public class UserServiceImpl implements IUserService
         return userDao.getUserCourses(u);
     }
 
+    @Override
+    public void updateQQ(Long u, String qq)
+    {
+        userDao.updateQQ(u,qq);
+    }
+
+    @Override
+    public List<User> findUsersByClass(Integer c)
+    {
+        return userDao.findUsersByClass(c);
+    }
 }
