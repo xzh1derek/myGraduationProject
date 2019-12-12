@@ -39,7 +39,7 @@ public class Invite
             mail.setReceiver(receiver);
             mail.setType(1);//send a invitation
             mail.setTeamId(teamId);
-            mail.setText(team.getLeader()+"同学邀请你加入队伍ID:"+teamId);
+            mail.setText(team.getLeader()+" 同学邀请你加入队伍ID: "+teamId);
             mailService.sendMail(mail);
             return "0";
         }

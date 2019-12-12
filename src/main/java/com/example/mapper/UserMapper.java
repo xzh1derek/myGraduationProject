@@ -15,6 +15,9 @@ public interface UserMapper
     })
     User getUser(Long u);
 
+    @Select("select * from user where username=#{u}")
+    User findAUser(Long u);
+
     @Select("select * from user where class_id=#{c}")
     List<User> findUsersByClass(Integer c);
 

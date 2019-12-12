@@ -79,7 +79,7 @@ public class MailController
             mail.setSender(0L);
             mail.setReceiver(team.getLeader());
             mail.setType(0);
-            mail.setText("邀请被通过，成员"+ userId +"已入队");
+            mail.setText("邀请被通过，成员 "+ userId +" 已入队");
             mailService.sendMail(mail);//发一个系统邮件，告知队长入队成功
         }
         else if(myMail.getType()==2)//如果为申请
@@ -120,11 +120,11 @@ public class MailController
         mail.setType(0);
         if(myMail.getType()==1)//如果为邀请
         {
-            mail.setText("邀请未通过，"+ myMail.getReceiver() +"同学没有同意入队");
+            mail.setText("邀请未通过， "+ myMail.getReceiver() +" 同学没有同意入队");
         }
         else if(myMail.getType()==2)//如果为申请
         {
-            mail.setText("队伍申请未通过，队伍ID:"+myMail.getTeamId()+"已满员或不接受申请");
+            mail.setText("队伍申请未通过，队伍 ID:"+myMail.getTeamId()+" 已满员或不接受申请");
         }
         else return "678";
         mailService.sendMail(mail);

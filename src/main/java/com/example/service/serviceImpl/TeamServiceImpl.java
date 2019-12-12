@@ -98,6 +98,7 @@ public class TeamServiceImpl implements ITeamService
     {
         List<Team> teams = new ArrayList<>();
         List<UserCourse> userCourses = userDao.getUser(username).getUserCourses();
+        System.out.println(userCourses);
         for(UserCourse userCourse : userCourses)
         {
             if(userCourse.getTeam_id()==0) continue;

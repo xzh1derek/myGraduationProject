@@ -41,7 +41,7 @@ public class Apply
         mail.setReceiver(team.getLeader());
         mail.setType(2);//Send an application
         mail.setTeamId(teamId);
-        mail.setText(sender+"同学申请加入队伍ID:"+teamId);
+        mail.setText(sender+" 同学申请加入队伍ID: "+teamId);
         mailService.sendMail(mail);
         return "0";
     }
