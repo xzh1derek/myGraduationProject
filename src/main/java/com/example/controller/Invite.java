@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
 @Controller
 public class Invite
 {
@@ -22,7 +21,7 @@ public class Invite
     private IMailService mailService;
 
     /**
-     * 甲邀请乙同学加入队伍
+     * 队长邀请乙同学加入队伍
      * @param teamId 队伍编号
      * @param receiver 乙同学学号
      * @return 状态字符串 本地测试通过

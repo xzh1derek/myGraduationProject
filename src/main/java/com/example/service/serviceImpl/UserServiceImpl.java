@@ -66,4 +66,10 @@ public class UserServiceImpl implements IUserService
         return userCourse == null;
     }
 
+    @Override
+    public List<UserCourse> getUserCourses(Long u)
+    {
+        return userDao.getUserCourses(u);
+    }
+
 }

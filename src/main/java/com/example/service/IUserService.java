@@ -19,6 +19,8 @@ public interface IUserService
 
     UserCourse getUserCourse(Long username, Integer courseId);
 
+    List<UserCourse> getUserCourses(Long u);
+
     Boolean hasATeam(Long username,Integer courseId);
 
     Boolean userMatchCourse(Long username, Integer courseId);

@@ -1,7 +1,7 @@
 package com.example.controller;
-
 import com.example.domain.Team;
 import com.example.domain.User;
+import com.example.domain.UserCourse;
 import com.example.service.ITeamService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -30,6 +32,27 @@ public class TeamController
     public List<Team> showMyTeam(Long userId)
     {
         return teamService.showMyTeam(userId);
+    }
+
+    /**
+     * 返回所有待选课程
+     * @param userId 学号
+     * @return 待选课程的List
+     */
+    @RequestMapping(value = "/myCourse",method = RequestMethod.GET)
+    @ResponseBody
+    public List<UserCourse> myCourse(Long userId)
+    {
+        List<UserCourse> myUserCourses = new ArrayList<>();
+        List<UserCourse> userCourses = userService.getUserCourses(userId);
+        for(UserCourse userCourse : userCourses)
+        {
+            if(userCourse.getTeam_id()==0&&userCourse.getCourse().getIs_team())
+            {
+                myUserCourses.add(userCourse);
+            }
+        }
+        return myUserCourses;
     }
 
     /**

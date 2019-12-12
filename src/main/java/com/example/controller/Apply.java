@@ -40,7 +40,7 @@ public class Apply
         Mail mail = new Mail();
         mail.setSender(sender);
         mail.setReceiver(team.getLeader());
-        mail.setType(2);
+        mail.setType(2);//Send an application
         mail.setTeamId(teamId);
         mail.setText(sender+"同学申请加入队伍ID:"+teamId);
         mailService.sendMail(mail);

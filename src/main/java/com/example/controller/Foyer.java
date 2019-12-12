@@ -2,12 +2,10 @@ package com.example.controller;
 
 import com.example.domain.Team;
 import com.example.service.ITeamService;
-import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -18,8 +16,6 @@ public class Foyer
 {
     @Autowired
     private ITeamService teamService;
-    @Autowired
-    private IUserService userService;
 
     /**
      * 进入大厅，显示所有（愿意被显示的）组的信息

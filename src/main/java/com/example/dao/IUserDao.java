@@ -13,6 +13,8 @@ public interface IUserDao
 
     User getUser(Long num);
 
+    List<UserCourse> getUserCourses(Long u);
+
     User findAUser(Long num);
 
     Boolean existUser(Long num);

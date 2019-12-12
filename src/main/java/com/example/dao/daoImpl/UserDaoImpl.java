@@ -57,4 +57,10 @@ public class UserDaoImpl implements IUserDao
     {
         return userCourseMapper.getUserCourse(u,c);
     }
+
+    @Override
+    public List<UserCourse> getUserCourses(Long u)
+    {
+        return userCourseMapper.getUserCourses(u);
+    }
 }
