@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface IUserService
 {
-    void updateLeader(Long num,boolean b,int courseId);
+    void updateLeader(UserCourse userCourse);
 
-    void updateTeamId(Long num,int teamId,int courseId);
+    void updateTeamId(UserCourse userCourse, Integer teamId);
 
     User getUser(Long num);
 

@@ -7,9 +7,7 @@ import java.util.List;
 
 public interface IUserDao
 {
-    void updateLeader(Long num, boolean b, Integer courseId);
-
-    void updateTeamId(Long num, Integer teamId, Integer courseId);
+    void saveUserCourse(UserCourse userCourse);
 
     User getUser(Long num);
 

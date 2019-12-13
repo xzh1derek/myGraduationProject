@@ -16,15 +16,17 @@ public class UserServiceImpl implements IUserService
     private IUserDao userDao;
 
     @Override
-    public void updateLeader(Long num, boolean b,int courseId)
+    public void updateLeader(UserCourse userCourse)
     {
-        userDao.updateLeader(num,b,courseId);
+        userCourse.setIs_leader(true);
+        userDao.saveUserCourse(userCourse);
     }
 
     @Override
-    public void updateTeamId(Long num, int teamId, int courseId)
+    public void updateTeamId(UserCourse userCourse,Integer teamId)
     {
-        userDao.updateTeamId(num,teamId,courseId);
+        userCourse.setTeam_id(teamId);
+        userDao.saveUserCourse(userCourse);
     }
 
     @Override
@@ -55,6 +57,7 @@ public class UserServiceImpl implements IUserService
     public Boolean hasATeam(Long username,Integer courseId)
     {
         UserCourse userCourse = userDao.getUserCourse(username,courseId);
+        //System.out.println(userCourse);
         return userCourse.getTeam_id() != 0;
     }
 
@@ -62,7 +65,7 @@ public class UserServiceImpl implements IUserService
     public Boolean userMatchCourse(Long username, Integer courseId)
     {
         UserCourse userCourse = userDao.getUserCourse(username,courseId);
-        System.out.println(userCourse);
+        //System.out.println(userCourse);
         return userCourse == null;
     }
 

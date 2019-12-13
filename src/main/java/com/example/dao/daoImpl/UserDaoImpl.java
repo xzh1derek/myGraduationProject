@@ -24,14 +24,13 @@ public class UserDaoImpl implements IUserDao
     private UserCourseMapper userCourseMapper;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserCourseRepository userCourseRepository;
 
     @Override
-    public void updateLeader(Long num, boolean b,Integer courseId){userCourseMapper.updateLeader(num,courseId,b);}
-
-    @Override
-    public void updateTeamId(Long num, Integer teamId, Integer courseId)
+    public void saveUserCourse(UserCourse userCourse)
     {
-        userCourseMapper.updateTeamId(num,teamId,courseId);
+        userCourseRepository.save(userCourse);
     }
 
     @Override

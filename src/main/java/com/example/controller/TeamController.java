@@ -44,6 +44,7 @@ public class TeamController
     {
         List<UserCourse> myUserCourses = new ArrayList<>();
         List<UserCourse> userCourses = userService.getUserCourses(userId);
+        System.out.println(userCourses);
         for(UserCourse userCourse : userCourses)
         {
             if(userCourse.getTeam_id()==0&&userCourse.getCourse().getIs_team())
@@ -60,13 +61,14 @@ public class TeamController
      * @param courseId 绑定的课程序号
      * @return 状态码 本地测试通过
      */
-    @RequestMapping(value = "/create",method = RequestMethod.POST)
+    @RequestMapping(value = "/create",method = RequestMethod.GET)
     public String createTeam(Long userId, Integer courseId)
     {
         if(userService.hasATeam(userId,courseId)) return "2";//You have a team
         Integer teamId = teamService.createTeam(userId,courseId,courseService.getCourse(courseId).getMax_num());
-        userService.updateLeader(userId,true,courseId);
-        userService.updateTeamId(userId,teamId,courseId);
+        UserCourse userCourse = userService.getUserCourse(userId,courseId);
+        userService.updateLeader(userCourse);
+        userService.updateTeamId(userCourse,teamId);
         return "0";
     }
 
