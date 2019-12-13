@@ -83,4 +83,10 @@ public class UserServiceImpl implements IUserService
     {
         return userDao.findUsersByClass(c);
     }
+
+    @Override
+    public void updateMessage(Long u)
+    {
+        userDao.updateMessage(u);
+    }
 }

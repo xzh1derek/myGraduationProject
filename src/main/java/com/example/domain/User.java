@@ -21,8 +21,9 @@ public class User implements Serializable
     private String school;
     private Integer class_id;
     private String qq;
+    private Integer new_message;
     @Transient//属于实体的临时数据，jpa不写在数据库字段里
-    private List<UserCourse> user_courses;
+    private List<UserCourse> userCourses;
 
     public int getId()
     {
@@ -84,14 +85,24 @@ public class User implements Serializable
         this.qq = qq;
     }
 
+    public Integer getNew_message()
+    {
+        return new_message;
+    }
+
+    public void setNew_message(Integer new_message)
+    {
+        this.new_message = new_message;
+    }
+
     public List<UserCourse> getUserCourses()
     {
-        return user_courses;
+        return userCourses;
     }
 
     public void setUserCourses(List<UserCourse> userCourses)
     {
-        this.user_courses = userCourses;
+        this.userCourses = userCourses;
     }
 
     @Override
@@ -104,7 +115,8 @@ public class User implements Serializable
                 ", school='" + school + '\'' +
                 ", class_id=" + class_id +
                 ", qq='" + qq + '\'' +
-                ", userCourses=" + user_courses +
+                ", new_message=" + new_message +
+                ", userCourses=" + userCourses +
                 '}';
     }
 }

@@ -1,8 +1,11 @@
 package com.example.service.serviceImpl;
 
 import com.example.dao.IMailDao;
+import com.example.dao.IUserDao;
 import com.example.domain.Mail;
+import com.example.domain.User;
 import com.example.service.IMailService;
+import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +16,22 @@ public class MailServiceImpl implements IMailService
 {
     @Autowired
     private IMailDao mailDao;
+    @Autowired
+    private IUserDao userDao;
 
     @Override
-    public void sendMail(Mail mail)
+    public void sendMail(Long sender,Long receiver,Integer type,Integer teamId,String text)
     {
+        Mail mail = new Mail();
+        mail.setSender(sender);
+        mail.setReceiver(receiver);
+        mail.setType(type);
+        mail.setTeamId(teamId);
+        mail.setText(text);
         mailDao.sendMail(mail);
+        User user = userDao.findAUser(receiver);
+        user.setNew_message(user.getNew_message()+1);
+        userDao.saveUser(user);
     }
 
     @Override

@@ -36,13 +36,7 @@ public class Apply
         if(userService.hasATeam(sender,team.getCourseId())) return "2";//You have a team
         if(!team.isAvailable()) return "3";//The team you applied is full or not available.
         if(mailService.hasApplied(sender)) return "4";//You have an untreated application, you can't apply for another team.
-        Mail mail = new Mail();
-        mail.setSender(sender);
-        mail.setReceiver(team.getLeader());
-        mail.setType(2);//Send an application
-        mail.setTeamId(teamId);
-        mail.setText(sender+" 同学申请加入队伍ID: "+teamId);
-        mailService.sendMail(mail);
+        mailService.sendMail(sender,team.getLeader(),2,teamId,sender+" 同学申请加入队伍ID: "+teamId);
         return "0";
     }
 

@@ -23,4 +23,7 @@ public interface UserMapper
 
     @Update("update user set qq=#{q} where username=#{u}")
     void updateQq(Long u, String q);
+
+    @Update("update user set new_message=0 where username=#{u}")
+    void updateMessage(Long u);
 }

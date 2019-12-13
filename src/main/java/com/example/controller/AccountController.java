@@ -16,14 +16,16 @@ public class AccountController
     /**
      * 修改密码
      * @param userId 账号
-     * @param password 密码
+     * @param password 原密码
+     * @param newPassword 新密码
      * @return 状态码
      */
     @RequestMapping(value = "updatePassword",method = RequestMethod.POST)
     @ResponseBody
-    public String updatePassword(String userId,String password)
+    public String updatePassword(String userId,String password, String newPassword)
     {
-        accountService.updatePassword(userId,password);
+        if(!accountService.getAccount(userId).getPassword().equals(password)) return "f";//原密码输错
+        accountService.updatePassword(userId,newPassword);
         return "0";
     }
 }

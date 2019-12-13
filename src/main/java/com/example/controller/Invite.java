@@ -34,13 +34,7 @@ public class Invite
         if(userService.hasATeam(receiver,team.getCourseId())) return "6";//He has a team.
         else if(team.getCurrentNum()==team.getMaxNum()) return "7";//Your team is full
         else{
-            Mail mail = new Mail();
-            mail.setSender(team.getLeader());
-            mail.setReceiver(receiver);
-            mail.setType(1);//send a invitation
-            mail.setTeamId(teamId);
-            mail.setText(team.getLeader()+" 同学邀请你加入队伍ID: "+teamId);
-            mailService.sendMail(mail);
+            mailService.sendMail(team.getLeader(),receiver,1,teamId,team.getLeader()+" 同学邀请你加入队伍ID: "+teamId);
             return "0";
         }
     }

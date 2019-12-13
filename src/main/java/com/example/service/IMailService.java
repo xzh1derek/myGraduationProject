@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IMailService
 {
-    void sendMail(Mail mail);
+    void sendMail(Long sender,Long receiver,Integer type,Integer teamId,String text);
 
     Mail getMail(Integer id);
 

@@ -75,4 +75,16 @@ public class UserDaoImpl implements IUserDao
     {
         return userMapper.findUsersByClass(c);
     }
+
+    @Override
+    public void saveUser(User user)
+    {
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateMessage(Long u)
+    {
+        userMapper.updateMessage(u);
+    }
 }

@@ -28,4 +28,6 @@ public interface IUserService
     void updateQQ(Long u, String qq);
 
     List<User> findUsersByClass(Integer c);
+
+    void updateMessage(Long u);
 }
