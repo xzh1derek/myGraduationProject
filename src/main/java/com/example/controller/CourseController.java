@@ -1,12 +1,13 @@
 package com.example.controller;
 
 import com.example.domain.Course;
-import com.example.domain.User;
 import com.example.domain.UserCourse;
 import com.example.service.ICourseService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,14 +64,13 @@ public class CourseController
         {
             usernameList.addAll(userService.findUsersByClass(classId));
         }
-        System.out.println(usernameList);
         UserCourse userCourse = new UserCourse();
         userCourse.setCourse_id(courseId);
         userCourse.setHours_left(courseService.getCourse(courseId).getHours());
         for(Long username : usernameList)
         {
             userCourse.setUsername(username);
-            courseService.newUserCourse(userCourse);
+                courseService.newUserCourse(userCourse);
         }
         courseService.updateStuNum(courseId,usernameList.size());
         return "0";
@@ -87,6 +87,11 @@ public class CourseController
         return "0";
     }
 
+    /**
+     * 删除课程
+     * @param courseId
+     * @return
+     */
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
     public String updateCourse(Integer courseId)
     {
