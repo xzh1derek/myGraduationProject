@@ -3,6 +3,8 @@ package com.example.dao;
 import com.example.domain.Course;
 import com.example.domain.UserCourse;
 
+import java.util.List;
+
 public interface ICourseDao
 {
     Integer newCourse(String code,String name,Float credit,Integer hours,Integer teachers,Boolean is_team,Integer max_num);
@@ -12,4 +14,10 @@ public interface ICourseDao
     void newUserCourse(UserCourse userCourse);
 
     void updateStuNum(Integer courseId,Integer num);
+
+    List<Course> queryCourseList();
+
+    void updateCourse(Integer courseId,String code,String name,Float credit,Integer hours,Integer teachers,Boolean is_team,Integer max_num);
+
+    void deleteCourse(Integer courseId);
 }

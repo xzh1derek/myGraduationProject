@@ -19,6 +19,16 @@ public class CourseController
     private IUserService userService;
 
     /**
+     * 返回所有课程
+     * @return
+     */
+    @RequestMapping("")
+    public List<Course> showCourses()
+    {
+        return courseService.queryCourseList();
+    }
+
+    /**
      * 管理员开设一门课程
      * @param code 课程编号
      * @param name 课程名称
@@ -45,7 +55,7 @@ public class CourseController
      * @return 状态码 未测试
      */
     @RequestMapping(value = "/bind",method = RequestMethod.POST)
-    public String bindStudents(Integer courseId, List<Integer> classes)
+    public String bindStudents(Integer courseId, Integer[] classes)
     {
         Course course = courseService.getCourse(courseId);
         List<User> userList = new ArrayList<>();
@@ -58,6 +68,24 @@ public class CourseController
             courseService.newUserCourse(user.getUsername(),courseId,course.getHours());
         }
         courseService.updateStuNum(courseId,userList.size());
+        return "0";
+    }
+
+    /**
+     * 修改课程
+     * @return
+     */
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    public String updateCourse(Integer courseId,String code,String name,Float credit,Integer hours,Integer teachers,Boolean is_team,Integer max_num)
+    {
+        courseService.updateCourse(courseId,code,name,credit,hours,teachers,is_team,max_num);
+        return "0";
+    }
+
+    @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
+    public String updateCourse(Integer courseId)
+    {
+        courseService.deleteCourse(courseId);
         return "0";
     }
 

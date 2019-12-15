@@ -61,7 +61,7 @@ public class TeamController
      * @param courseId 绑定的课程序号
      * @return 状态码 本地测试通过
      */
-    @RequestMapping(value = "/create",method = RequestMethod.GET)
+    @RequestMapping(value = "/create",method = RequestMethod.POST)
     public String createTeam(Long userId, Integer courseId)
     {
         if(userService.hasATeam(userId,courseId)) return "2";//You have a team

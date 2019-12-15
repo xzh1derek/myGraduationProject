@@ -9,6 +9,8 @@ import com.example.repository.UserCourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class CourseDaoImpl implements ICourseDao
 {
@@ -50,5 +52,29 @@ public class CourseDaoImpl implements ICourseDao
     public void updateStuNum(Integer courseId, Integer num)
     {
         courseMapper.updateStuNum(courseId,num);
+    }
+
+    @Override
+    public List<Course> queryCourseList() {
+        return courseRepository.findAll();
+    }
+
+    @Override
+    public void updateCourse(Integer courseId,String code,String name,Float credit,Integer hours,Integer teachers,Boolean is_team,Integer max_num) {
+        Course course = new Course();
+        course.setId(courseId);
+        course.setCourse_code(code);
+        course.setCourse_name(name);
+        course.setCredit(credit);
+        course.setHours(hours);
+        course.setTeachers(teachers);
+        course.setIs_team(is_team);
+        course.setMax_num(max_num);
+        courseRepository.save(course);
+    }
+
+    @Override
+    public void deleteCourse(Integer courseId) {
+        courseRepository.deleteById(courseId);
     }
 }
