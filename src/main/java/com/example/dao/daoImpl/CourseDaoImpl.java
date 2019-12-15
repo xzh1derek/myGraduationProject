@@ -4,6 +4,7 @@ import com.example.dao.ICourseDao;
 import com.example.domain.Course;
 import com.example.domain.UserCourse;
 import com.example.mapper.CourseMapper;
+import com.example.mapper.UserCourseMapper;
 import com.example.repository.CourseRepository;
 import com.example.repository.UserCourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class CourseDaoImpl implements ICourseDao
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
-    private UserCourseRepository userCourseRepository;
+    private UserCourseMapper userCourseMapper;
 
     @Override
     public Integer newCourse(String code,String name,Float credit,Integer hours,Integer teachers,Boolean is_team,Integer max_num)
@@ -45,7 +46,7 @@ public class CourseDaoImpl implements ICourseDao
     @Override
     public void newUserCourse(UserCourse userCourse)
     {
-        userCourseRepository.save(userCourse);
+        userCourseMapper.newCourseList(userCourse);
     }
 
     @Override

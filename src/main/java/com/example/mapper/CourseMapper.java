@@ -13,7 +13,7 @@ public interface CourseMapper
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     void newCourse(Course course);
 
-    @Update("update course set stu_num=#{num} where course_id=#{courseId}")
+    @Update("update course set stu_num=#{num} where id=#{courseId}")
     void updateStuNum(Integer courseId,Integer num);
 
 }

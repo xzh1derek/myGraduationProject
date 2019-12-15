@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.domain.Course;
 import com.example.domain.User;
+import com.example.domain.UserCourse;
 import com.example.service.ICourseService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,19 +56,23 @@ public class CourseController
      * @return 状态码 未测试
      */
     @RequestMapping(value = "/bind",method = RequestMethod.POST)
-    public String bindStudents(Integer courseId, Integer[] classes)
+    public String bindStudents(Integer courseId,@RequestBody Integer[] classes)
     {
-        Course course = courseService.getCourse(courseId);
-        List<User> userList = new ArrayList<>();
+        List<Long> usernameList = new ArrayList<>();
         for(Integer classId : classes)
         {
-            userList.addAll(userService.findUsersByClass(classId));
+            usernameList.addAll(userService.findUsersByClass(classId));
         }
-        for(User user : userList)
+        System.out.println(usernameList);
+        UserCourse userCourse = new UserCourse();
+        userCourse.setCourse_id(courseId);
+        userCourse.setHours_left(courseService.getCourse(courseId).getHours());
+        for(Long username : usernameList)
         {
-            courseService.newUserCourse(user.getUsername(),courseId,course.getHours());
+            userCourse.setUsername(username);
+            courseService.newUserCourse(userCourse);
         }
-        courseService.updateStuNum(courseId,userList.size());
+        courseService.updateStuNum(courseId,usernameList.size());
         return "0";
     }
 

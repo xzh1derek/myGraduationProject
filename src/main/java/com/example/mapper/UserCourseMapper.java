@@ -23,4 +23,7 @@ public interface UserCourseMapper
 
     @Update("update user_course set is_leader=0, team_id=0 where team_id<>0")
     void deleteMembers();
+
+    @Insert("insert into user_course(username,course_id,hours_left) values(#{username},#{course_id},#{hours_left})")
+    void newCourseList(UserCourse userCourse);
 }

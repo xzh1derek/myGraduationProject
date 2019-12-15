@@ -27,7 +27,7 @@ public interface IUserService
 
     void updateQQ(Long u, String qq);
 
-    List<User> findUsersByClass(Integer c);
+    List<Long> findUsersByClass(Integer c);
 
     void updateMessage(Long u);
 }

@@ -18,8 +18,8 @@ public interface UserMapper
     @Select("select * from user where username=#{u}")
     User findAUser(Long u);
 
-    @Select("select * from user where class_id=#{c}")
-    List<User> findUsersByClass(Integer c);
+    @Select("select username from user where class_id=#{c}")
+    List<Long> findUsersByClass(Integer c);
 
     @Update("update user set qq=#{q} where username=#{u}")
     void updateQq(Long u, String q);

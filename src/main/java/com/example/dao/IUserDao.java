@@ -21,7 +21,7 @@ public interface IUserDao
 
     void updateQQ(Long u, String qq);
 
-    List<User> findUsersByClass(Integer c);
+    List<Long> findUsersByClass(Integer c);
 
     void saveUser(User user);
 

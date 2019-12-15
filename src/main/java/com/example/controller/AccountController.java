@@ -22,7 +22,7 @@ public class AccountController
      */
     @RequestMapping(value = "updatePassword",method = RequestMethod.POST)
     @ResponseBody
-    public String updatePassword(String userId,String password, String newPassword)
+    public String updatePassword(String userId,String password,String newPassword)
     {
         if(!accountService.getAccount(userId).getPassword().equals(password)) return "f";//原密码输错
         accountService.updatePassword(userId,newPassword);

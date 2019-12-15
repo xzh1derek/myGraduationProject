@@ -82,7 +82,7 @@ public class UserServiceImpl implements IUserService
     }
 
     @Override
-    public List<User> findUsersByClass(Integer c)
+    public List<Long> findUsersByClass(Integer c)
     {
         return userDao.findUsersByClass(c);
     }

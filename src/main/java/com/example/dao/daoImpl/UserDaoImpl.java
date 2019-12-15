@@ -70,7 +70,7 @@ public class UserDaoImpl implements IUserDao
     }
 
     @Override
-    public List<User> findUsersByClass(Integer c)
+    public List<Long> findUsersByClass(Integer c)
     {
         return userMapper.findUsersByClass(c);
     }

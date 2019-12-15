@@ -22,14 +22,8 @@ public class CourseServiceImpl implements ICourseService
     }
 
     @Override
-    public void newUserCourse(Long username, Integer courseId, Integer hours)
+    public void newUserCourse(UserCourse userCourse)
     {
-        UserCourse userCourse = new UserCourse();
-        userCourse.setUsername(username);
-        userCourse.setCourse_id(courseId);
-        userCourse.setHours_left(hours);
-        userCourse.setIs_leader(false);
-        userCourse.setTeam_id(0);
         courseDao.newUserCourse(userCourse);
     }
 
