@@ -2,6 +2,7 @@ package com.example.service.serviceImpl;
 
 import com.example.dao.ICourseDao;
 import com.example.domain.Course;
+import com.example.domain.Project;
 import com.example.domain.UserCourse;
 import com.example.service.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,23 @@ public class CourseServiceImpl implements ICourseService
     @Override
     public void deleteCourse(Integer courseId) {
         courseDao.deleteCourse(courseId);
+    }
+
+    @Override
+    public List<Course> queryCoursesWithProjects(Integer teacher)
+    {
+        return courseDao.queryCoursesWithProjects(teacher);
+    }
+
+    @Override
+    public List<Project> queryProjectByCourse(Integer courseId)
+    {
+        return courseDao.queryProjectByCourse(courseId);
+    }
+
+    @Override
+    public void deleteProjects(Integer courseId)
+    {
+        courseDao.deleteProjects(courseId);
     }
 }

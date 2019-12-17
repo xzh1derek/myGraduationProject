@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserCourseMapper
 {
     @Select("select * from user_course where username=#{u}")
-    @Results(id="courseMap",value = {
+    @Results(id="userCourseMap",value = {
             @Result(column = "course_id", property = "course_id"),
             @Result(property = "course", column = "course_id", one = @One(select = "com.example.mapper.CourseMapper.getCourse",fetchType = FetchType.EAGER))
     })

@@ -1,13 +1,12 @@
 package com.example.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="course")
@@ -26,6 +25,8 @@ public class Course implements Serializable
     private Integer stu_num;
     private Integer project_num;
     private String template;
+    @Transient
+    private List<Project> projects;
 
     public Integer getId()
     {
@@ -137,6 +138,16 @@ public class Course implements Serializable
         this.template = template;
     }
 
+    public List<Project> getProjects()
+    {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects)
+    {
+        this.projects = projects;
+    }
+
     @Override
     public String toString()
     {
@@ -152,6 +163,7 @@ public class Course implements Serializable
                 ", stu_num=" + stu_num +
                 ", project_num=" + project_num +
                 ", template='" + template + '\'' +
+                ", projects=" + projects +
                 '}';
     }
 }

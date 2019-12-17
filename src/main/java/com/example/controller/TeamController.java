@@ -2,6 +2,7 @@ package com.example.controller;
 import com.example.domain.Team;
 import com.example.domain.UserCourse;
 import com.example.service.ICourseService;
+import com.example.service.IMailService;
 import com.example.service.ITeamService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class TeamController
     private ITeamService teamService;
     @Autowired
     private ICourseService courseService;
+    @Autowired
+    private IMailService mailService;
 
     /**
      * 返回自己所有加的队伍
@@ -73,23 +76,44 @@ public class TeamController
     }
 
     /**
+     * 队长邀请乙同学加入队伍
+     * @param teamId 队伍编号
+     * @param receiver 乙同学学号
+     * @return 状态字符串 本地测试通过
+     */
+    @RequestMapping(value = "invite", method = RequestMethod.POST)
+    public String invite(Integer teamId, Long receiver)
+    {
+        if(!userService.existUser(receiver)) return "1";//User does not exist.
+        Team team = teamService.getTeam(teamId);
+        if(userService.userMatchCourse(receiver,team.getCourseId())) return "8";//He is not involved in this course.
+        if(userService.hasATeam(receiver,team.getCourseId())) return "6";//He has a team.
+        else if(team.getCurrentNum()==team.getMaxNum()) return "7";//Your team is full
+        else{
+            mailService.sendMail(team.getLeader(),receiver,1,teamId,team.getLeader()+" 同学邀请你加入队伍ID: "+teamId);
+            return "0";
+        }
+    }
+
+    /**
      * 在组队管理界面中关闭/打开一支队伍的申请
      * @param teamId 队伍编号
      * @param status 1=接收申请 0=不接受申请
      * @return 状态码 本地测试通过
      */
     @RequestMapping(value = "/setAvailable",method = RequestMethod.POST)
-    public String setAvailable(Integer teamId, String status)
+    public String setAvailable(Integer teamId, Boolean status)
     {
         Team team = teamService.getTeam(teamId);
-        if(status.equals("1"))
+        if(status)
         {
             if(team.getCurrentNum()==team.getMaxNum()) return "7";//Your team is full
             else teamService.updateAvailable(teamId,true);
         }
-        else if(status.equals("0"))
+        else
         {
             teamService.updateAvailable(teamId,false);
+            teamService.updateDisplay(teamId,false);
         }
         return "0";
     }
@@ -101,9 +125,9 @@ public class TeamController
      * @return 状态码 本地测试通过
      */
     @RequestMapping(value = "/setDisplay", method = RequestMethod.POST)
-    public String setDisplay(Integer teamId, String status)
+    public String setDisplay(Integer teamId, Boolean status)
     {
-        if(status.equals("1")) teamService.updateDisplay(teamId,true);
+        if(status) teamService.updateDisplay(teamId,true);
         else teamService.updateDisplay(teamId,false);
         return "0";
     }

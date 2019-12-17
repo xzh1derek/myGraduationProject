@@ -1,0 +1,47 @@
+package com.example.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+
+@Entity
+@Table(name="school")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
+public class School implements Serializable
+{
+    @Id
+    private Integer id;
+    private String name;
+
+    public Integer getId()
+    {
+        return id;
+    }
+
+    public void setId(Integer id)
+    {
+        this.id = id;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "School{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+}

@@ -16,7 +16,7 @@ public class Module implements Serializable
     @Id
     private Integer id;
     private Integer project_id;
-    private String module_name;
+    private Integer module_index;
     private String time;
     private String location;
     private Integer stu_num;
@@ -43,14 +43,14 @@ public class Module implements Serializable
         this.project_id = project_id;
     }
 
-    public String getModule_name()
+    public Integer getModule_index()
     {
-        return module_name;
+        return module_index;
     }
 
-    public void setModule_name(String module_name)
+    public void setModule_index(Integer module_index)
     {
-        this.module_name = module_name;
+        this.module_index = module_index;
     }
 
     public String getTime()
@@ -91,5 +91,19 @@ public class Module implements Serializable
     public void setProject(Project project)
     {
         this.project = project;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Module{" +
+                "id=" + id +
+                ", project_id=" + project_id +
+                ", module_index=" + module_index +
+                ", time='" + time + '\'' +
+                ", location='" + location + '\'' +
+                ", stu_num=" + stu_num +
+                ", project=" + project +
+                '}';
     }
 }

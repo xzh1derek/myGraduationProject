@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "project")
@@ -22,6 +23,8 @@ public class Project implements Serializable
     private Boolean is_fixed;//true为固定，false为任选
     @Transient
     private Course course;
+    @Transient
+    private List<Module> modules;
 
     public Integer getId()
     {
@@ -101,5 +104,31 @@ public class Project implements Serializable
     public void setCourse(Course course)
     {
         this.course = course;
+    }
+
+    public List<Module> getModules()
+    {
+        return modules;
+    }
+
+    public void setModules(List<Module> modules)
+    {
+        this.modules = modules;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Project{" +
+                "id=" + id +
+                ", project_name='" + project_name + '\'' +
+                ", project_index=" + project_index +
+                ", course_id=" + course_id +
+                ", hours=" + hours +
+                ", teachers=" + teachers +
+                ", is_fixed=" + is_fixed +
+                ", course=" + course +
+                ", modules=" + modules +
+                '}';
     }
 }

@@ -6,8 +6,6 @@ import com.example.service.ICourseService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +37,7 @@ public class CourseController
      * @param teachers 老师
      * @param isTeam 是否成队
      * @param maxNum 最大人数(默认1，最高7)
-     * @return 返回的是新建课程的id！！ 本地测试通过
+     * @return 返回的是新建课程的id！！ 测试通过
      */
     @RequestMapping(value = "/new",method = RequestMethod.POST)
     public String newCourse(String code, String name, Float credit, Integer hours, Integer teachers, Boolean isTeam,
@@ -54,7 +52,7 @@ public class CourseController
      * 课程绑定学生
      * @param courseId 课程序号
      * @param classes 所选出班级的列表
-     * @return 状态码 未测试
+     * @return 状态码 测试通过
      */
     @RequestMapping(value = "/bind",method = RequestMethod.POST)
     public String bindStudents(Integer courseId,@RequestBody Integer[] classes)
