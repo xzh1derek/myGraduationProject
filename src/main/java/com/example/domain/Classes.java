@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 @Entity
@@ -15,6 +16,7 @@ public class Classes implements Serializable
     @Id
     private Integer class_id;
     private Integer school_id;
+    @Transient
     private School school;
 
     public Integer getClass_id()

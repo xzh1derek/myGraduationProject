@@ -26,14 +26,14 @@ public class CourseDaoImpl implements ICourseDao
     private ProjectMapper projectMapper;
 
     @Override
-    public Integer newCourse(String code,String name,Float credit,Integer hours,Integer teachers,Boolean is_team,Integer max_num)
+    public Integer newCourse(String code,String name,Float credit,Integer hours,Integer teacher,Boolean is_team,Integer max_num)
     {
         Course course = new Course();
         course.setCourse_code(code);
         course.setCourse_name(name);
         course.setCredit(credit);
         course.setHours(hours);
-        course.setTeachers(teachers);
+        course.setTeacher(teacher);
         course.setIs_team(is_team);
         course.setMax_num(max_num);
         courseMapper.newCourse(course);
@@ -64,14 +64,14 @@ public class CourseDaoImpl implements ICourseDao
     }
 
     @Override
-    public void updateCourse(Integer courseId,String code,String name,Float credit,Integer hours,Integer teachers,Boolean is_team,Integer max_num) {
+    public void updateCourse(Integer courseId,String code,String name,Float credit,Integer hours,Integer teacher,Boolean is_team,Integer max_num) {
         Course course = new Course();
         course.setId(courseId);
         course.setCourse_code(code);
         course.setCourse_name(name);
         course.setCredit(credit);
         course.setHours(hours);
-        course.setTeachers(teachers);
+        course.setTeacher(teacher);
         course.setIs_team(is_team);
         course.setMax_num(max_num);
         courseRepository.save(course);
@@ -85,7 +85,7 @@ public class CourseDaoImpl implements ICourseDao
     @Override
     public List<Course> queryCoursesWithProjects(Integer teacher)
     {
-        return courseMapper.getCoursesWithProjects(teacher);
+        return courseMapper.queryCourseWithProjects(teacher);
     }
 
     @Override
@@ -98,5 +98,29 @@ public class CourseDaoImpl implements ICourseDao
     public void deleteProjects(Integer courseId)
     {
         projectMapper.deleteProjects(courseId);
+    }
+
+    @Override
+    public void newClassCourse(Integer classId,Integer courseId)
+    {
+        courseMapper.newClassCourse(classId,courseId);
+    }
+
+    @Override
+    public void deleteUserCourse(Integer courseId)
+    {
+        userCourseMapper.deleteUserCourse(courseId);
+    }
+
+    @Override
+    public void deleteClassCourse(Integer courseId)
+    {
+        courseMapper.deleteClassCourse(courseId);
+    }
+
+    @Override
+    public List<Course> queryCourseWithClasses()
+    {
+        return courseMapper.queryCourseWithClasses();
     }
 }

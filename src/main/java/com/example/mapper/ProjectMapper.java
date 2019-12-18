@@ -2,6 +2,7 @@ package com.example.mapper;
 
 import com.example.domain.Project;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
 
@@ -20,4 +21,13 @@ public interface ProjectMapper
 
     @Delete("delete from project where course_id=#{courseId}")
     void deleteProjects(Integer courseId);
+
+    @Select("select * from project where teacher=#{teacher}")
+    @Results(id="projectMap",value = {
+            @Result(id=true, column = "id", property = "id"),
+            @Result(column = "course_id", property = "course_id"),
+            @Result(property = "course",column = "course_id", one = @One(select = "com.example.mapper.CourseMapper.getCourse",fetchType = FetchType.EAGER)),
+            @Result(property = "modules", column = "id", many = @Many(select = "com.example.mapper.ModuleMapper.queryModulesByProject",fetchType = FetchType.EAGER))
+    })
+    List<Project> queryProjectWithModules(Integer teacher);
 }

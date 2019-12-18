@@ -8,7 +8,7 @@ import org.apache.ibatis.mapping.FetchType;
 import java.util.List;
 
 @Mapper
-public interface OthersMapper
+public interface SchoolAndClassMapper
 {
     @Insert("insert into school(name) values(#{name})")
     void newSchool(String name);
@@ -38,6 +38,16 @@ public interface OthersMapper
     })
     List<Classes> queryAllClasses();
 
+    @Select("select * from school")
+    @Results(id="schoolMap",value = {
+            @Result(id=true, column = "id", property = "id"),
+            @Result(property = "classesList", column = "id", many = @Many(select = "com.example.mapper.SchoolAndClassMapper.queryClassesBySchool",fetchType = FetchType.EAGER))
+    })
+    List<School> querySchoolWithClasses();
+
     @Select("select * from classes where school_id=#{school_id}")
     List<Classes> queryClassesBySchool(Integer school_id);
+
+    @Select("select class_id from class_course where course_id=#{course_id}")
+    List<Integer> queryClassByCourse(Integer course_id);
 }

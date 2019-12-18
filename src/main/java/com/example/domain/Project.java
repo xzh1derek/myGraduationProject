@@ -19,7 +19,7 @@ public class Project implements Serializable
     private Integer project_index;
     private Integer course_id;
     private Integer hours;
-    private Integer teachers;
+    private Integer teacher;
     private Boolean is_fixed;//true为固定，false为任选
     @Transient
     private Course course;
@@ -76,14 +76,14 @@ public class Project implements Serializable
         this.hours = hours;
     }
 
-    public Integer getTeachers()
+    public Integer getTeacher()
     {
-        return teachers;
+        return teacher;
     }
 
-    public void setTeachers(Integer teachers)
+    public void setTeacher(Integer teacher)
     {
-        this.teachers = teachers;
+        this.teacher = teacher;
     }
 
     public Boolean getIs_fixed()
@@ -125,7 +125,6 @@ public class Project implements Serializable
                 ", project_index=" + project_index +
                 ", course_id=" + course_id +
                 ", hours=" + hours +
-                ", teachers=" + teachers +
                 ", is_fixed=" + is_fixed +
                 ", course=" + course +
                 ", modules=" + modules +

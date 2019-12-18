@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.domain.Classes;
 import com.example.domain.School;
-import com.example.mapper.OthersMapper;
+import com.example.mapper.SchoolAndClassMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +12,7 @@ import java.util.List;
 public class SchoolAndClass
 {
     @Autowired
-    private OthersMapper mapper;
+    private SchoolAndClassMapper mapper;
 
     @GetMapping("school")
     public List<School> showSchool()
@@ -65,5 +65,11 @@ public class SchoolAndClass
     {
         mapper.deleteClass(classId);
         return "0";
+    }
+
+    @GetMapping("schools")
+    public List<School> querySchoolWithClasses()
+    {
+        return mapper.querySchoolWithClasses();
     }
 }

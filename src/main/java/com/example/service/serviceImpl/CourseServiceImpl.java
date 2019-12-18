@@ -17,9 +17,9 @@ public class CourseServiceImpl implements ICourseService
     private ICourseDao courseDao;
 
     @Override
-    public Integer newCourse(String code,String name,Float credit,Integer hours,Integer teachers,Boolean is_team,Integer max_num)
+    public Integer newCourse(String code,String name,Float credit,Integer hours,Integer teacher,Boolean is_team,Integer max_num)
     {
-        return courseDao.newCourse(code,name,credit,hours,teachers,is_team,max_num);
+        return courseDao.newCourse(code,name,credit,hours,teacher,is_team,max_num);
     }
 
     @Override
@@ -71,5 +71,29 @@ public class CourseServiceImpl implements ICourseService
     public void deleteProjects(Integer courseId)
     {
         courseDao.deleteProjects(courseId);
+    }
+
+    @Override
+    public void newClassCourse(Integer classId,Integer courseId)
+    {
+        courseDao.newClassCourse(classId,courseId);
+    }
+
+    @Override
+    public void deleteUserCourse(Integer courseId)
+    {
+        courseDao.deleteUserCourse(courseId);
+    }
+
+    @Override
+    public void deleteClassCourse(Integer courseId)
+    {
+        courseDao.deleteClassCourse(courseId);
+    }
+
+    @Override
+    public List<Course> queryCourseWithClasses()
+    {
+        return courseDao.queryCourseWithClasses();
     }
 }

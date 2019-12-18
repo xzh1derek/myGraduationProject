@@ -27,4 +27,12 @@ public interface ICourseService
     List<Project> queryProjectByCourse(Integer courseId);
 
     void deleteProjects(Integer courseId);
+
+    void newClassCourse(Integer classId,Integer courseId);
+
+    void deleteUserCourse(Integer courseId);
+
+    void deleteClassCourse(Integer courseId);
+
+    List<Course> queryCourseWithClasses();
 }

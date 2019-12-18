@@ -8,14 +8,14 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name="teacher")
+@Table(name="class_course")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
-public class Teacher implements Serializable
+public class ClassCourse implements Serializable
 {
     @Id
     private Integer id;
-    private String username;
-    private String name;
+    private Integer class_id;
+    private Integer course_id;
 
     public Integer getId()
     {
@@ -27,33 +27,33 @@ public class Teacher implements Serializable
         this.id = id;
     }
 
-    public String getUsername()
+    public Integer getClass_id()
     {
-        return username;
+        return class_id;
     }
 
-    public void setUsername(String username)
+    public void setClass_id(Integer class_id)
     {
-        this.username = username;
+        this.class_id = class_id;
     }
 
-    public String getName()
+    public Integer getCourse_id()
     {
-        return name;
+        return course_id;
     }
 
-    public void setName(String name)
+    public void setCourse_id(Integer course_id)
     {
-        this.name = name;
+        this.course_id = course_id;
     }
 
     @Override
     public String toString()
     {
-        return "Teacher{" +
+        return "ClassCourse{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
-                ", name='" + name + '\'' +
+                ", class_id=" + class_id +
+                ", course_id=" + course_id +
                 '}';
     }
 }

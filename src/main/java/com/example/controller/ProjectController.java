@@ -24,7 +24,7 @@ public class ProjectController
     /**
      * 查询某个老师下所有课程的所有项目
      * @param teacher 老师
-     * @return 课程的List 多表联查
+     * @return 课程的List 多表联查 测试通过
      */
     @RequestMapping("")
     public List<Course> myCoursesWithProjects(Integer teacher)
@@ -35,7 +35,7 @@ public class ProjectController
     /**
      * 添加项目
      * @param projects project实体List
-     * @return 状态码
+     * @return 状态码 测试通过
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String addProjects(@RequestBody Project[] projects)

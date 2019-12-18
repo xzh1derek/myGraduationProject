@@ -1,7 +1,6 @@
 package com.example.mapper;
 
 import com.example.domain.Course;
-import com.example.domain.Project;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 
@@ -13,17 +12,30 @@ public interface CourseMapper
     @Select("select * from course where id=#{courseId}")
     Course getCourse(Integer courseId);
 
-    @Insert("insert into course(course_code,course_name,credit,hours,teachers,is_team,max_num) values(#{course_code},#{course_name},#{credit},#{hours},#{teachers},#{is_team},#{max_num})")
+    @Insert("insert into course(course_code,course_name,credit,hours,teacher,is_team,max_num) values(#{course_code},#{course_name},#{credit},#{hours},#{teacher},#{is_team},#{max_num})")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     void newCourse(Course course);
 
     @Update("update course set stu_num=#{num} where id=#{courseId}")
     void updateStuNum(Integer courseId,Integer num);
 
-    @Select("select * from course where teachers=#{teachers}")
-    @Results(id="courseMap",value = {
+    @Select("select * from course where teacher=#{teacher}")
+    @Results(id="courseMapWithProjects",value = {
             @Result(id=true, column = "id", property = "id"),
             @Result(property = "projects", column = "id", many = @Many(select = "com.example.mapper.ProjectMapper.queryProjectsByCourse",fetchType = FetchType.EAGER))
     })
-    List<Course> getCoursesWithProjects(Integer teachers);
+    List<Course> queryCourseWithProjects(Integer teacher);
+
+    @Insert("insert into class_course(class_id,course_id) values(#{class_id},#{course_id})")
+    void newClassCourse(Integer class_id, Integer course_id);
+
+    @Select("select * from course")
+    @Results(id="courseMapWithClasses",value={
+            @Result(id = true,column = "id",property = "id"),
+            @Result(property = "classesList",column = "id",many = @Many(select = "com.example.mapper.SchoolAndClassMapper.queryClassByCourse",fetchType = FetchType.EAGER))
+    })
+    List<Course> queryCourseWithClasses();
+
+    @Delete("delete from class_course where course_id=#{courseId}")
+    void deleteClassCourse(Integer courseId);
 }

@@ -19,7 +19,7 @@ public class Course implements Serializable
     private String course_name;
     private Float credit;
     private Integer hours;
-    private Integer teachers;
+    private Integer teacher;
     private Boolean is_team;
     private Integer max_num;
     private Integer stu_num;
@@ -27,6 +27,9 @@ public class Course implements Serializable
     private String template;
     @Transient
     private List<Project> projects;
+    @Transient
+    private List<Integer> classesList;
+
 
     public Integer getId()
     {
@@ -78,14 +81,14 @@ public class Course implements Serializable
         this.hours = hours;
     }
 
-    public Integer getTeachers()
+    public Integer getTeacher()
     {
-        return teachers;
+        return teacher;
     }
 
-    public void setTeachers(Integer teachers)
+    public void setTeacher(Integer teacher)
     {
-        this.teachers = teachers;
+        this.teacher = teacher;
     }
 
     public Boolean getIs_team()
@@ -148,6 +151,16 @@ public class Course implements Serializable
         this.projects = projects;
     }
 
+    public List<Integer> getClassesList()
+    {
+        return classesList;
+    }
+
+    public void setClassesList(List<Integer> classesList)
+    {
+        this.classesList = classesList;
+    }
+
     @Override
     public String toString()
     {
@@ -157,13 +170,14 @@ public class Course implements Serializable
                 ", course_name='" + course_name + '\'' +
                 ", credit=" + credit +
                 ", hours=" + hours +
-                ", teachers=" + teachers +
+                ", teacher=" + teacher +
                 ", is_team=" + is_team +
                 ", max_num=" + max_num +
                 ", stu_num=" + stu_num +
                 ", project_num=" + project_num +
                 ", template='" + template + '\'' +
                 ", projects=" + projects +
+                ", classesList=" + classesList +
                 '}';
     }
 }

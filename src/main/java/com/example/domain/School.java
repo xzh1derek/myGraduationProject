@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name="school")
@@ -15,6 +17,8 @@ public class School implements Serializable
     @Id
     private Integer id;
     private String name;
+    @Transient
+    private List<Classes> classesList;
 
     public Integer getId()
     {
@@ -34,6 +38,16 @@ public class School implements Serializable
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public List<Classes> getClassesList()
+    {
+        return classesList;
+    }
+
+    public void setClassesList(List<Classes> classesList)
+    {
+        this.classesList = classesList;
     }
 
     @Override
