@@ -1,9 +1,7 @@
 package com.example.service.serviceImpl;
 
 import com.example.dao.ICourseDao;
-import com.example.domain.Course;
-import com.example.domain.Project;
-import com.example.domain.UserCourse;
+import com.example.domain.*;
 import com.example.service.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,8 +44,8 @@ public class CourseServiceImpl implements ICourseService
     }
 
     @Override
-    public void updateCourse(Integer courseId, String code, String name, Float credit, Integer hours, Integer teachers, Boolean is_team, Integer max_num) {
-        courseDao.updateCourse(courseId,code,name,credit,hours,teachers,is_team,max_num);
+    public void updateCourse(Course course) {
+        courseDao.updateCourse(course);
     }
 
     @Override
@@ -65,6 +63,12 @@ public class CourseServiceImpl implements ICourseService
     public List<Project> queryProjectByCourse(Integer courseId)
     {
         return courseDao.queryProjectByCourse(courseId);
+    }
+
+    @Override
+    public void deleteProject(Integer projectId)
+    {
+        courseDao.deleteProject(projectId);
     }
 
     @Override
@@ -95,5 +99,17 @@ public class CourseServiceImpl implements ICourseService
     public List<Course> queryCourseWithClasses()
     {
         return courseDao.queryCourseWithClasses();
+    }
+
+    @Override
+    public List<User> queryStudentsByCourse(Integer courseId)
+    {
+        return courseDao.queryStudentsByCourse(courseId);
+    }
+
+    @Override
+    public List<School> querySchoolWithClassesLimited(Integer courseId)
+    {
+        return courseDao.querySchoolWithClassesLimited(courseId);
     }
 }

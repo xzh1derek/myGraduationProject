@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 @Entity
@@ -16,6 +17,10 @@ public class UserModule implements Serializable
     private Integer id;
     private Long username;
     private Integer module_id;
+    @Transient
+    private User user;
+    @Transient
+    private Module module;
 
     public Integer getId()
     {
@@ -37,14 +42,34 @@ public class UserModule implements Serializable
         this.username = username;
     }
 
-    public Integer getModuleId()
+    public Integer getModule_id()
     {
         return module_id;
     }
 
-    public void setModuleId(Integer moduleId)
+    public void setModule_id(Integer module_id)
     {
-        this.module_id = moduleId;
+        this.module_id = module_id;
+    }
+
+    public Module getModule()
+    {
+        return module;
+    }
+
+    public void setModule(Module module)
+    {
+        this.module = module;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
     }
 
     @Override
@@ -53,7 +78,9 @@ public class UserModule implements Serializable
         return "UserModule{" +
                 "id=" + id +
                 ", username=" + username +
-                ", moduleId=" + module_id +
+                ", module_id=" + module_id +
+                ", user=" + user +
+                ", module=" + module +
                 '}';
     }
 }

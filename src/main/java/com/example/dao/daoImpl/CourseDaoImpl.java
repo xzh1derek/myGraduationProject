@@ -1,16 +1,14 @@
 package com.example.dao.daoImpl;
 
 import com.example.dao.ICourseDao;
-import com.example.domain.Course;
-import com.example.domain.Project;
-import com.example.domain.UserCourse;
-import com.example.mapper.CourseMapper;
-import com.example.mapper.ProjectMapper;
-import com.example.mapper.UserCourseMapper;
+import com.example.domain.*;
+import com.example.mapper.*;
 import com.example.repository.CourseRepository;
 import org.apache.ibatis.annotations.Options;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -24,6 +22,10 @@ public class CourseDaoImpl implements ICourseDao
     private UserCourseMapper userCourseMapper;
     @Autowired
     private ProjectMapper projectMapper;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private SchoolAndClassMapper schoolAndClassMapper;
 
     @Override
     public Integer newCourse(String code,String name,Float credit,Integer hours,Integer teacher,Boolean is_team,Integer max_num)
@@ -64,17 +66,9 @@ public class CourseDaoImpl implements ICourseDao
     }
 
     @Override
-    public void updateCourse(Integer courseId,String code,String name,Float credit,Integer hours,Integer teacher,Boolean is_team,Integer max_num) {
-        Course course = new Course();
-        course.setId(courseId);
-        course.setCourse_code(code);
-        course.setCourse_name(name);
-        course.setCredit(credit);
-        course.setHours(hours);
-        course.setTeacher(teacher);
-        course.setIs_team(is_team);
-        course.setMax_num(max_num);
-        courseRepository.save(course);
+    public void updateCourse(Course course)
+    {
+        courseMapper.updateCourse(course);
     }
 
     @Override
@@ -95,6 +89,12 @@ public class CourseDaoImpl implements ICourseDao
     }
 
     @Override
+    public void deleteProject(Integer projectId)
+    {
+        projectMapper.deleteProject(projectId);
+    }
+
+    @Override
     public void deleteProjects(Integer courseId)
     {
         projectMapper.deleteProjects(courseId);
@@ -103,7 +103,8 @@ public class CourseDaoImpl implements ICourseDao
     @Override
     public void newClassCourse(Integer classId,Integer courseId)
     {
-        courseMapper.newClassCourse(classId,courseId);
+        int schoolId=classId/1000%100;
+        courseMapper.newClassCourse(classId,courseId,schoolId);
     }
 
     @Override
@@ -122,5 +123,28 @@ public class CourseDaoImpl implements ICourseDao
     public List<Course> queryCourseWithClasses()
     {
         return courseMapper.queryCourseWithClasses();
+    }
+
+    @Override
+    public List<User> queryStudentsByCourse(Integer courseId)
+    {
+        List<UserCourse> userCourses = userCourseMapper.queryUserCourseByCourse(courseId);
+        List<User> userList = new ArrayList<>();
+        for(UserCourse userCourse : userCourses)
+        {
+            userList.add(userMapper.findAUser(userCourse.getUsername()));
+        }
+        return userList;
+    }
+
+    @Override
+    public List<School> querySchoolWithClassesLimited(Integer courseId)
+    {
+        List<School> schools = schoolAndClassMapper.querySchool();
+        for(School school : schools)
+        {
+            school.setClassesList(schoolAndClassMapper.queryClassBySchoolAndCourse(school.getId(),courseId));
+        }
+        return schools;
     }
 }

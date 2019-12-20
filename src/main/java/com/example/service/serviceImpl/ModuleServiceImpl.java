@@ -3,6 +3,7 @@ package com.example.service.serviceImpl;
 import com.example.dao.IModuleDao;
 import com.example.domain.Module;
 import com.example.domain.Project;
+import com.example.domain.User;
 import com.example.service.IModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,9 @@ public class ModuleServiceImpl implements IModuleService
     private IModuleDao moduleDao;
 
     @Override
-    public Integer createProject(Project project)
+    public void createProject(Project project)
     {
-        return moduleDao.createProject(project);
+        moduleDao.createProject(project);
     }
 
     @Override
@@ -31,5 +32,71 @@ public class ModuleServiceImpl implements IModuleService
     public void createModule(Module module)
     {
         moduleDao.createModule(module);
+    }
+
+    @Override
+    public void newUserModule(Long username, Integer module_id)
+    {
+        moduleDao.newUserModule(username,module_id);
+    }
+
+    @Override
+    public void updateStuNum(Integer moduleId, Integer num)
+    {
+        moduleDao.updateStuNum(moduleId,num);
+    }
+
+    @Override
+    public List<Module> queryModulesByTeacher(Integer teacher)
+    {
+        return moduleDao.queryModulesByTeacher(teacher);
+    }
+
+    @Override
+    public List<User> queryStudentsByModule(Integer moduleId)
+    {
+        return moduleDao.queryStudentsByModule(moduleId);
+    }
+
+    @Override
+    public void deleteModule(Integer moduleId)
+    {
+        moduleDao.deleteModule(moduleId);
+    }
+
+    @Override
+    public void deleteModules(Integer projectId)
+    {
+        moduleDao.deleteModules(projectId);
+    }
+
+    @Override
+    public void updateProject(Project project)
+    {
+        moduleDao.updateProject(project);
+    }
+
+    @Override
+    public void updateModule(Module module)
+    {
+        moduleDao.updateModule(module);
+    }
+
+    @Override
+    public Module getModule(Integer moduleId)
+    {
+        return moduleDao.getModule(moduleId);
+    }
+
+    @Override
+    public Project getProject(Integer projectId)
+    {
+        return moduleDao.getProject(projectId);
+    }
+
+    @Override
+    public void addTwoClassesIntoModule(Integer moduleId, Integer class1, Integer class2)
+    {
+        moduleDao.addTwoClassesIntoModule(moduleId,class1,class2);
     }
 }

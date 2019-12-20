@@ -1,8 +1,6 @@
 package com.example.dao;
 
-import com.example.domain.Course;
-import com.example.domain.Project;
-import com.example.domain.UserCourse;
+import com.example.domain.*;
 
 import java.util.List;
 
@@ -18,13 +16,15 @@ public interface ICourseDao
 
     List<Course> queryCourseList();
 
-    void updateCourse(Integer courseId,String code,String name,Float credit,Integer hours,Integer teachers,Boolean is_team,Integer max_num);
+    void updateCourse(Course course);
 
     void deleteCourse(Integer courseId);
 
     List<Course> queryCoursesWithProjects(Integer teacher);
 
     List<Project> queryProjectByCourse(Integer courseId);
+
+    void deleteProject(Integer projectId);
 
     void deleteProjects(Integer courseId);
 
@@ -35,4 +35,8 @@ public interface ICourseDao
     void deleteClassCourse(Integer courseId);
 
     List<Course> queryCourseWithClasses();
+
+    List<User> queryStudentsByCourse(Integer courseId);
+
+    List<School> querySchoolWithClassesLimited(Integer courseId);
 }

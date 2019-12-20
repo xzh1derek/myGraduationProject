@@ -13,21 +13,42 @@ public interface ProjectMapper
     @Options(useGeneratedKeys = true,keyColumn = "id",keyProperty = "id")
     void createProject(Project project);
 
+    @Update("update project set is_arranged=#{status} where id=#{projectId}")
+    void updateIsArranged(Integer projectId,Boolean status);
+
+    @Update("update project set project_name=#{project_name},is_fixed=#{is_fixed},teacher=#{teacher},hours=#{hours} where id=#{id}}")
+    void updateProject(Project project);
+
     @Select("select * from project where course_id=#{courseId}")
     List<Project> queryProjectsByCourse(Integer courseId);
 
     @Select("select * from project where id=#{id}")
     Project getProject(Integer id);
 
+    @Select("select * from project where id=#{id}")
+    @Results(id="projectMapWithCourse",value = {
+            @Result(column = "course_id", property = "course_id"),
+            @Result(property = "course",column = "course_id", one = @One(select = "com.example.mapper.CourseMapper.getCourse",fetchType = FetchType.EAGER))
+    })
+    Project queryProjectWithCourse(Integer id);
+
+    @Delete("delete from project where id=#{projectId}")
+    void deleteProject(Integer projectId);
+
     @Delete("delete from project where course_id=#{courseId}")
     void deleteProjects(Integer courseId);
 
     @Select("select * from project where teacher=#{teacher}")
-    @Results(id="projectMap",value = {
+    @Results(id="projectMapWithCourseAndModules",value = {
             @Result(id=true, column = "id", property = "id"),
             @Result(column = "course_id", property = "course_id"),
             @Result(property = "course",column = "course_id", one = @One(select = "com.example.mapper.CourseMapper.getCourse",fetchType = FetchType.EAGER)),
-            @Result(property = "modules", column = "id", many = @Many(select = "com.example.mapper.ModuleMapper.queryModulesByProject",fetchType = FetchType.EAGER))
+            @Result(property = "modules", column = "id", many = @Many(select = "com.example.mapper.ModuleMapper.queryModulesByProject",fetchType = FetchType.LAZY))
     })
     List<Project> queryProjectWithModules(Integer teacher);
+
+    @Select("select id from project where teacher=#{teacher}")
+    List<Integer> queryProjectsId(Integer teachers);
+
+
 }

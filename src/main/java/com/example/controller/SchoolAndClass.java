@@ -48,7 +48,7 @@ public class SchoolAndClass
     }
 
     @GetMapping("selectClass")
-    public List<Classes> selectClasses(Integer school)
+    public List<Integer> selectClasses(Integer school)
     {
         return mapper.queryClassesBySchool(school);
     }

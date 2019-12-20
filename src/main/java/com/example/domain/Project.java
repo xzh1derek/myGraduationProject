@@ -21,6 +21,7 @@ public class Project implements Serializable
     private Integer hours;
     private Integer teacher;
     private Boolean is_fixed;//true为固定，false为任选
+    private Boolean is_arranged;
     @Transient
     private Course course;
     @Transient
@@ -96,6 +97,16 @@ public class Project implements Serializable
         this.is_fixed = is_fixed;
     }
 
+    public Boolean getIs_arranged()
+    {
+        return is_arranged;
+    }
+
+    public void setIs_arranged(Boolean is_arranged)
+    {
+        this.is_arranged = is_arranged;
+    }
+
     public Course getCourse()
     {
         return course;
@@ -125,7 +136,9 @@ public class Project implements Serializable
                 ", project_index=" + project_index +
                 ", course_id=" + course_id +
                 ", hours=" + hours +
+                ", teacher=" + teacher +
                 ", is_fixed=" + is_fixed +
+                ", is_arranged=" + is_arranged +
                 ", course=" + course +
                 ", modules=" + modules +
                 '}';

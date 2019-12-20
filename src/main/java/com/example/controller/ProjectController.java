@@ -23,7 +23,7 @@ public class ProjectController
 
     /**
      * 查询某个老师下所有课程的所有项目
-     * @param teacher 老师
+     * @param teacher
      * @return 课程的List 多表联查 测试通过
      */
     @RequestMapping("")
@@ -33,9 +33,9 @@ public class ProjectController
     }
 
     /**
-     * 添加项目
-     * @param projects project实体List
-     * @return 状态码 测试通过
+     * 批量添加项目
+     * @param projects 项目的List
+     * @return 状态码
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String addProjects(@RequestBody Project[] projects)
@@ -48,19 +48,27 @@ public class ProjectController
     }
 
     /**
-     * 更改项目
-     * @param courseId 课程id
-     * @param projects project实体List
+     * 修改单个项目
+     * @param project Project实体类
      * @return 状态码
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String updateProjects(Integer courseId, @RequestBody Project[] projects)
+    public String editProjects(@RequestBody Project project)
     {
-        courseService.deleteProjects(courseId);
-        for(Project project : projects)
-        {
-            moduleService.createProject(project);
-        }
+        moduleService.updateProject(project);
+        return "0";
+    }
+
+    /**
+     * 删除单个项目，并删除相应的排课
+     * @param id project的id
+     * @return 状态码
+     */
+    @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
+    public String clearProjects(Integer id)
+    {
+        courseService.deleteProject(id);
+        moduleService.deleteModules(id);
         return "0";
     }
 }

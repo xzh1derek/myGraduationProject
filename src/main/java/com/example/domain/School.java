@@ -18,7 +18,7 @@ public class School implements Serializable
     private Integer id;
     private String name;
     @Transient
-    private List<Classes> classesList;
+    private List<Integer> classesList;
 
     public Integer getId()
     {
@@ -40,12 +40,12 @@ public class School implements Serializable
         this.name = name;
     }
 
-    public List<Classes> getClassesList()
+    public List<Integer> getClassesList()
     {
         return classesList;
     }
 
-    public void setClassesList(List<Classes> classesList)
+    public void setClassesList(List<Integer> classesList)
     {
         this.classesList = classesList;
     }
@@ -56,6 +56,7 @@ public class School implements Serializable
         return "School{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", classesList=" + classesList +
                 '}';
     }
 }

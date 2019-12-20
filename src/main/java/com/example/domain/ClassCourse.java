@@ -16,6 +16,7 @@ public class ClassCourse implements Serializable
     private Integer id;
     private Integer class_id;
     private Integer course_id;
+    private Integer school_id;
 
     public Integer getId()
     {
@@ -47,6 +48,16 @@ public class ClassCourse implements Serializable
         this.course_id = course_id;
     }
 
+    public Integer getSchool_id()
+    {
+        return school_id;
+    }
+
+    public void setSchool_id(Integer school_id)
+    {
+        this.school_id = school_id;
+    }
+
     @Override
     public String toString()
     {
@@ -54,6 +65,7 @@ public class ClassCourse implements Serializable
                 "id=" + id +
                 ", class_id=" + class_id +
                 ", course_id=" + course_id +
+                ", school_id=" + school_id +
                 '}';
     }
 }

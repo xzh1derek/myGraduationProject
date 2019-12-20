@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "module")
@@ -20,8 +21,12 @@ public class Module implements Serializable
     private String time;
     private String location;
     private Integer stu_num;
+    private Integer class1;
+    private Integer class2;
     @Transient
     private Project project;
+    @Transient
+    private List<UserModule> userModules;
 
     public Integer getId()
     {
@@ -93,6 +98,36 @@ public class Module implements Serializable
         this.project = project;
     }
 
+    public List<UserModule> getUserModules()
+    {
+        return userModules;
+    }
+
+    public void setUserModules(List<UserModule> userModules)
+    {
+        this.userModules = userModules;
+    }
+
+    public Integer getClass1()
+    {
+        return class1;
+    }
+
+    public void setClass1(Integer class1)
+    {
+        this.class1 = class1;
+    }
+
+    public Integer getClass2()
+    {
+        return class2;
+    }
+
+    public void setClass2(Integer class2)
+    {
+        this.class2 = class2;
+    }
+
     @Override
     public String toString()
     {
@@ -103,7 +138,10 @@ public class Module implements Serializable
                 ", time='" + time + '\'' +
                 ", location='" + location + '\'' +
                 ", stu_num=" + stu_num +
+                ", class1=" + class1 +
+                ", class2=" + class2 +
                 ", project=" + project +
+                ", userModules=" + userModules +
                 '}';
     }
 }

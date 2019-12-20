@@ -30,7 +30,6 @@ public class Course implements Serializable
     @Transient
     private List<Integer> classesList;
 
-
     public Integer getId()
     {
         return id;

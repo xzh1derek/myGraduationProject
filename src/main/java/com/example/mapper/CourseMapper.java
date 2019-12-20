@@ -16,23 +16,29 @@ public interface CourseMapper
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     void newCourse(Course course);
 
+    @Update("update course set course_code=#{course_code},course_name=#{course_name},credit=#{credit},hours=#{hours},teacher=#{teacher},is_team=#{is_team},max_num=#{max_num} where id=#{id}")
+    void updateCourse(Course course);
+
     @Update("update course set stu_num=#{num} where id=#{courseId}")
     void updateStuNum(Integer courseId,Integer num);
+
+    @Update("update course set is_planned=#{status} where id=#{courseId}")
+    void updateIsPlanned(Integer courseId,Boolean status);
 
     @Select("select * from course where teacher=#{teacher}")
     @Results(id="courseMapWithProjects",value = {
             @Result(id=true, column = "id", property = "id"),
-            @Result(property = "projects", column = "id", many = @Many(select = "com.example.mapper.ProjectMapper.queryProjectsByCourse",fetchType = FetchType.EAGER))
+            @Result(property = "projects", column = "id", many = @Many(select = "com.example.mapper.ProjectMapper.queryProjectsByCourse",fetchType = FetchType.LAZY))
     })
     List<Course> queryCourseWithProjects(Integer teacher);
 
-    @Insert("insert into class_course(class_id,course_id) values(#{class_id},#{course_id})")
-    void newClassCourse(Integer class_id, Integer course_id);
+    @Insert("insert into class_course(class_id,course_id,school_id) values(#{class_id},#{course_id},#{school_id})")
+    void newClassCourse(Integer class_id, Integer course_id,Integer school_id);
 
     @Select("select * from course")
     @Results(id="courseMapWithClasses",value={
             @Result(id = true,column = "id",property = "id"),
-            @Result(property = "classesList",column = "id",many = @Many(select = "com.example.mapper.SchoolAndClassMapper.queryClassByCourse",fetchType = FetchType.EAGER))
+            @Result(property = "classesList",column = "id",many = @Many(select = "com.example.mapper.SchoolAndClassMapper.queryClassByCourse",fetchType = FetchType.LAZY))
     })
     List<Course> queryCourseWithClasses();
 

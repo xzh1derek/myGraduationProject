@@ -39,15 +39,22 @@ public interface SchoolAndClassMapper
     List<Classes> queryAllClasses();
 
     @Select("select * from school")
-    @Results(id="schoolMap",value = {
+    @Results(id="schoolMapWithClasses",value = {
             @Result(id=true, column = "id", property = "id"),
-            @Result(property = "classesList", column = "id", many = @Many(select = "com.example.mapper.SchoolAndClassMapper.queryClassesBySchool",fetchType = FetchType.EAGER))
+            @Result(property = "classesList", column = "id", many = @Many(select = "com.example.mapper.SchoolAndClassMapper.queryClassesBySchool",fetchType = FetchType.LAZY))
     })
     List<School> querySchoolWithClasses();
 
-    @Select("select * from classes where school_id=#{school_id}")
-    List<Classes> queryClassesBySchool(Integer school_id);
+//    @Select("select * from school")
+//    @Results(id="schoolMapWithLimitedClasses",value = {
+//            @Result(id=true, column = "id", property = "id"),
+//            @Result(property = "classesList", column = "id", many = @Many(select = "com.example.mapper.SchoolAndClassMapper.queryClassesBySchoolAndCourse",fetchType = FetchType.LAZY))
+//    })
+//    List<School> querySchoolWithClassesLimited(Integer course_id);
 
-    @Select("select class_id from class_course where course_id=#{course_id}")
-    List<Integer> queryClassByCourse(Integer course_id);
+    @Select("select class_id from classes where school_id=#{school_id}")
+    List<Integer> queryClassesBySchool(Integer school_id);
+
+    @Select("select class_id from class_course where course_id=#{course_id} and school_id=#{school_id}")
+    List<Integer> queryClassBySchoolAndCourse(Integer school_id, Integer course_id);
 }
