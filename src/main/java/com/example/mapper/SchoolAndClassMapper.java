@@ -57,4 +57,7 @@ public interface SchoolAndClassMapper
 
     @Select("select class_id from class_course where course_id=#{course_id} and school_id=#{school_id}")
     List<Integer> queryClassBySchoolAndCourse(Integer school_id, Integer course_id);
+
+    @Select("select class_id from class_course where course_id=#{course_id}")
+    List<Integer> queryClassByCourse(Integer course_id);
 }
