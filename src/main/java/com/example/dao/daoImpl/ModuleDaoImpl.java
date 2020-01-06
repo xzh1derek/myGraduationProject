@@ -33,7 +33,6 @@ public class ModuleDaoImpl implements IModuleDao
     public void createProject(Project project)
     {
         projectMapper.createProject(project);
-        courseMapper.updateIsPlanned(project.getCourse_id(),true);
     }
 
     @Override
@@ -46,7 +45,6 @@ public class ModuleDaoImpl implements IModuleDao
     public void createModule(Module module)
     {
         moduleMapper.createModule(module);
-        projectMapper.updateIsArranged(module.getProject_id(),true);
     }
 
     @Override
@@ -106,6 +104,12 @@ public class ModuleDaoImpl implements IModuleDao
     public void updateProject(Project project)
     {
         projectMapper.updateProject(project);
+    }
+
+    @Override
+    public void updateIsPublished(Integer projectId, Boolean status)
+    {
+        projectMapper.updateIsPublished(projectId,status);
     }
 
     @Override

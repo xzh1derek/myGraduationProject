@@ -9,12 +9,12 @@ import java.util.List;
 @Mapper
 public interface ProjectMapper
 {
-    @Insert("insert into project(project_name,project_index,course_id,hours,is_fixed,teachers) values(#{project_name},#{project_index},#{course_id},#{hours},#{is_fixed},#{teachers})")
+    @Insert("insert into project(project_name,project_index,course_id,hours,is_fixed,teachers,is_arranged) values(#{project_name},#{project_index},#{course_id},#{hours},#{is_fixed},#{teachers},0)")
     @Options(useGeneratedKeys = true,keyColumn = "id",keyProperty = "id")
     void createProject(Project project);
 
-    @Update("update project set is_arranged=#{status} where id=#{projectId}")
-    void updateIsArranged(Integer projectId,Boolean status);
+    @Update("update project set is_published=#{status} where id=#{projectId}")
+    void updateIsPublished(Integer projectId,Boolean status);
 
     @Update("update project set project_name=#{project_name},is_fixed=#{is_fixed},teacher=#{teacher},hours=#{hours} where id=#{id}}")
     void updateProject(Project project);

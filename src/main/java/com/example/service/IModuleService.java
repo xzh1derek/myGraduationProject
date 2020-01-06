@@ -20,6 +20,8 @@ public interface IModuleService
 
     List<Module> queryModulesByTeacher(Integer teacher);
 
+    List<Module> queryModulesByProject(Integer projectId);
+
     List<User> queryStudentsByModule(Integer moduleId);
 
     void deleteModule(Integer moduleId);
@@ -27,6 +29,8 @@ public interface IModuleService
     void deleteModules(Integer projectId);
 
     void updateProject(Project project);
+
+    void updateIsPublished(Integer projectId,Boolean status);
 
     void updateModule(Module module);
 

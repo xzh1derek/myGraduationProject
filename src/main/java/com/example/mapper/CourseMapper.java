@@ -22,9 +22,6 @@ public interface CourseMapper
     @Update("update course set stu_num=#{num} where id=#{courseId}")
     void updateStuNum(Integer courseId,Integer num);
 
-    @Update("update course set is_planned=#{status} where id=#{courseId}")
-    void updateIsPlanned(Integer courseId,Boolean status);
-
     @Select("select * from course where teacher=#{teacher}")
     @Results(id="courseMapWithProjects",value = {
             @Result(id=true, column = "id", property = "id"),

@@ -19,6 +19,8 @@ public interface IModuleDao
 
     void updateProject(Project project);
 
+    void updateIsPublished(Integer projectId,Boolean status);
+
     void updateModule(Module module);
 
     void newUserModule(Long username,Integer module_id);

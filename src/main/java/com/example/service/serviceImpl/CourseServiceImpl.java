@@ -112,4 +112,10 @@ public class CourseServiceImpl implements ICourseService
     {
         return courseDao.querySchoolWithClassesLimited(courseId);
     }
+
+    @Override
+    public List<Integer> queryClassByCourse(Integer course_id)
+    {
+        return courseDao.queryClassByCourse(course_id);
+    }
 }

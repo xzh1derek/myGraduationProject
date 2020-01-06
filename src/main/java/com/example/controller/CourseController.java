@@ -79,7 +79,7 @@ public class CourseController
     }
 
     /**
-     * 修改课程
+     * 修改课程信息
      * @return 状态码
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
@@ -128,6 +128,22 @@ public class CourseController
     public List<User> queryStudentsByCourse(Integer courseId)
     {
         return courseService.queryStudentsByCourse(courseId);
+    }
+
+    /**
+     * 给单个学生绑定课程
+     * @param userId 学号
+     * @param courseId 课程号
+     * @return 状态码
+     */
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    public String bindAStudent(Long userId, Integer courseId)
+    {
+        UserCourse userCourse = new UserCourse();
+        userCourse.setUsername(userId);
+        userCourse.setCourse_id(courseId);
+        courseService.newUserCourse(userCourse);
+        return "0";
     }
 
 }

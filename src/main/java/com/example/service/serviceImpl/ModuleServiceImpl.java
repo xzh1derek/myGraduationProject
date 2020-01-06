@@ -77,6 +77,12 @@ public class ModuleServiceImpl implements IModuleService
     }
 
     @Override
+    public void updateIsPublished(Integer projectId, Boolean status)
+    {
+        moduleDao.updateIsPublished(projectId,status);
+    }
+
+    @Override
     public void updateModule(Module module)
     {
         moduleDao.updateModule(module);
@@ -98,5 +104,11 @@ public class ModuleServiceImpl implements IModuleService
     public void addTwoClassesIntoModule(Integer moduleId, Integer class1, Integer class2)
     {
         moduleDao.addTwoClassesIntoModule(moduleId,class1,class2);
+    }
+
+    @Override
+    public List<Module> queryModulesByProject(Integer projectId)
+    {
+        return moduleDao.queryModulesByProject(projectId);
     }
 }

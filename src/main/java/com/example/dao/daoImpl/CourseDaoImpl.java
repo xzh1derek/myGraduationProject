@@ -143,7 +143,7 @@ public class CourseDaoImpl implements ICourseDao
     }
 
     /**
-     * 查询某一个课程绑定了的班级，并按学院为单位列出
+     * 查询某一个课程绑定了的班级，并以学院为单位列出
      * @param courseId 课程id
      * @return 学院的List，带上班级的List，手动注入
      */
@@ -156,5 +156,11 @@ public class CourseDaoImpl implements ICourseDao
             school.setClassesList(schoolAndClassMapper.queryClassBySchoolAndCourse(school.getId(),courseId));
         }
         return schools;
+    }
+
+    @Override
+    public List<Integer> queryClassByCourse(Integer course_id)
+    {
+        return schoolAndClassMapper.queryClassByCourse(course_id);
     }
 }

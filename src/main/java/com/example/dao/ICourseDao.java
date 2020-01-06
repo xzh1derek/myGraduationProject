@@ -39,4 +39,6 @@ public interface ICourseDao
     List<User> queryStudentsByCourse(Integer courseId);
 
     List<School> querySchoolWithClassesLimited(Integer courseId);
+
+    List<Integer> queryClassByCourse(Integer course_id);
 }
