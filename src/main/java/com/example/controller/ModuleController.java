@@ -39,6 +39,7 @@ public class ModuleController
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String createModule(@RequestBody List<Module> modules)
     {
+        if(moduleService.getProject(modules.get(0).getProject_id()).getIs_arranged()) return "f";//已发布排课，不能添加批次
         for(Module module : modules)
         {
             moduleService.createModule(module);
@@ -54,6 +55,7 @@ public class ModuleController
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public String updateModule(@RequestBody Module module)
     {
+        if(moduleService.getProject(module.getProject_id()).getIs_arranged()) return "f";//已发布排课，不能修改批次
         moduleService.updateModule(module);
         return "0";
     }
@@ -66,6 +68,7 @@ public class ModuleController
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
     public String deleteModule(Integer id)
     {
+        if(moduleService.getProject(moduleService.getModule(id).getProject_id()).getIs_arranged()) return "f";//已发布排课，不能删除批次
         moduleService.deleteModule(id);
         return "0";
     }
@@ -83,7 +86,7 @@ public class ModuleController
     }
 
     /**
-     * 固定排课下给批次绑定班级 一次最多两个班级
+     * 固定排课下给批次绑定班级，最多两个班级
      * @param id module的id
      * @param classes 班级的List
      * @return 状态码

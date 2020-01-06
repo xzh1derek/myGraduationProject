@@ -125,6 +125,11 @@ public class CourseDaoImpl implements ICourseDao
         return courseMapper.queryCourseWithClasses();
     }
 
+    /**
+     * 查询要上某个课程的学生名单
+     * @param courseId 课程id
+     * @return 学生的List 方便导出excel
+     */
     @Override
     public List<User> queryStudentsByCourse(Integer courseId)
     {
@@ -137,6 +142,11 @@ public class CourseDaoImpl implements ICourseDao
         return userList;
     }
 
+    /**
+     * 查询某一个课程绑定了的班级，并按学院为单位列出
+     * @param courseId 课程id
+     * @return 学院的List，带上班级的List，手动注入
+     */
     @Override
     public List<School> querySchoolWithClassesLimited(Integer courseId)
     {

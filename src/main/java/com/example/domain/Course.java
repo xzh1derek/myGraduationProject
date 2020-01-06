@@ -23,7 +23,6 @@ public class Course implements Serializable
     private Boolean is_team;
     private Integer max_num;
     private Integer stu_num;
-    private Integer project_num;
     private String template;
     @Transient
     private List<Project> projects;
@@ -120,16 +119,6 @@ public class Course implements Serializable
         this.stu_num = stu_num;
     }
 
-    public Integer getProject_num()
-    {
-        return project_num;
-    }
-
-    public void setProject_num(Integer project_num)
-    {
-        this.project_num = project_num;
-    }
-
     public String getTemplate()
     {
         return template;
@@ -173,7 +162,6 @@ public class Course implements Serializable
                 ", is_team=" + is_team +
                 ", max_num=" + max_num +
                 ", stu_num=" + stu_num +
-                ", project_num=" + project_num +
                 ", template='" + template + '\'' +
                 ", projects=" + projects +
                 ", classesList=" + classesList +

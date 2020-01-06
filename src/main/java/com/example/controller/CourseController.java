@@ -69,7 +69,6 @@ public class CourseController
         }
         UserCourse userCourse = new UserCourse();
         userCourse.setCourse_id(id);
-        userCourse.setHours_left(courseService.getCourse(id).getHours());
         for(Long username : usernameList)
         {
             userCourse.setUsername(username);

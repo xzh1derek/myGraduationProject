@@ -55,6 +55,7 @@ public class ProjectController
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public String editProjects(@RequestBody Project project)
     {
+        if(moduleService.getProject(project.getId()).getIs_arranged()) return "f";//已发布排课，不能修改
         moduleService.updateProject(project);
         return "0";
     }
@@ -67,6 +68,7 @@ public class ProjectController
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
     public String clearProjects(Integer id)
     {
+        if(moduleService.getProject(id).getIs_arranged()) return "f";//已发布排课，不能删除
         courseService.deleteProject(id);
         moduleService.deleteModules(id);
         return "0";
