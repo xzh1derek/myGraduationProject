@@ -30,4 +30,10 @@ public interface IUserService
     List<Long> findUsersByClass(Integer c);
 
     void updateMessage(Long u);
+
+    void newUser(User user);
+
+    void deleteUser(Long username);
+
+    void updateUser(Long userId, User user);
 }

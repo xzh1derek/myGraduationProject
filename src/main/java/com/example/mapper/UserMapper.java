@@ -26,4 +26,16 @@ public interface UserMapper
 
     @Update("update user set new_message=0 where username=#{u}")
     void updateMessage(Long u);
+
+    @Insert("insert into user(username,name,class_id,school,year) values(#{username},#{name},#{class_id},#{school},#{year})")
+    void newUser(User user);
+
+    @Delete("delete from user where username=#{username}")
+    void deleteUser(Long username);
+
+    @Update("update user set username=#{username},name=#{name},class_id=#{class_id},school=#{school},year=#{year} where username=#{userId}")
+    void updateUser(Long userId, User user);
+
+    @Delete("delete from user")
+    void deleteAllUsers();
 }

@@ -26,4 +26,10 @@ public interface IUserDao
     void saveUser(User user);
 
     void updateMessage(Long u);
+
+    void newUser(User user);
+
+    void deleteUser(Long username);
+
+    void updateUser(Long userId, User user);
 }

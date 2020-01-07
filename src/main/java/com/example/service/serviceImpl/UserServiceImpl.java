@@ -92,4 +92,22 @@ public class UserServiceImpl implements IUserService
     {
         userDao.updateMessage(u);
     }
+
+    @Override
+    public void newUser(User user)
+    {
+        userDao.newUser(user);
+    }
+
+    @Override
+    public void deleteUser(Long username)
+    {
+        userDao.deleteUser(username);
+    }
+
+    @Override
+    public void updateUser(Long userId, User user)
+    {
+        userDao.updateUser(userId, user);
+    }
 }

@@ -86,4 +86,22 @@ public class UserDaoImpl implements IUserDao
     {
         userMapper.updateMessage(u);
     }
+
+    @Override
+    public void newUser(User user)
+    {
+        userMapper.newUser(user);
+    }
+
+    @Override
+    public void deleteUser(Long username)
+    {
+        userMapper.deleteUser(username);
+    }
+
+    @Override
+    public void updateUser(Long userId, User user)
+    {
+        userMapper.updateUser(userId, user);
+    }
 }

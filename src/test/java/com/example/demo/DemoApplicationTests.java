@@ -23,7 +23,7 @@ class DemoApplicationTests
     {
         List<User> userList = new ArrayList<>();
         try {
-            File file = new File("C:\\Users\\DerekChen\\Desktop\\qqfile\\userInfoList.xls");
+            File file = new File("C:\\Users\\DerekChen\\Desktop\\userInfoList.xls");
             Workbook rwb = Workbook.getWorkbook(file);
             Sheet rs = rwb.getSheet(0);// 或者rwb.getSheet(0)
             int columns = rs.getColumns();// 得到所有的列
