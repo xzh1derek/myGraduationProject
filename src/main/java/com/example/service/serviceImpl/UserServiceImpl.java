@@ -110,4 +110,10 @@ public class UserServiceImpl implements IUserService
     {
         userDao.updateUser(userId, user);
     }
+
+    @Override
+    public List<User> queryUserListPaging(Integer rows,Integer page)
+    {
+        return userDao.queryUserListPaging(rows,page);
+    }
 }

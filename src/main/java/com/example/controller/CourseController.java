@@ -120,14 +120,14 @@ public class CourseController
     }
 
     /**
-     * 查询该课程的所有学生
+     * 查询该课程的所有学生 分页查询
      * @param courseId 课程号
      * @return 学生的List
      */
     @RequestMapping(value = "/students")
-    public List<User> queryStudentsByCourse(Integer courseId)
+    public List<User> queryStudentsByCourse(Integer courseId,Integer rows,Integer page)
     {
-        return courseService.queryStudentsByCourse(courseId);
+        return courseService.queryStudentsByCourse(courseId,rows,page);
     }
 
     /**

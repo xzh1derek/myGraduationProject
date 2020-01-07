@@ -32,4 +32,6 @@ public interface IUserDao
     void deleteUser(Long username);
 
     void updateUser(Long userId, User user);
+
+    List<User> queryUserListPaging(Integer rows,Integer page);
 }

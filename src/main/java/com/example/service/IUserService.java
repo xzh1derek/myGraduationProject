@@ -36,4 +36,6 @@ public interface IUserService
     void deleteUser(Long username);
 
     void updateUser(Long userId, User user);
+
+    List<User> queryUserListPaging(Integer rows,Integer page);
 }

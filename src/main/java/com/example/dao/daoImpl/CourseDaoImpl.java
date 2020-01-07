@@ -131,9 +131,9 @@ public class CourseDaoImpl implements ICourseDao
      * @return 学生的List 方便导出excel
      */
     @Override
-    public List<User> queryStudentsByCourse(Integer courseId)
+    public List<User> queryStudentsByCourse(Integer courseId, Integer rows, Integer page)
     {
-        List<UserCourse> userCourses = userCourseMapper.queryUserCourseByCourse(courseId);
+        List<UserCourse> userCourses = userCourseMapper.queryUserCourseByCourse(courseId,rows,rows*(page-1));
         List<User> userList = new ArrayList<>();
         for(UserCourse userCourse : userCourses)
         {

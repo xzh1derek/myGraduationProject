@@ -30,6 +30,6 @@ public interface UserCourseMapper
     @Insert("insert into user_course(username,course_id,hours_left) values(#{username},#{course_id},#{hours_left})")
     void newCourseList(UserCourse userCourse);
 
-    @Select("select * from user_course where course_id=#{courseId}")
-    List<UserCourse> queryUserCourseByCourse(Integer courseId);
+    @Select("select * from user_course where course_id=#{courseId} limit #{x} offset #{y}")
+    List<UserCourse> queryUserCourseByCourse(Integer courseId,Integer x,Integer y);
 }

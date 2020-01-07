@@ -104,4 +104,10 @@ public class UserDaoImpl implements IUserDao
     {
         userMapper.updateUser(userId, user);
     }
+
+    @Override
+    public List<User> queryUserListPaging(Integer rows, Integer page)
+    {
+        return userMapper.queryUserListPaging(rows,rows*(page-1));
+    }
 }
