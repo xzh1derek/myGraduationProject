@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface ITeamService
 {
-    List<Team> queryTeamList();
+    List<Team> queryTeamList(Integer rows, Integer page);
 
     List<Team> queryTeamsByLeader(Long leader);
 
-    List<Team> queryTeamsByCourse(Integer courseId);
+    List<Team> queryTeamsByCourse(Integer courseId,Integer rows, Integer page);
 
     List<Team> showMyTeam(Long username);
 

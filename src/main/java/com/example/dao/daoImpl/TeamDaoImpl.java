@@ -18,9 +18,9 @@ public class TeamDaoImpl implements ITeamDao
     private TeamRepository teamRepository;
 
     @Override
-    public List<Team> queryTeamList()
+    public List<Team> queryTeamList(Integer rows, Integer page)
     {
-        return teamMapper.queryTeamList();
+        return teamMapper.queryTeamList(rows,rows*(page-1));
     }
 
     @Override
@@ -30,9 +30,9 @@ public class TeamDaoImpl implements ITeamDao
     }
 
     @Override
-    public List<Team> queryTeamsByCourse(Integer courseId)
+    public List<Team> queryTeamsByCourse(Integer courseId,Integer rows, Integer page)
     {
-        return teamMapper.queryTeamsByCourse(courseId);
+        return teamMapper.queryTeamsByCourse(courseId,rows,rows*(page-1));
     }
 
     @Override

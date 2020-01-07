@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface ITeamDao
 {
-    List<Team> queryTeamList();
+    List<Team> queryTeamList(Integer rows, Integer page);
 
     List<Team> queryTeamsByLeader(Long num);
 
-    List<Team> queryTeamsByCourse(Integer courseId);
+    List<Team> queryTeamsByCourse(Integer courseId, Integer rows, Integer page);
 
     int createTeam(Long leader, Integer courseId, Integer maxNum);
 

@@ -58,7 +58,6 @@ public class TestController
             Sheet rs = rwb.getSheet(0);
             int columns = rs.getColumns();// 得到所有的列
             int rows = rs.getRows();// 得到所有的行
-            System.out.println("colums="+columns+",rows="+rows);
             if(!rs.getCell(0,0).getContents().equals("学号")) return "错误，第一列不是'学号'";
             if(!rs.getCell(1,0).getContents().equals("姓名")) return "错误，第二列不是'姓名'";
             if(!rs.getCell(2,0).getContents().equals("班级")) return "错误，第三列不是'班级'";

@@ -3,7 +3,6 @@ package com.example.controller;
 import com.example.domain.Course;
 import com.example.domain.Module;
 import com.example.domain.Project;
-import com.example.domain.UserCourse;
 import com.example.service.ICourseService;
 import com.example.service.IModuleService;
 import com.example.service.IUserService;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 

@@ -1,5 +1,4 @@
 package com.example.mapper;
-
 import com.example.domain.Classes;
 import com.example.domain.School;
 import org.apache.ibatis.annotations.*;
@@ -34,11 +33,11 @@ public interface SchoolAndClassMapper
     @Select("select * from classes")
     @Results(id="classMap",value = {
             @Result(column = "school_id", property = "school_id"),
-            @Result(property = "school", column = "school_id", one = @One(select = "com.example.mapper.OthersMapper.GetSchool",fetchType = FetchType.EAGER))
+            @Result(property = "school", column = "school_id", one = @One(select = "com.example.mapper.SchoolAndClassMapper.GetSchool",fetchType = FetchType.EAGER))
     })
     List<Classes> queryAllClasses();
 
-    @Select("select * from school")
+    @Select("select * from school limit")
     @Results(id="schoolMapWithClasses",value = {
             @Result(id=true, column = "id", property = "id"),
             @Result(property = "classesList", column = "id", many = @Many(select = "com.example.mapper.SchoolAndClassMapper.queryClassesBySchool",fetchType = FetchType.LAZY))

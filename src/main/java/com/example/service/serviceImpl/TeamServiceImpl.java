@@ -24,9 +24,9 @@ public class TeamServiceImpl implements ITeamService
     private ICourseDao courseDao;
 
     @Override
-    public List<Team> queryTeamList()
+    public List<Team> queryTeamList(Integer rows, Integer page)
     {
-        return teamDao.queryTeamList();
+        return teamDao.queryTeamList(rows, page);
     }
 
     @Override
@@ -36,9 +36,9 @@ public class TeamServiceImpl implements ITeamService
     }
 
     @Override
-    public List<Team> queryTeamsByCourse(Integer courseId)
+    public List<Team> queryTeamsByCourse(Integer courseId,Integer rows, Integer page)
     {
-        return teamDao.queryTeamsByCourse(courseId);
+        return teamDao.queryTeamsByCourse(courseId,rows,page);
     }
 
     @Override

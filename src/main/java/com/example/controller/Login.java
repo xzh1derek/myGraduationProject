@@ -24,8 +24,7 @@ public class Login
     @ResponseBody
     public Object login(String username,String password)
     {
-        if(!accountService.existAccount(username)) return
-                "n";//账号不存在
+        if(!accountService.existAccount(username)) return "n";//账号不存在
         Account account = accountService.getAccount(username);
         String psw = account.getPassword();
         Integer identity = account.getIdentity();

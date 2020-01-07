@@ -17,13 +17,13 @@ public class Foyer
     private ITeamService teamService;
 
     /**
-     * 进入大厅，显示所有（愿意被显示的）组的信息
+     * 进入大厅，显示所有（愿意被显示的）组的信息 分页查询
      * @return 组的列表 多表联查 本地测试通过
      */
     @RequestMapping(value = "")
-    public List<Team> queryTeamList()
+    public List<Team> queryTeamList(Integer rows, Integer page)
     {
-        return teamService.queryTeamList();
+        return teamService.queryTeamList(rows,page);
     }
 
     /**
@@ -38,13 +38,13 @@ public class Foyer
     }
 
     /**
-     * 搜索特定课程的队伍
+     * 搜索特定课程的队伍 分页查询
      * @param courseId 课程编号
      * @return 组的列表 多表联查 本地测试通过
      */
     @RequestMapping(value = "/searchCourse",method = RequestMethod.GET)
-    public List<Team> queryTeamsByCourse(Integer courseId)
+    public List<Team> queryTeamsByCourse(Integer courseId,Integer rows, Integer page)
     {
-        return teamService.queryTeamsByCourse(courseId);
+        return teamService.queryTeamsByCourse(courseId,rows,page);
     }
 }
