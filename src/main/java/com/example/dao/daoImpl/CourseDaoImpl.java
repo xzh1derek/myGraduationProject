@@ -126,20 +126,35 @@ public class CourseDaoImpl implements ICourseDao
     }
 
     /**
-     * 查询要上某个课程的学生名单
+     * 查询要上某个课程的学生名单 分页查询
      * @param courseId 课程id
-     * @return 学生的List 方便导出excel
+     * @return 学生的List
      */
     @Override
-    public List<User> queryStudentsByCourse(Integer courseId, Integer rows, Integer page)
+    public List<UserCourse> queryStudentsByCoursePaging(Integer courseId, Integer rows, Integer page)
     {
-        List<UserCourse> userCourses = userCourseMapper.queryUserCourseByCourse(courseId,rows,rows*(page-1));
-        List<User> userList = new ArrayList<>();
+        List<UserCourse> userCourses = userCourseMapper.queryUserCourseByCoursePaging(courseId,rows,rows*(page-1));
         for(UserCourse userCourse : userCourses)
         {
-            userList.add(userMapper.findAUser(userCourse.getUsername()));
+            userCourse.setUser(userMapper.findAUser(userCourse.getUsername()));
         }
-        return userList;
+        return userCourses;
+    }
+
+    /**
+     * 查询要上某个课程的学生名单 一次性查询
+     * @param courseId 课程id
+     * @return 学生的List 此功能用于导出excel
+     */
+    @Override
+    public List<UserCourse> queryStudentsByCourse(Integer courseId)
+    {
+        List<UserCourse> userCourses = userCourseMapper.queryUserCourseByCourse(courseId);
+        for(UserCourse userCourse : userCourses)
+        {
+            userCourse.setUser(userMapper.findAUser(userCourse.getUsername()));
+        }
+        return userCourses;
     }
 
     /**

@@ -125,9 +125,20 @@ public class CourseController
      * @return 学生的List
      */
     @RequestMapping(value = "/students")
-    public List<User> queryStudentsByCourse(Integer courseId,Integer rows,Integer page)
+    public List<UserCourse> queryStudentsByCoursePaging(Integer courseId,Integer rows,Integer page)
     {
-        return courseService.queryStudentsByCourse(courseId,rows,page);
+        return courseService.queryStudentsByCoursePaging(courseId,rows,page);
+    }
+
+    /**
+     * 查询该课程的所有学生 一次性查询
+     * @param courseId 课程号
+     * @return 学生的List 用于导出Excel
+     */
+    @RequestMapping(value = "/students/export")
+    public List<UserCourse> queryStudentsByCourse(Integer courseId)
+    {
+        return courseService.queryStudentsByCourse(courseId);
     }
 
     /**

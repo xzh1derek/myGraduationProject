@@ -36,7 +36,9 @@ public interface ICourseService
 
     List<Course> queryCourseWithClasses();
 
-    List<User> queryStudentsByCourse(Integer courseId,Integer rows, Integer page);
+    List<UserCourse> queryStudentsByCoursePaging(Integer courseId,Integer rows, Integer page);
+
+    List<UserCourse> queryStudentsByCourse(Integer courseId);
 
     List<School> querySchoolWithClassesLimited(Integer courseId);
 

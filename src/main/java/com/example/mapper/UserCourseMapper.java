@@ -31,5 +31,8 @@ public interface UserCourseMapper
     void newCourseList(UserCourse userCourse);
 
     @Select("select * from user_course where course_id=#{courseId} limit #{x} offset #{y}")
-    List<UserCourse> queryUserCourseByCourse(Integer courseId,Integer x,Integer y);
+    List<UserCourse> queryUserCourseByCoursePaging(Integer courseId,Integer x,Integer y);
+
+    @Select("select * from user_course where course_id=#{courseId}")
+    List<UserCourse> queryUserCourseByCourse(Integer courseId);
 }

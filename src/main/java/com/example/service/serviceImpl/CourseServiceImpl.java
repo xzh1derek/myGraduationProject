@@ -102,9 +102,15 @@ public class CourseServiceImpl implements ICourseService
     }
 
     @Override
-    public List<User> queryStudentsByCourse(Integer courseId,Integer rows, Integer page)
+    public List<UserCourse> queryStudentsByCoursePaging(Integer courseId, Integer rows, Integer page)
     {
-        return courseDao.queryStudentsByCourse(courseId,rows,page);
+        return courseDao.queryStudentsByCoursePaging(courseId,rows,page);
+    }
+
+    @Override
+    public List<UserCourse> queryStudentsByCourse(Integer courseId)
+    {
+        return courseDao.queryStudentsByCourse(courseId);
     }
 
     @Override

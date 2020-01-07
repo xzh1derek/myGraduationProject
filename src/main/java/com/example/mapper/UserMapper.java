@@ -39,6 +39,6 @@ public interface UserMapper
     @Delete("delete from user")
     void deleteAllUsers();
 
-    @Select("Select * from user limit #{x} offset #{y}")
+    @Select("select * from user limit #{x} offset #{y}")
     List<User> queryUserListPaging(Integer x,Integer y);
 }

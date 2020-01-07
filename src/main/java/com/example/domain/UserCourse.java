@@ -20,6 +20,8 @@ public class UserCourse implements Serializable
     private String file;
     @Transient
     private Course course;
+    @Transient
+    private User user;
 
     public Integer getId()
     {
@@ -101,6 +103,16 @@ public class UserCourse implements Serializable
         this.course = course;
     }
 
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
     @Override
     public String toString()
     {
@@ -113,6 +125,7 @@ public class UserCourse implements Serializable
                 ", score=" + score +
                 ", file='" + file + '\'' +
                 ", course=" + course +
+                ", user=" + user +
                 '}';
     }
 }
