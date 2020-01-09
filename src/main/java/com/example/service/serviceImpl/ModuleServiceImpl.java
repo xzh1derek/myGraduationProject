@@ -23,9 +23,9 @@ public class ModuleServiceImpl implements IModuleService
     }
 
     @Override
-    public List<Project> queryProjectWithModules(Integer teacher)
+    public List<Project> queryProjectWithModules()
     {
-        return moduleDao.queryProjectWithModules(teacher);
+        return moduleDao.queryProjectWithModules();
     }
 
     @Override
@@ -47,9 +47,9 @@ public class ModuleServiceImpl implements IModuleService
     }
 
     @Override
-    public List<Module> queryModulesByTeacher(Integer teacher)
+    public List<Module> queryModulesWithProjectAndCourse()
     {
-        return moduleDao.queryModulesByTeacher(teacher);
+        return moduleDao.queryModulesWithProjectAndCourse();
     }
 
     @Override

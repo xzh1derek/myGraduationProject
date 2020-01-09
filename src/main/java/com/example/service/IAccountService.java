@@ -9,4 +9,9 @@ public interface IAccountService
     Account getAccount(String username);
 
     void updatePassword(String userId, String password);
+
+    void createAccount(Account account);
+
+    void deleteAccount(String username);
+
 }

@@ -26,6 +26,8 @@ public class Project implements Serializable
     private Course course;
     @Transient
     private List<Module> modules;
+    @Transient
+    private List<Teacher> teachers;
 
     public Integer getId()
     {
@@ -127,6 +129,16 @@ public class Project implements Serializable
         this.modules = modules;
     }
 
+    public List<Teacher> getTeachers()
+    {
+        return teachers;
+    }
+
+    public void setTeachers(List<Teacher> teachers)
+    {
+        this.teachers = teachers;
+    }
+
     @Override
     public String toString()
     {
@@ -141,6 +153,7 @@ public class Project implements Serializable
                 ", is_published=" + is_published +
                 ", course=" + course +
                 ", modules=" + modules +
+                ", teachers=" + teachers +
                 '}';
     }
 }

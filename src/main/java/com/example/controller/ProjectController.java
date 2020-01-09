@@ -27,14 +27,13 @@ public class ProjectController
     private IUserService userService;
 
     /**
-     * 查询某个老师下所有课程的所有项目
-     * @param teacher
+     * 查询所有课程以及其所有子项目
      * @return 课程的List 多表联查 测试通过
      */
     @RequestMapping("")
-    public List<Course> myCoursesWithProjects(Integer teacher)
+    public List<Course> myCoursesWithProjects()
     {
-        return courseService.queryCoursesWithProjects(teacher);
+        return courseService.queryCoursesWithProjects();
     }
 
     /**

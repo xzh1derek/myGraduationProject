@@ -32,4 +32,16 @@ public class AccountDaoImpl implements IAccountDao
     {
         accountMapper.updatePassword(u,p);
     }
+
+    @Override
+    public void createAccount(Account account)
+    {
+        accountMapper.createAccount(account);
+    }
+
+    @Override
+    public void deleteAccount(String username)
+    {
+        accountMapper.deleteAccount(username);
+    }
 }

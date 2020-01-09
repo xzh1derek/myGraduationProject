@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface ProjectMapper
 {
-    @Insert("insert into project(project_name,project_index,course_id,hours,is_fixed,teachers,is_arranged) values(#{project_name},#{project_index},#{course_id},#{hours},#{is_fixed},#{teachers},0)")
+    @Insert("insert into project(project_name,project_index,course_id,hours,is_fixed,teacher,is_arranged) values(#{project_name},#{project_index},#{course_id},#{hours},#{is_fixed},#{teacher},0)")
     @Options(useGeneratedKeys = true,keyColumn = "id",keyProperty = "id")
     void createProject(Project project);
 
@@ -38,17 +38,13 @@ public interface ProjectMapper
     @Delete("delete from project where course_id=#{courseId}")
     void deleteProjects(Integer courseId);
 
-    @Select("select * from project where teacher=#{teacher}")
+    @Select("select * from project")
     @Results(id="projectMapWithCourseAndModules",value = {
             @Result(id=true, column = "id", property = "id"),
             @Result(column = "course_id", property = "course_id"),
             @Result(property = "course",column = "course_id", one = @One(select = "com.example.mapper.CourseMapper.getCourse",fetchType = FetchType.EAGER)),
             @Result(property = "modules", column = "id", many = @Many(select = "com.example.mapper.ModuleMapper.queryModulesByProject",fetchType = FetchType.LAZY))
     })
-    List<Project> queryProjectWithModules(Integer teacher);
-
-    @Select("select id from project where teacher=#{teacher}")
-    List<Integer> queryProjectsId(Integer teachers);
-
+    List<Project> queryProjectWithModules();
 
 }

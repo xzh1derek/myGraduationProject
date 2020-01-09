@@ -11,7 +11,7 @@ public interface IModuleDao
 {
     void createProject(Project project);
 
-    List<Project> queryProjectWithModules(Integer teacher);
+    List<Project> queryProjectWithModules();
 
     List<Module> queryModulesByProject(Integer projectId);
 
@@ -27,7 +27,7 @@ public interface IModuleDao
 
     void updateStuNum(Integer moduleId,Integer num);
 
-    List<Module> queryModulesByTeacher(Integer teacher);
+    List<Module> queryModulesWithProjectAndCourse();
 
     List<User> queryStudentsByModule(Integer moduleId);
 

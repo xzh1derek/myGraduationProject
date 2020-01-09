@@ -1,6 +1,8 @@
 package com.example.controller;
 
+import com.example.domain.Account;
 import com.example.domain.User;
+import com.example.service.IAccountService;
 import com.example.service.IUserService;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -19,6 +21,8 @@ public class StudentController
 {
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IAccountService accountService;
 
     /**
      * 查看所有学生列表 分页查询
@@ -45,6 +49,7 @@ public class StudentController
         }
         int i = 1, j;// 第一个是列数，第二个是行数
         User user = new User();
+        Account account = new Account();
         try {
             File file = new File(getClass().getResource(".").getFile().toString(), Objects.requireNonNull(multipartFile.getOriginalFilename()));
             multipartFile.transferTo(file);
@@ -59,12 +64,17 @@ public class StudentController
             if(!rs.getCell(4,0).getContents().equals("年级")) return "错误，第四列不是'年级'";
             for (; i < rows; i++) {
                 for (j = 0 ; j < columns; j++) {
-                    user.setUsername(Long.parseLong(rs.getCell(j++, i).getContents()));
+                    String username = rs.getCell(j++, i).getContents();
+                    user.setUsername(Long.parseLong(username));
+                    account.setUsername(username);
                     user.setName(rs.getCell(j++, i).getContents());
                     user.setClass_id(Integer.parseInt(rs.getCell(j++, i).getContents()));
                     user.setSchool(rs.getCell(j++, i).getContents());
                     user.setYear(rs.getCell(j++,i).getContents());
                     userService.newUser(user);
+                    account.setPassword("123");
+                    account.setIdentity(1);
+                    accountService.createAccount(account);
                 }
             }
             return "导入成功，总共添加"+(i-2)+"行记录，最后一行记录为[学号："+user.getUsername()+"，姓名："+user.getName()+
@@ -88,6 +98,11 @@ public class StudentController
     public String addUser(@RequestBody User user)
     {
         userService.newUser(user);
+        Account account = new Account();
+        account.setUsername(user.getUsername().toString());
+        account.setPassword("123");
+        account.setIdentity(1);
+        accountService.createAccount(account);
         return "0";
     }
 
@@ -102,6 +117,7 @@ public class StudentController
         for(Long username : userId)
         {
             userService.deleteUser(username);
+            accountService.deleteAccount(username.toString());
         }
         return "0";
     }

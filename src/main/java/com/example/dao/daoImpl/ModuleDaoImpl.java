@@ -25,8 +25,6 @@ public class ModuleDaoImpl implements IModuleDao
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private CourseMapper courseMapper;
-    @Autowired
     private ModuleRepository moduleRepository;
 
     @Override
@@ -36,9 +34,9 @@ public class ModuleDaoImpl implements IModuleDao
     }
 
     @Override
-    public List<Project> queryProjectWithModules(Integer teacher)
+    public List<Project> queryProjectWithModules()
     {
-        return projectMapper.queryProjectWithModules(teacher);
+        return projectMapper.queryProjectWithModules();
     }
 
     @Override
@@ -66,14 +64,9 @@ public class ModuleDaoImpl implements IModuleDao
     }
 
     @Override
-    public List<Module> queryModulesByTeacher(Integer teacher)
+    public List<Module> queryModulesWithProjectAndCourse()
     {
-        List<Module> modules = new ArrayList<>();
-        List<Integer> project_ids = projectMapper.queryProjectsId(teacher);
-        for(Integer id : project_ids) {
-            modules.addAll(moduleMapper.queryModulesWithProjectAndCourse(id));
-        }
-        return modules;
+        return moduleMapper.queryModuleWithProjectAndCourse();
     }
 
     @Override

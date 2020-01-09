@@ -77,9 +77,9 @@ public class CourseDaoImpl implements ICourseDao
     }
 
     @Override
-    public List<Course> queryCoursesWithProjects(Integer teacher)
+    public List<Course> queryCoursesWithProjects()
     {
-        return courseMapper.queryCourseWithProjects(teacher);
+        return courseMapper.queryCourseWithProjects();
     }
 
     @Override

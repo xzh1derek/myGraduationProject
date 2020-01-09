@@ -9,4 +9,8 @@ public interface IAccountDao
     Account getAccount(String username);
 
     void updatePassword(String username, String password);
+
+    void createAccount(Account account);
+
+    void deleteAccount(String username);
 }

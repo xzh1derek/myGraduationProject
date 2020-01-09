@@ -10,7 +10,7 @@ public interface IModuleService
 {
     void createProject(Project project);
 
-    List<Project> queryProjectWithModules(Integer teacher);
+    List<Project> queryProjectWithModules();
 
     void createModule(Module module);
 
@@ -18,7 +18,7 @@ public interface IModuleService
 
     void updateStuNum(Integer moduleId,Integer num);
 
-    List<Module> queryModulesByTeacher(Integer teacher);
+    List<Module> queryModulesWithProjectAndCourse();
 
     List<Module> queryModulesByProject(Integer projectId);
 

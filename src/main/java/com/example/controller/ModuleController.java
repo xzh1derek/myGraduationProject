@@ -21,14 +21,13 @@ public class ModuleController
     private ICourseService courseService;
 
     /**
-     * 查询某个老师有关项目的所有子批次
-     * @param teacher
+     * 查询所有项目以及其所有子批次
      * @return Project的List 多表联查 测试通过
      */
     @RequestMapping("")
-    public List<Project> queryProjectWithModule(Integer teacher)
+    public List<Project> queryProjectsWithModules()
     {
-        return moduleService.queryProjectWithModules(teacher);
+        return moduleService.queryProjectWithModules();
     }
 
     /**
@@ -109,13 +108,12 @@ public class ModuleController
 
     /**
      * 查询某个老师下所有项目下的所有批次，以及它们对应的项目以及课程
-     * @param teacher
      * @return 小课的List 多表联查
      */
     @RequestMapping("/show")
-    public List<Module> queryModuleWithStudents(Integer teacher)
+    public List<Module> queryModulesWithProjectsAndCourses()
     {
-        return moduleService.queryModulesByTeacher(teacher);
+        return moduleService.queryModulesWithProjectAndCourse();
     }
 
     /**

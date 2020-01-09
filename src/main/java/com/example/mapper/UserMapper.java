@@ -33,7 +33,7 @@ public interface UserMapper
     @Delete("delete from user where username=#{username}")
     void deleteUser(Long username);
 
-    @Update("update user set username=#{username},name=#{name},class_id=#{class_id},school=#{school},year=#{year} where username=#{userId}")
+    @Update("update user set name=#{name},class_id=#{class_id},school=#{school},year=#{year} where username=#{userId}")
     void updateUser(Long userId, User user);
 
     @Delete("delete from user")

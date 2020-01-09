@@ -54,9 +54,9 @@ public class CourseServiceImpl implements ICourseService
     }
 
     @Override
-    public List<Course> queryCoursesWithProjects(Integer teacher)
+    public List<Course> queryCoursesWithProjects()
     {
-        return courseDao.queryCoursesWithProjects(teacher);
+        return courseDao.queryCoursesWithProjects();
     }
 
     @Override

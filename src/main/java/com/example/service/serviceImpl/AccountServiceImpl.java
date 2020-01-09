@@ -30,4 +30,16 @@ public class AccountServiceImpl implements IAccountService
     {
         accountDao.updatePassword(userId,password);
     }
+
+    @Override
+    public void createAccount(Account account)
+    {
+        accountDao.createAccount(account);
+    }
+
+    @Override
+    public void deleteAccount(String username)
+    {
+        accountDao.deleteAccount(username);
+    }
 }

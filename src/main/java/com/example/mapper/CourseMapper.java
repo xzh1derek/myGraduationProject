@@ -22,12 +22,12 @@ public interface CourseMapper
     @Update("update course set stu_num=#{num} where id=#{courseId}")
     void updateStuNum(Integer courseId,Integer num);
 
-    @Select("select * from course where teacher=#{teacher}")
+    @Select("select * from course")
     @Results(id="courseMapWithProjects",value = {
             @Result(id=true, column = "id", property = "id"),
             @Result(property = "projects", column = "id", many = @Many(select = "com.example.mapper.ProjectMapper.queryProjectsByCourse",fetchType = FetchType.LAZY))
     })
-    List<Course> queryCourseWithProjects(Integer teacher);
+    List<Course> queryCourseWithProjects();
 
     @Insert("insert into class_course(class_id,course_id,school_id) values(#{class_id},#{course_id},#{school_id})")
     void newClassCourse(Integer class_id, Integer course_id,Integer school_id);

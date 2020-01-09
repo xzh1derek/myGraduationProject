@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.example.domain.Course;
 import com.example.domain.Project;
-import com.example.domain.User;
 import com.example.domain.UserCourse;
 import com.example.service.ICourseService;
 import com.example.service.IModuleService;

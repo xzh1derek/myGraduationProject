@@ -20,7 +20,7 @@ public interface ICourseService
 
     void deleteCourse(Integer courseId);
 
-    List<Course> queryCoursesWithProjects(Integer teacher);
+    List<Course> queryCoursesWithProjects();
 
     List<Project> queryProjectByCourse(Integer courseId);
 
