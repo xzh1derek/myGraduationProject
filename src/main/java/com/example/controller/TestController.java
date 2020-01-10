@@ -70,7 +70,7 @@ public class TestController
                     user.setClass_id(Integer.parseInt(rs.getCell(j++, i).getContents()));
                     user.setSchool(rs.getCell(j++, i).getContents());
                     user.setYear(rs.getCell(j++,i).getContents());
-                    System.out.println(user);
+                    //System.out.println(user);
                 }
             }
             return "导入成功，总共添加"+(i-2)+"行记录，最后一行记录为[学号："+user.getUsername()+"，姓名："+user.getName()+

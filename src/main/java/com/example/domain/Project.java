@@ -19,15 +19,12 @@ public class Project implements Serializable
     private Integer project_index;
     private Integer course_id;
     private Integer hours;
-    private Integer teacher;
     private Boolean is_fixed;//true为固定，false为任选
     private Boolean is_published;
     @Transient
     private Course course;
     @Transient
     private List<Module> modules;
-    @Transient
-    private List<Teacher> teachers;
 
     public Integer getId()
     {
@@ -79,16 +76,6 @@ public class Project implements Serializable
         this.hours = hours;
     }
 
-    public Integer getTeacher()
-    {
-        return teacher;
-    }
-
-    public void setTeacher(Integer teacher)
-    {
-        this.teacher = teacher;
-    }
-
     public Boolean getIs_fixed()
     {
         return is_fixed;
@@ -129,16 +116,6 @@ public class Project implements Serializable
         this.modules = modules;
     }
 
-    public List<Teacher> getTeachers()
-    {
-        return teachers;
-    }
-
-    public void setTeachers(List<Teacher> teachers)
-    {
-        this.teachers = teachers;
-    }
-
     @Override
     public String toString()
     {
@@ -148,12 +125,10 @@ public class Project implements Serializable
                 ", project_index=" + project_index +
                 ", course_id=" + course_id +
                 ", hours=" + hours +
-                ", teacher=" + teacher +
                 ", is_fixed=" + is_fixed +
                 ", is_published=" + is_published +
                 ", course=" + course +
                 ", modules=" + modules +
-                ", teachers=" + teachers +
                 '}';
     }
 }

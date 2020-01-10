@@ -51,7 +51,7 @@ public class StudentController
         User user = new User();
         Account account = new Account();
         try {
-            File file = new File(getClass().getResource(".").getFile().toString(), Objects.requireNonNull(multipartFile.getOriginalFilename()));
+            File file = new File(getClass().getResource(".").getFile(), Objects.requireNonNull(multipartFile.getOriginalFilename()));
             multipartFile.transferTo(file);
             Workbook rwb = Workbook.getWorkbook(file);
             Sheet rs = rwb.getSheet(0);

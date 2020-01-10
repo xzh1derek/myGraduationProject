@@ -13,7 +13,7 @@ public class SchoolAndClass
 {
     @Autowired
     private SchoolAndClassMapper mapper;
-
+    
     @GetMapping("school")
     public List<School> showSchool()
     {

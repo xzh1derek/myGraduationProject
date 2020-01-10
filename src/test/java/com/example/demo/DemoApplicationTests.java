@@ -28,7 +28,7 @@ class DemoApplicationTests
             Sheet rs = rwb.getSheet(0);// 或者rwb.getSheet(0)
             int columns = rs.getColumns();// 得到所有的列
             int rows = rs.getRows();// 得到所有的行
-            System.out.println("列数" + columns + "行数:" + rows);
+            //System.out.println("列数" + columns + "行数:" + rows);
             for (int i = 1; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
                     // 第一个是列数，第二个是行数
@@ -38,7 +38,7 @@ class DemoApplicationTests
                     user.setClass_id(Integer.parseInt(rs.getCell(j++, i).getContents()));
                     user.setSchool(rs.getCell(j++, i).getContents());
                     user.setYear(rs.getCell(j++,i).getContents());
-                    System.out.println(user);
+                    //System.out.println(user);
                 }
             }
         } catch (Exception e) {

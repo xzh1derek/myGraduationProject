@@ -6,15 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-
-
 @Entity
 @Table(name = "user")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class User implements Serializable
 {
-    @JsonIgnore
-    private int id;
     @Id
     private Long username;
     private String name;
@@ -25,16 +21,6 @@ public class User implements Serializable
     private Integer new_message;
     @Transient//属于实体的临时数据，jpa不写在数据库字段里
     private List<UserCourse> userCourses;
-
-    public int getId()
-    {
-        return id;
-    }
-
-    public void setId(int id)
-    {
-        this.id = id;
-    }
 
     public Long getUsername()
     {
@@ -120,7 +106,6 @@ public class User implements Serializable
     public String toString()
     {
         return "User{" +
-                "id=" + id +
                 ", username=" + username +
                 ", name='" + name + '\'' +
                 ", school='" + school + '\'' +
