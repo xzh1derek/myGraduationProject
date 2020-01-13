@@ -37,7 +37,7 @@ public interface SchoolAndClassMapper
     })
     List<Classes> queryAllClasses();
 
-    @Select("select * from school limit")
+    @Select("select * from school")
     @Results(id="schoolMapWithClasses",value = {
             @Result(id=true, column = "id", property = "id"),
             @Result(property = "classesList", column = "id", many = @Many(select = "com.example.mapper.SchoolAndClassMapper.queryClassesBySchool",fetchType = FetchType.LAZY))
