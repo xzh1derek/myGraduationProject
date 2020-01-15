@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface ProjectMapper
 {
-    @Insert("insert into project(project_name,project_index,course_id,hours,is_fixed,is_arranged) values(#{project_name},#{project_index},#{course_id},#{hours},#{is_fixed},0)")
+    @Insert("insert into project(project_name,project_index,course_id,hours,is_fixed,is_published) values(#{project_name},#{project_index},#{course_id},#{hours},#{is_fixed},0)")
     @Options(useGeneratedKeys = true,keyColumn = "id",keyProperty = "id")
     void createProject(Project project);
 

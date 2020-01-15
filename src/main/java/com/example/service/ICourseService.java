@@ -6,9 +6,11 @@ import java.util.List;
 
 public interface ICourseService
 {
-    Integer newCourse(String code,String name,Float credit,Integer hours,Integer teachers,Boolean is_team,Integer max_num);
+    Integer newCourse(String code,String name,Float credit,Integer hours,Boolean is_team,Integer max_num);
 
     void newUserCourse(UserCourse userCourse);
+
+    void updateTeachers(Integer courseId,Long teacher);
 
     void updateStuNum(Integer courseId, Integer num);
 

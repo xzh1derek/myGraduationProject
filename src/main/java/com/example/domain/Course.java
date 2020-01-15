@@ -3,9 +3,7 @@ package com.example.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,7 +17,7 @@ public class Course implements Serializable
     private String course_name;
     private Float credit;
     private Integer hours;
-    private Integer teacher;
+    private Long teacher;
     private Boolean is_team;
     private Integer max_num;
     private Integer stu_num;
@@ -81,12 +79,12 @@ public class Course implements Serializable
         this.hours = hours;
     }
 
-    public Integer getTeacher()
+    public Long getTeacher()
     {
         return teacher;
     }
 
-    public void setTeacher(Integer teacher)
+    public void setTeacher(Long teacher)
     {
         this.teacher = teacher;
     }

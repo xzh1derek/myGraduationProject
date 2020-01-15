@@ -15,15 +15,21 @@ public class CourseServiceImpl implements ICourseService
     private ICourseDao courseDao;
 
     @Override
-    public Integer newCourse(String code,String name,Float credit,Integer hours,Integer teacher,Boolean is_team,Integer max_num)
+    public Integer newCourse(String code,String name,Float credit,Integer hours,Boolean is_team,Integer max_num)
     {
-        return courseDao.newCourse(code,name,credit,hours,teacher,is_team,max_num);
+        return courseDao.newCourse(code,name,credit,hours,is_team,max_num);
     }
 
     @Override
     public void newUserCourse(UserCourse userCourse)
     {
         courseDao.newUserCourse(userCourse);
+    }
+
+    @Override
+    public void updateTeachers(Integer courseId, Long teacher)
+    {
+        courseDao.updateTeachers(courseId,teacher);
     }
 
     @Override

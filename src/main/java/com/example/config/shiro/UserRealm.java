@@ -1,13 +1,18 @@
 package com.example.config.shiro;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
+import com.example.domain.Account;
+import com.example.service.IAccountService;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserRealm extends AuthorizingRealm
 {
+    @Autowired
+    private IAccountService accountService;
+
     /**
      * 执行授权逻辑
      * @param principalCollection
@@ -16,8 +21,9 @@ public class UserRealm extends AuthorizingRealm
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection)
     {
-        System.out.println("授权了！！");
-        return null;
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        info.addStringPermission("whatTheFuck");
+        return info;
     }
 
     /**
@@ -29,7 +35,10 @@ public class UserRealm extends AuthorizingRealm
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException
     {
-        System.out.println("认证啦！！");
-        return null;
+        UsernamePasswordToken token = (UsernamePasswordToken)authenticationToken;
+        if(!accountService.existAccount(token.getUsername())) return null;//会抛出UnknownAccountException 用户不存在
+        Account account = accountService.getAccount(token.getUsername());
+        AuthenticationInfo info = new SimpleAuthenticationInfo("",account.getPassword(),"");
+        return info;
     }
 }

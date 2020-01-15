@@ -17,4 +17,7 @@ public interface AccountMapper
 
     @Delete("delete from account where username=#{username}")
     void deleteAccount(String username);
+
+    @Delete("delete from account where identity=#{identity}")
+    void deleteAccountByIdentity(Integer identity);
 }

@@ -7,6 +7,8 @@ import com.example.service.ICourseService;
 import com.example.service.IModuleService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,15 +39,21 @@ public class ProjectController
     }
 
     /**
-     * 批量添加项目
+     * 批量添加项目 事务回滚 当组队类的课排了一个固定排课的项目时被检测到 前面加的课都无效
      * @param projects 项目的List
      * @return 状态码
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @Transactional
     public String addProjects(@RequestBody Project[] projects)
     {
+        Course course = courseService.getCourse(projects[0].getCourse_id());
         for(Project project : projects)
         {
+            if(course.getIs_team()&&project.getIs_fixed()) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return "f";//添加项目失败
+            }
             moduleService.createProject(project);
         }
         return "0";

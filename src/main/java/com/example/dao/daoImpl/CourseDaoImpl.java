@@ -1,10 +1,10 @@
 package com.example.dao.daoImpl;
 
+import com.example.config.utils.ByteConverter;
 import com.example.dao.ICourseDao;
 import com.example.domain.*;
 import com.example.mapper.*;
 import com.example.repository.CourseRepository;
-import org.apache.ibatis.annotations.Options;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -26,16 +26,17 @@ public class CourseDaoImpl implements ICourseDao
     private UserMapper userMapper;
     @Autowired
     private SchoolAndClassMapper schoolAndClassMapper;
+    @Autowired
+    private TeacherMapper teacherMapper;
 
     @Override
-    public Integer newCourse(String code,String name,Float credit,Integer hours,Integer teacher,Boolean is_team,Integer max_num)
+    public Integer newCourse(String code,String name,Float credit,Integer hours,Boolean is_team,Integer max_num)
     {
         Course course = new Course();
         course.setCourse_code(code);
         course.setCourse_name(name);
         course.setCredit(credit);
         course.setHours(hours);
-        course.setTeacher(teacher);
         course.setIs_team(is_team);
         course.setMax_num(max_num);
         courseMapper.newCourse(course);
@@ -61,14 +62,32 @@ public class CourseDaoImpl implements ICourseDao
     }
 
     @Override
-    public List<Course> queryCourseList() {
-        return courseRepository.findAll();
+    public List<Course> queryCourseList()
+    {
+        List<Course> courses = courseRepository.findAll();
+        for(Course course : courses)
+        {
+            List<Teacher> teachers = new ArrayList<>();
+            List<Integer> teacherIndex = ByteConverter.convertLongToIndex(course.getTeacher());
+            for(Integer index : teacherIndex)
+            {
+                teachers.add(teacherMapper.getTeacher(index));
+            }
+            course.setTeachers(teachers);
+        }
+        return courses;
     }
 
     @Override
     public void updateCourse(Course course)
     {
         courseMapper.updateCourse(course);
+    }
+
+    @Override
+    public void updateTeachers(Integer courseId, Long teacher)
+    {
+        courseMapper.updateTeachers(courseId,teacher);
     }
 
     @Override
@@ -79,7 +98,18 @@ public class CourseDaoImpl implements ICourseDao
     @Override
     public List<Course> queryCoursesWithProjects()
     {
-        return courseMapper.queryCourseWithProjects();
+        List<Course> courses = courseMapper.queryCourseWithProjects();
+        for(Course course : courses)
+        {
+            List<Teacher> teachers = new ArrayList<>();
+            List<Integer> teacherIndex = ByteConverter.convertLongToIndex(course.getTeacher());
+            for(Integer index : teacherIndex)
+            {
+                teachers.add(teacherMapper.getTeacher(index));
+            }
+            course.setTeachers(teachers);
+        }
+        return courses;
     }
 
     @Override
@@ -122,7 +152,18 @@ public class CourseDaoImpl implements ICourseDao
     @Override
     public List<Course> queryCourseWithClasses()
     {
-        return courseMapper.queryCourseWithClasses();
+        List<Course> courses = courseMapper.queryCourseWithClasses();
+        for(Course course : courses)
+        {
+            List<Teacher> teachers = new ArrayList<>();
+            List<Integer> teacherIndex = ByteConverter.convertLongToIndex(course.getTeacher());
+            for(Integer index : teacherIndex)
+            {
+                teachers.add(teacherMapper.getTeacher(index));
+            }
+            course.setTeachers(teachers);
+        }
+        return courses;
     }
 
     /**

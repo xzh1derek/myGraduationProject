@@ -1,49 +1,23 @@
-package com.example.demo;
+package com.example.config.utils;
 
-import com.example.domain.User;
-import com.example.mapper.ModuleMapper;
-import com.example.mapper.UserCourseMapper;
-import jxl.Sheet;
-import jxl.Workbook;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
-@SpringBootTest
-class DemoApplicationTests
+public class ByteConverter
 {
-    @Test
-    void test()
-    {
-        int[] pos = {2,5,8,21,46};
-        byte[] teacherBytes = getByteList(pos);
-        System.out.println(Arrays.toString(teacherBytes));
-        long teachers = convertByteToLong(teacherBytes);
-        System.out.println(teachers);
-        byte[] teacherBytesConverted = convertLongToByte(teachers);
-        System.out.println(Arrays.toString(teacherBytesConverted));
-        List<Integer> index = getIndexList(teacherBytesConverted);
-        System.out.println(index);
-    }
-
-    public byte[] getByteList(int[] pos)
+    static byte[] getByteList(Integer[] pos)
     {
         byte[] bytes = new byte[8];
         for(int p : pos)
         {
+            if(p<1||p>64) continue;
             int x=(p-1)/8,y=(p-1)%8;
             bytes[x] |= 1 << y;
         }
         return bytes;
     }
 
-    public long convertByteToLong(byte[] bytes)
+    static long convertByteToLong(byte[] bytes)
     {
         long l0 = bytes[0] & 0x00000000000000ffL;
         long l1 = ((long)bytes[1]<<8 ) & 0x000000000000ff00L;
@@ -56,7 +30,7 @@ class DemoApplicationTests
         return l0 | l1 | l2 | l3 | l4 | l5 | l6 | l7;
     }
 
-    public byte[] convertLongToByte(long num)
+    static byte[] convertLongToByte(long num)
     {
         byte[] bytes = new byte[8];
         bytes[0] = (byte)num;
@@ -70,7 +44,7 @@ class DemoApplicationTests
         return bytes;
     }
 
-    public List<Integer> getIndexList(byte[] bytes)
+    static List<Integer> getIndexList(byte[] bytes)
     {
         List<Integer> indexList = new ArrayList<>();
         for(int i=0;i<8;i++)
@@ -85,5 +59,13 @@ class DemoApplicationTests
         return indexList;
     }
 
+    public static long convertIndexToLong(Integer[] indexList)
+    {
+        return convertByteToLong(getByteList(indexList));
+    }
 
+    public static List<Integer> convertLongToIndex(long num)
+    {
+        return getIndexList(convertLongToByte(num));
+    }
 }

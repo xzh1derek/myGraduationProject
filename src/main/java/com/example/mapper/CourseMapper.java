@@ -12,12 +12,15 @@ public interface CourseMapper
     @Select("select * from course where id=#{courseId}")
     Course getCourse(Integer courseId);
 
-    @Insert("insert into course(course_code,course_name,credit,hours,teacher,is_team,max_num) values(#{course_code},#{course_name},#{credit},#{hours},#{teacher},#{is_team},#{max_num})")
+    @Insert("insert into course(course_code,course_name,credit,hours,is_team,max_num) values(#{course_code},#{course_name},#{credit},#{hours},#{is_team},#{max_num})")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     void newCourse(Course course);
 
     @Update("update course set course_code=#{course_code},course_name=#{course_name},credit=#{credit},hours=#{hours},teacher=#{teacher},is_team=#{is_team},max_num=#{max_num} where id=#{id}")
     void updateCourse(Course course);
+
+    @Update("update course set teacher=#{teacher} where id=#{courseId}")
+    void updateTeachers(Integer courseId,Long teacher);
 
     @Update("update course set stu_num=#{num} where id=#{courseId}")
     void updateStuNum(Integer courseId,Integer num);

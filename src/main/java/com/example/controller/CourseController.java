@@ -1,10 +1,13 @@
 package com.example.controller;
 
+import com.example.config.utils.ByteConverter;
 import com.example.domain.Course;
 import com.example.domain.Project;
+import com.example.domain.Teacher;
 import com.example.domain.UserCourse;
 import com.example.service.ICourseService;
 import com.example.service.IModuleService;
+import com.example.service.ITeacherService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,8 @@ public class CourseController
     private IUserService userService;
     @Autowired
     private IModuleService moduleService;
+    @Autowired
+    private ITeacherService teacherService;
 
     /**
      * 返回所有课程
@@ -38,17 +43,39 @@ public class CourseController
      * @param name 课程名称
      * @param credit 学分
      * @param hours 总学时
-     * @param teacher 老师
      * @param isTeam 是否成队
      * @param maxNum 最大人数(默认1，最高7)
      * @return 返回的是新建课程的id！！ 测试通过
      */
     @RequestMapping(value = "/new",method = RequestMethod.POST)
-    public String newCourse(String code, String name, Float credit, Integer hours, Integer teacher, Boolean isTeam,
+    public String newCourse(String code, String name, Float credit, Integer hours, Boolean isTeam,
                             @RequestParam(defaultValue = "1")Integer maxNum)
     {
-        Integer courseId = courseService.newCourse(code,name,credit,hours,teacher,isTeam,maxNum);
+        Integer courseId = courseService.newCourse(code,name,credit,hours,isTeam,maxNum);
         return courseId.toString();
+    }
+
+    /**
+     * 返回所有老师的List
+     */
+    @RequestMapping(value = "/teachers")
+    public List<Teacher> queryTeacherList()
+    {
+        return teacherService.findAllTeachers();
+    }
+
+    /**
+     * 给课程绑定老师
+     * @param courseId 课程编号
+     * @param teachers 老师id的数组
+     * @return 状态码
+     */
+    @RequestMapping(value = "/teachers/bind",method = RequestMethod.POST)
+    public String bindTeachers(Integer courseId,@RequestBody Integer[] teachers)
+    {
+        Long teachersEncoded = ByteConverter.convertIndexToLong(teachers);
+        courseService.updateTeachers(courseId,teachersEncoded);
+        return "0";
     }
 
     /**
@@ -91,7 +118,6 @@ public class CourseController
     /**
      * 删除课程 同时删除绑定的班级和学生 同时删除旗下的projects和modules
      * @param courseId 课程编号
-     * @return
      */
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
     public String updateCourse(Integer courseId)

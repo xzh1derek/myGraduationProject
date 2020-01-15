@@ -30,6 +30,7 @@ public class AccountDaoImpl implements IAccountDao
     @Override
     public void updatePassword(String u,String p)
     {
+
         accountMapper.updatePassword(u,p);
     }
 
