@@ -14,6 +14,8 @@ public interface ICourseService
 
     void updateStuNum(Integer courseId, Integer num);
 
+    void updateIsPublished(Integer id,Boolean status);
+
     Course getCourse(Integer courseId);
 
     List<Course> queryCourseList();
@@ -35,8 +37,6 @@ public interface ICourseService
     void deleteUserCourse(Integer courseId);
 
     void deleteClassCourse(Integer courseId);
-
-    List<Course> queryCourseWithClasses();
 
     List<UserCourse> queryStudentsByCoursePaging(Integer courseId,Integer rows, Integer page);
 

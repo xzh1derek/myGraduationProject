@@ -45,6 +45,15 @@ class DemoApplicationTests
 
     public long convertByteToLong(byte[] bytes)
     {
+//        long l0 = bytes[0];
+//        long l1 = (bytes[1] & 0xFF) << 8;
+//        long l2 = (bytes[2] & 0xFF) << 16;
+//        long l3 = (bytes[3] & 0xFF) << 24;
+//        long l4 = (bytes[4] & 0xFF) << 32;
+//        long l5 = (bytes[5] & 0xFF) << 40;
+//        long l6 = (bytes[6] & 0xFF) << 48;
+//        long l7 = (bytes[7] & 0xFF) << 56;
+//        return l0 | l1 | l2 | l3 | l4 | l5 | l6 | l7;
         long l0 = bytes[0] & 0x00000000000000ffL;
         long l1 = ((long)bytes[1]<<8 ) & 0x000000000000ff00L;
         long l2 = ((long)bytes[2]<<16) & 0x0000000000ff0000L;
@@ -84,6 +93,4 @@ class DemoApplicationTests
         }
         return indexList;
     }
-
-
 }

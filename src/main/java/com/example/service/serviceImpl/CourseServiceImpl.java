@@ -39,6 +39,12 @@ public class CourseServiceImpl implements ICourseService
     }
 
     @Override
+    public void updateIsPublished(Integer id, Boolean status)
+    {
+        courseDao.updateIsPublished(id,status);
+    }
+
+    @Override
     public Course getCourse(Integer courseId)
     {
         return courseDao.getCourse(courseId);
@@ -99,12 +105,6 @@ public class CourseServiceImpl implements ICourseService
     public void deleteClassCourse(Integer courseId)
     {
         courseDao.deleteClassCourse(courseId);
-    }
-
-    @Override
-    public List<Course> queryCourseWithClasses()
-    {
-        return courseDao.queryCourseWithClasses();
     }
 
     @Override

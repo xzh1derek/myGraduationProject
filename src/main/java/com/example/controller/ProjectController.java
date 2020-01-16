@@ -4,6 +4,7 @@ import com.example.domain.Course;
 import com.example.domain.Module;
 import com.example.domain.Project;
 import com.example.service.ICourseService;
+import com.example.service.IMailService;
 import com.example.service.IModuleService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class ProjectController
     private ICourseService courseService;
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IMailService mailService;
 
     /**
      * 查询所有课程以及其所有子项目
@@ -52,7 +55,7 @@ public class ProjectController
         {
             if(course.getIs_team()&&project.getIs_fixed()) {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return "f";//添加项目失败
+                return "组队类课程只支持任选排课";
             }
             moduleService.createProject(project);
         }
@@ -62,12 +65,12 @@ public class ProjectController
     /**
      * 修改单个项目
      * @param project Project实体类
-     * @return 状态码
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String editProjects(@RequestBody Project project)
+    public String editProject(@RequestBody Project project)
     {
-        if(moduleService.getProject(project.getId()).getIs_published()) return "f";//已发布排课，不能修改
+        if(moduleService.getProject(project.getId()).getIs_published()&&project.getIs_fixed()!=moduleService.getProject(project.getId()).getIs_fixed()) return "已发布排课，不能修改排课类型";
+        if(courseService.getCourse(project.getCourse_id()).getIs_team()&&project.getIs_fixed()) return "组队类课程只支持任选排课";
         moduleService.updateProject(project);
         return "0";
     }
@@ -75,12 +78,11 @@ public class ProjectController
     /**
      * 删除单个项目，并删除相应的排课
      * @param id project的id
-     * @return 状态码
      */
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
-    public String clearProjects(Integer id)
+    public String clearProject(Integer id)
     {
-        if(moduleService.getProject(id).getIs_published()) return "f";//已发布排课，不能删除
+        if(moduleService.getProject(id).getIs_published()) return "已发布排课，不能删除";
         courseService.deleteProject(id);
         moduleService.deleteModules(id);
         return "0";
@@ -96,6 +98,7 @@ public class ProjectController
     {
         Project project = moduleService.getProject(id);
         Course course = courseService.getCourse(project.getCourse_id());
+        if(!course.getIs_published()) return "所属课程还未发布，无法发布排课，请先发布课程";
         List<Module> modules = moduleService.queryModulesByProject(id);
         if(project.getIs_fixed())//固定排课，将绑定的班级里的学生与module绑定
         {
@@ -129,9 +132,14 @@ public class ProjectController
                 Integer class1 = module.getClass1(),class2 = module.getClass2();
                 List<Long> usernameList = userService.findUsersByClass(class1);
                 if(class2!=null) usernameList.addAll(userService.findUsersByClass(class2));
+                String text = "课程【"+course.getCourse_name()+"】新增批次 [+"+project.getProject_name()+"+]，时间["+
+                        module.getDate()+module.getTime()+"]，地点["+module.getLocation()+"]，学时["+
+                        project.getHours()+"]。请到【选课管理】中查看。";
                 for(Long username : usernameList){
                     moduleService.newUserModule(username,module.getId());
+                    mailService.sendMail(0L,username,0,null,text);
                 }
+                moduleService.updateUserModule(module.getId(),course.getTeacher(),course.getIs_team(),project.getIs_fixed());
                 moduleService.updateStuNum(module.getId(),usernameList.size());
             }
         }

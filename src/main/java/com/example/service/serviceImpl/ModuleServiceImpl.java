@@ -35,12 +35,6 @@ public class ModuleServiceImpl implements IModuleService
     }
 
     @Override
-    public void newUserModule(Long username, Integer module_id)
-    {
-        moduleDao.newUserModule(username,module_id);
-    }
-
-    @Override
     public void updateStuNum(Integer moduleId, Integer num)
     {
         moduleDao.updateStuNum(moduleId,num);
@@ -110,5 +104,17 @@ public class ModuleServiceImpl implements IModuleService
     public List<Module> queryModulesByProject(Integer projectId)
     {
         return moduleDao.queryModulesByProject(projectId);
+    }
+
+    @Override
+    public void newUserModule(Long username, Integer module_id)
+    {
+        moduleDao.newUserModule(username,module_id);
+    }
+
+    @Override
+    public void updateUserModule(Integer module_id, Long teacher, Boolean is_team, Boolean is_fixed)
+    {
+        moduleDao.updateUserModule(module_id,teacher,is_team,is_fixed);
     }
 }

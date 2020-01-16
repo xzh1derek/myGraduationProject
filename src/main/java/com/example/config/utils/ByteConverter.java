@@ -49,7 +49,7 @@ public class ByteConverter
         List<Integer> indexList = new ArrayList<>();
         for(int i=0;i<8;i++)
         {
-            int b = (int)bytes[i];
+            int b = bytes[i];
             for(int j=0;j<8;j++)
             {
                 if((b&0x01)==1) indexList.add(i*8+j+1);

@@ -52,12 +52,6 @@ public class ModuleDaoImpl implements IModuleDao
     }
 
     @Override
-    public void newUserModule(Long username, Integer module_id)
-    {
-        userModuleMapper.newUserModule(username,module_id);
-    }
-
-    @Override
     public void updateStuNum(Integer moduleId, Integer num)
     {
         moduleMapper.updateStuNum(moduleId,num);
@@ -130,5 +124,17 @@ public class ModuleDaoImpl implements IModuleDao
         module.setClass1(class1);
         module.setClass2(class2);
         moduleRepository.save(module);
+    }
+
+    @Override
+    public void newUserModule(Long username, Integer module_id)
+    {
+        userModuleMapper.newUserModule(username,module_id);
+    }
+
+    @Override
+    public void updateUserModule(Integer module_id, Long teacher, Boolean is_team, Boolean is_fixed)
+    {
+        userModuleMapper.updateUserModule(module_id,teacher,is_team,is_fixed);
     }
 }

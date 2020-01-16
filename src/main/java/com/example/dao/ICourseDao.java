@@ -20,6 +20,8 @@ public interface ICourseDao
 
     void updateCourse(Course course);
 
+    void updateIsPublished(Integer id,Boolean status);
+
     void deleteCourse(Integer courseId);
 
     List<Course> queryCoursesWithProjects();
@@ -35,8 +37,6 @@ public interface ICourseDao
     void deleteUserCourse(Integer courseId);
 
     void deleteClassCourse(Integer courseId);
-
-    List<Course> queryCourseWithClasses();
 
     List<UserCourse> queryStudentsByCoursePaging(Integer courseId,Integer rows, Integer page);
 

@@ -12,11 +12,11 @@ public interface CourseMapper
     @Select("select * from course where id=#{courseId}")
     Course getCourse(Integer courseId);
 
-    @Insert("insert into course(course_code,course_name,credit,hours,is_team,max_num) values(#{course_code},#{course_name},#{credit},#{hours},#{is_team},#{max_num})")
+    @Insert("insert into course(course_code,course_name,credit,hours,is_team,max_num,is_published) values(#{course_code},#{course_name},#{credit},#{hours},#{is_team},#{max_num},0)")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     void newCourse(Course course);
 
-    @Update("update course set course_code=#{course_code},course_name=#{course_name},credit=#{credit},hours=#{hours},teacher=#{teacher},is_team=#{is_team},max_num=#{max_num} where id=#{id}")
+    @Update("update course set course_code=#{course_code},course_name=#{course_name},credit=#{credit},hours=#{hours},is_team=#{is_team},max_num=#{max_num} where id=#{id}")
     void updateCourse(Course course);
 
     @Update("update course set teacher=#{teacher} where id=#{courseId}")
@@ -24,6 +24,9 @@ public interface CourseMapper
 
     @Update("update course set stu_num=#{num} where id=#{courseId}")
     void updateStuNum(Integer courseId,Integer num);
+
+    @Update("update course set is_published={status} where id=#{id}")
+    void updateIsPublished(Integer id,Boolean status);
 
     @Select("select * from course")
     @Results(id="courseMapWithProjects",value = {
@@ -35,12 +38,6 @@ public interface CourseMapper
     @Insert("insert into class_course(class_id,course_id,school_id) values(#{class_id},#{course_id},#{school_id})")
     void newClassCourse(Integer class_id, Integer course_id,Integer school_id);
 
-    @Select("select * from course")
-    @Results(id="courseMapWithClasses",value={
-            @Result(id = true,column = "id",property = "id"),
-            @Result(property = "classesList",column = "id",many = @Many(select = "com.example.mapper.SchoolAndClassMapper.queryClassByCourse",fetchType = FetchType.LAZY))
-    })
-    List<Course> queryCourseWithClasses();
 
     @Delete("delete from class_course where course_id=#{courseId}")
     void deleteClassCourse(Integer courseId);

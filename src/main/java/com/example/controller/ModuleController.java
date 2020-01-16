@@ -1,9 +1,11 @@
 package com.example.controller;
+import com.example.config.utils.DateConverter;
 import com.example.domain.*;
 import com.example.domain.Module;
 import com.example.service.ICourseService;
 import com.example.service.IModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,16 +33,17 @@ public class ModuleController
     }
 
     /**
-     * 批量添加批次
+     * 批量添加批次 日期格式为yyyy-MM-dd 转换失败会回滚
      * @param modules module的List
-     * @return 状态码
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @Transactional
     public String createModule(@RequestBody List<Module> modules)
     {
-        if(moduleService.getProject(modules.get(0).getProject_id()).getIs_published()) return "f";//已发布排课，不能添加批次
+        if(moduleService.getProject(modules.get(0).getProject_id()).getIs_published()) return "已发布排课，不能添加批次";
         for(Module module : modules)
         {
+            module.setDate(DateConverter.convert(module.getDateOfString()));
             moduleService.createModule(module);
         }
         return "0";
@@ -49,12 +52,12 @@ public class ModuleController
     /**
      * 修改批次
      * @param module module实体类
-     * @return 状态码 测试通过
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public String updateModule(@RequestBody Module module)
     {
-        if(moduleService.getProject(module.getProject_id()).getIs_published()) return "f";//已发布排课，不能修改批次
+        if(moduleService.getProject(module.getProject_id()).getIs_published()) return "已发布排课，不能修改批次";
+        module.setDate(DateConverter.convert(module.getDateOfString()));
         moduleService.updateModule(module);
         return "0";
     }
@@ -67,7 +70,7 @@ public class ModuleController
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
     public String deleteModule(Integer id)
     {
-        if(moduleService.getProject(moduleService.getModule(id).getProject_id()).getIs_published()) return "f";//已发布排课，不能删除批次
+        if(moduleService.getProject(moduleService.getModule(id).getProject_id()).getIs_published()) return "已发布排课，不能删除批次";
         moduleService.deleteModule(id);
         return "0";
     }
@@ -88,7 +91,6 @@ public class ModuleController
      * 固定排课下给批次绑定班级，最多两个班级
      * @param id module的id
      * @param classes 班级的List
-     * @return 状态码
      */
     @RequestMapping(value = "/bind",method = RequestMethod.POST)
     public String bindClasses(Integer id,@RequestBody Integer[] classes)
@@ -104,26 +106,5 @@ public class ModuleController
             moduleService.addTwoClassesIntoModule(id,null,null);
         }
         return "0";
-    }
-
-    /**
-     * 查询某个老师下所有项目下的所有批次，以及它们对应的项目以及课程
-     * @return 小课的List 多表联查
-     */
-    @RequestMapping("/show")
-    public List<Module> queryModulesWithProjectsAndCourses()
-    {
-        return moduleService.queryModulesWithProjectAndCourse();
-    }
-
-    /**
-     * 查询选了（或排了）某个小课的所有学生名单
-     * @param moduleId 小课的序号
-     * @return 学生的List
-     */
-    @RequestMapping("/students")
-    public List<User> queryStudentsByModule(Integer moduleId)
-    {
-        return moduleService.queryStudentsByModule(moduleId);
     }
 }

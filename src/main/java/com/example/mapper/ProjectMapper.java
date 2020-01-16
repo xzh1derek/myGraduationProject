@@ -16,7 +16,7 @@ public interface ProjectMapper
     @Update("update project set is_published=#{status} where id=#{projectId}")
     void updateIsPublished(Integer projectId,Boolean status);
 
-    @Update("update project set project_name=#{project_name},is_fixed=#{is_fixed},hours=#{hours} where id=#{id}}")
+    @Update("update project set project_name=#{project_name},project_index=#{project_index},is_fixed=#{is_fixed},hours=#{hours} where id=#{id}")
     void updateProject(Project project);
 
     @Select("select * from project where course_id=#{courseId}")

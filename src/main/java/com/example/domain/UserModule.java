@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.Entity;
@@ -17,6 +18,10 @@ public class UserModule implements Serializable
     private Integer id;
     private Long username;
     private Integer module_id;
+    @JsonIgnore
+    private Long teacher;
+    private Boolean is_team;
+    private Boolean is_fixed;
     @Transient
     private User user;
     @Transient
@@ -72,6 +77,36 @@ public class UserModule implements Serializable
         this.user = user;
     }
 
+    public Long getTeacher()
+    {
+        return teacher;
+    }
+
+    public void setTeacher(Long teacher)
+    {
+        this.teacher = teacher;
+    }
+
+    public Boolean getIs_team()
+    {
+        return is_team;
+    }
+
+    public void setIs_team(Boolean is_team)
+    {
+        this.is_team = is_team;
+    }
+
+    public Boolean getIs_fixed()
+    {
+        return is_fixed;
+    }
+
+    public void setIs_fixed(Boolean is_fixed)
+    {
+        this.is_fixed = is_fixed;
+    }
+
     @Override
     public String toString()
     {
@@ -79,6 +114,9 @@ public class UserModule implements Serializable
                 "id=" + id +
                 ", username=" + username +
                 ", module_id=" + module_id +
+                ", teacher=" + teacher +
+                ", is_team=" + is_team +
+                ", is_fixed=" + is_fixed +
                 ", user=" + user +
                 ", module=" + module +
                 '}';

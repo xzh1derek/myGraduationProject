@@ -23,8 +23,6 @@ public interface IModuleDao
 
     void updateModule(Module module);
 
-    void newUserModule(Long username,Integer module_id);
-
     void updateStuNum(Integer moduleId,Integer num);
 
     List<Module> queryModulesWithProjectAndCourse();
@@ -40,4 +38,8 @@ public interface IModuleDao
     Project getProject(Integer projectId);
 
     void addTwoClassesIntoModule(Integer moduleId, Integer class1, Integer class2);
+
+    void newUserModule(Long username,Integer module_id);
+
+    void updateUserModule(Integer module_id,Long teacher,Boolean is_team,Boolean is_fixed);
 }

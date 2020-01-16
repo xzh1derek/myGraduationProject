@@ -1,14 +1,8 @@
 package com.example.controller;
 
 import com.example.config.utils.ByteConverter;
-import com.example.domain.Course;
-import com.example.domain.Project;
-import com.example.domain.Teacher;
-import com.example.domain.UserCourse;
-import com.example.service.ICourseService;
-import com.example.service.IModuleService;
-import com.example.service.ITeacherService;
-import com.example.service.IUserService;
+import com.example.domain.*;
+import com.example.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
@@ -26,6 +20,8 @@ public class CourseController
     private IModuleService moduleService;
     @Autowired
     private ITeacherService teacherService;
+    @Autowired
+    private IMailService mailService;
 
     /**
      * 返回所有课程
@@ -65,10 +61,9 @@ public class CourseController
     }
 
     /**
-     * 给课程绑定老师
+     * 课程绑定老师
      * @param courseId 课程编号
      * @param teachers 老师id的数组
-     * @return 状态码
      */
     @RequestMapping(value = "/teachers/bind",method = RequestMethod.POST)
     public String bindTeachers(Integer courseId,@RequestBody Integer[] teachers)
@@ -79,34 +74,54 @@ public class CourseController
     }
 
     /**
-     * 课程绑定班级
+     * 课程绑定班级 发布之后无法绑定
      * @param id 课程序号
      * @param classes 所选出班级的列表
-     * @return 状态码 测试通过
      */
     @RequestMapping(value = "/bind",method = RequestMethod.POST)
     public String bindStudents(Integer id,@RequestBody Integer[] classes)
     {
-        List<Long> usernameList = new ArrayList<>();
+        if(courseService.getCourse(id).getIs_published()) return "已发布课程，不能绑定班级";
+        courseService.deleteClassCourse(id);
         for(Integer classId : classes)
         {
             courseService.newClassCourse(classId,id);
+        }
+        return "0";
+    }
+
+    /**
+     * 发布课程 之前绑定好的班级的学生会全部注册这门课程
+     * @param courseId 课程id
+     */
+    @RequestMapping(value = "/publish",method = RequestMethod.POST)
+    public String publishCourse(Integer courseId)
+    {
+        Course course = courseService.getCourse(courseId);
+        List<Long> usernameList = new ArrayList<>();
+        List<Integer> classList = courseService.queryClassByCourse(courseId);
+        for(Integer classId : classList)
+        {
             usernameList.addAll(userService.findUsersByClass(classId));
         }
         UserCourse userCourse = new UserCourse();
-        userCourse.setCourse_id(id);
+        userCourse.setCourse_id(courseId);
+        String text = "新增实验课程【"+course.getCourse_name()+"】，" +
+                "学时【"+course.getHours()+"】，学分【"+course.getCredit()+"】";
+        if(course.getIs_team()) text = text + "，本课程需要学生组队完成，请尽快组好队伍。";
         for(Long username : usernameList)
         {
             userCourse.setUsername(username);
             courseService.newUserCourse(userCourse);
+            mailService.sendMail(0L,username,0,null,text);
         }
-        courseService.updateStuNum(id,usernameList.size());
+        courseService.updateStuNum(courseId,usernameList.size());
+        courseService.updateIsPublished(courseId,true);
         return "0";
     }
 
     /**
      * 修改课程信息
-     * @return 状态码
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public String updateCourse(@RequestBody Course course)
@@ -120,7 +135,7 @@ public class CourseController
      * @param courseId 课程编号
      */
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
-    public String updateCourse(Integer courseId)
+    public String deleteCourse(Integer courseId)
     {
         courseService.deleteCourse(courseId);
         courseService.deleteClassCourse(courseId);
@@ -135,13 +150,13 @@ public class CourseController
     }
 
     /**
-     * 查询所有课程 同时返回课程下的所有已绑班级
-     * @return 课程的List
+     * 查询某个课程的所有已绑班级 放在学院下面
+     * @return School的List
      */
     @RequestMapping(value = "/classes")
-    public List<Course> queryCourseWithClasses()
+    public List<School> querySchoolWithClassLimited(Integer courseId)
     {
-        return courseService.queryCourseWithClasses();
+        return courseService.querySchoolWithClassesLimited(courseId);
     }
 
     /**
@@ -172,7 +187,7 @@ public class CourseController
      * @param courseId 课程号
      * @return 状态码
      */
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @RequestMapping(value = "/students/add",method = RequestMethod.POST)
     public String bindAStudent(Long userId, Integer courseId)
     {
         UserCourse userCourse = new UserCourse();

@@ -91,6 +91,12 @@ public class CourseDaoImpl implements ICourseDao
     }
 
     @Override
+    public void updateIsPublished(Integer id, Boolean status)
+    {
+        courseMapper.updateIsPublished(id,status);
+    }
+
+    @Override
     public void deleteCourse(Integer courseId) {
         courseRepository.deleteById(courseId);
     }
@@ -147,23 +153,6 @@ public class CourseDaoImpl implements ICourseDao
     public void deleteClassCourse(Integer courseId)
     {
         courseMapper.deleteClassCourse(courseId);
-    }
-
-    @Override
-    public List<Course> queryCourseWithClasses()
-    {
-        List<Course> courses = courseMapper.queryCourseWithClasses();
-        for(Course course : courses)
-        {
-            List<Teacher> teachers = new ArrayList<>();
-            List<Integer> teacherIndex = ByteConverter.convertLongToIndex(course.getTeacher());
-            for(Integer index : teacherIndex)
-            {
-                teachers.add(teacherMapper.getTeacher(index));
-            }
-            course.setTeachers(teachers);
-        }
-        return courses;
     }
 
     /**

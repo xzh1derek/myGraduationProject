@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -17,15 +18,15 @@ public class Course implements Serializable
     private String course_name;
     private Float credit;
     private Integer hours;
+    @JsonIgnore
     private Long teacher;
     private Boolean is_team;
     private Integer max_num;
     private Integer stu_num;
     private String template;
+    private Boolean is_published;
     @Transient
     private List<Project> projects;
-    @Transient
-    private List<Integer> classesList;
     @Transient
     private List<Teacher> teachers;
 
@@ -129,6 +130,16 @@ public class Course implements Serializable
         this.template = template;
     }
 
+    public Boolean getIs_published()
+    {
+        return is_published;
+    }
+
+    public void setIs_published(Boolean is_published)
+    {
+        this.is_published = is_published;
+    }
+
     public List<Project> getProjects()
     {
         return projects;
@@ -137,16 +148,6 @@ public class Course implements Serializable
     public void setProjects(List<Project> projects)
     {
         this.projects = projects;
-    }
-
-    public List<Integer> getClassesList()
-    {
-        return classesList;
-    }
-
-    public void setClassesList(List<Integer> classesList)
-    {
-        this.classesList = classesList;
     }
 
     public List<Teacher> getTeachers()
@@ -174,7 +175,6 @@ public class Course implements Serializable
                 ", stu_num=" + stu_num +
                 ", template='" + template + '\'' +
                 ", projects=" + projects +
-                ", classesList=" + classesList +
                 ", teachers=" + teachers +
                 '}';
     }
