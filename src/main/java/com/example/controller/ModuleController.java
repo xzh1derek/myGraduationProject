@@ -1,5 +1,4 @@
 package com.example.controller;
-import com.example.config.utils.DateConverter;
 import com.example.domain.*;
 import com.example.domain.Module;
 import com.example.service.ICourseService;
@@ -33,7 +32,7 @@ public class ModuleController
     }
 
     /**
-     * 批量添加批次 日期格式为yyyy-MM-dd 转换失败会回滚
+     * 批量添加批次 日期格式为yyyy-MM-dd 转换失败会返回异常 事务回滚
      * @param modules module的List
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
@@ -43,21 +42,19 @@ public class ModuleController
         if(moduleService.getProject(modules.get(0).getProject_id()).getIs_published()) return "已发布排课，不能添加批次";
         for(Module module : modules)
         {
-            module.setDate(DateConverter.convert(module.getDateOfString()));
             moduleService.createModule(module);
         }
         return "0";
     }
 
     /**
-     * 修改批次
+     * 修改批次 日期格式为yyyy-MM-dd
      * @param module module实体类
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public String updateModule(@RequestBody Module module)
     {
         if(moduleService.getProject(module.getProject_id()).getIs_published()) return "已发布排课，不能修改批次";
-        module.setDate(DateConverter.convert(module.getDateOfString()));
         moduleService.updateModule(module);
         return "0";
     }
