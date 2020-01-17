@@ -19,6 +19,10 @@ public interface UserCourseMapper
     List<UserCourse> findUsers(Long u);
 
     @Select("select * from user_course where username=#{u} and course_id=#{c}")
+    @Results(id="userMapCourse",value = {
+            @Result(column = "username",property = "username"),
+            @Result(column = "username",property = "user",one = @One(select = "com.example.mapper.UserMapper.findAUser",fetchType = FetchType.EAGER))
+    })
     UserCourse getUserCourse(Long u, Integer c);
 
     @Update("update user_course set is_leader=0, team_id=0 where team_id<>0")
@@ -27,7 +31,7 @@ public interface UserCourseMapper
     @Delete("delete from user_course where course_id=#{courseId}")
     void deleteUserCourse(Integer courseId);
 
-    @Insert("insert into user_course(username,course_id,hours_left) values(#{username},#{course_id},#{hours_left})")
+    @Insert("insert into user_course(username,course_id) values(#{username},#{course_id})")
     void newCourseList(UserCourse userCourse);
 
     @Select("select * from user_course where course_id=#{courseId} limit #{x} offset #{y}")
@@ -35,4 +39,7 @@ public interface UserCourseMapper
 
     @Select("select * from user_course where course_id=#{courseId}")
     List<UserCourse> queryUserCourseByCourse(Integer courseId);
+
+    @Delete("delete from user_course")
+    void deleteAllUserCourses();
 }

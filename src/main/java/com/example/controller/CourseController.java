@@ -4,6 +4,7 @@ import com.example.config.utils.ByteConverter;
 import com.example.domain.*;
 import com.example.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,10 +92,11 @@ public class CourseController
     }
 
     /**
-     * 发布课程 之前绑定好的班级的学生会全部注册这门课程
+     * 发布课程 之前绑定好的班级的学生会全部注册这门课程 支持回滚
      * @param courseId 课程id
      */
     @RequestMapping(value = "/publish",method = RequestMethod.POST)
+    @Transactional
     public String publishCourse(Integer courseId)
     {
         Course course = courseService.getCourse(courseId);
@@ -182,6 +184,19 @@ public class CourseController
     }
 
     /**
+     * 查询该课程里有没有某个学生
+     * @param courseId 课程号
+     * @param userId 学号
+     * @return 不存在则返回"n"，存在则返回该学生
+     */
+    @RequestMapping("/students/search")
+    public Object searchStudentInCourse(Integer courseId,Long userId)
+    {
+        if(userService.userMatchCourse(userId,courseId)) return "n";
+        return userService.getUserCourse(userId,courseId);
+    }
+
+    /**
      * 给单个学生绑定课程
      * @param userId 学号
      * @param courseId 课程号
@@ -196,5 +211,4 @@ public class CourseController
         courseService.newUserCourse(userCourse);
         return "0";
     }
-
 }

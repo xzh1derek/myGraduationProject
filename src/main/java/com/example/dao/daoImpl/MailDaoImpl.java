@@ -3,7 +3,6 @@ package com.example.dao.daoImpl;
 import com.example.dao.IMailDao;
 import com.example.domain.Mail;
 import com.example.mapper.MailMapper;
-import com.example.repository.MailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,20 +12,18 @@ import java.util.List;
 public class MailDaoImpl implements IMailDao
 {
     @Autowired
-    private MailRepository mailRepository;
-    @Autowired
     private MailMapper mailMapper;
 
     @Override
     public void sendMail(Mail mail)
     {
-        mailRepository.save(mail);
+        mailMapper.sendMail(mail);
     }
 
     @Override
     public Mail getMail(Integer id)
     {
-        return mailRepository.getOne(id);
+        return mailMapper.getMail(id);
     }
 
     @Override
@@ -38,7 +35,7 @@ public class MailDaoImpl implements IMailDao
     @Override
     public void deleteMail(Integer id)
     {
-        mailRepository.deleteById(id);
+        mailMapper.deleteMail(id);
     }
 
     @Override
@@ -50,6 +47,6 @@ public class MailDaoImpl implements IMailDao
     @Override
     public void deleteMailBySender(Long sender,Integer type)
     {
-        mailMapper.deleteMail(sender,type);
+        mailMapper.deleteMails(sender,type);
     }
 }

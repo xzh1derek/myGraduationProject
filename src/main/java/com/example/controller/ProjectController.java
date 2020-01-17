@@ -94,6 +94,7 @@ public class ProjectController
      * @return 状态信息
      */
     @RequestMapping(value = "/publish",method = RequestMethod.POST)
+    @Transactional
     public String publishProject(Integer id)
     {
         Project project = moduleService.getProject(id);

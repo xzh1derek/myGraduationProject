@@ -1,12 +1,10 @@
 package com.example.controller;
 
 import com.example.domain.User;
-import com.example.mapper.AccountMapper;
-import com.example.mapper.TeamMapper;
-import com.example.mapper.UserCourseMapper;
-import com.example.mapper.UserMapper;
+import com.example.mapper.*;
 import jxl.Sheet;
 import jxl.Workbook;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +15,7 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 @RestController
+@RequestMapping("test")
 public class TestController
 {
     @Autowired
@@ -27,13 +26,15 @@ public class TestController
     private UserMapper userMapper;
     @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private MailMapper mailMapper;
 
     /**测试功能
      * 删除所有队伍，清空组队状态
      * @return 本地测试通过
      */
-    @RequestMapping(value = "test/teams",method = RequestMethod.DELETE)
-    public String deleteTeam()
+    @DeleteMapping(value = "/teams")
+    public String deleteTeams()
     {
         teamMapper.deleteTeams();
         userCourseMapper.deleteMembers();
@@ -89,14 +90,33 @@ public class TestController
 //    }
 
     /**
-     * 删库接口 删除所有学生
-     * @return 状态码
+     * 删库接口 删除所有学生以及账号
      */
-    @RequestMapping(value = "test/students",method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/students")
     public String deleteAllUsers()
     {
         userMapper.deleteAllUsers();
         accountMapper.deleteAccountByIdentity(1);
+        return "0";
+    }
+
+    /**
+     * 删库接口 删除所有user_course
+     */
+    @DeleteMapping(value = "/userCourses")
+    public String deleteAllUserCourses()
+    {
+        userCourseMapper.deleteAllUserCourses();
+        return "0";
+    }
+
+    /**
+     * 删库接口 删除所有mail
+     */
+    @DeleteMapping(value = "/mails")
+    public String deleteAllMails()
+    {
+        mailMapper.deleteAllMails();
         return "0";
     }
 }

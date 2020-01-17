@@ -16,6 +16,18 @@ public interface MailMapper
     @Select("select * from mail where sender=#{sender} and type=#{type}")
     List<Mail> getMailsBySender(Long sender,Integer type);
 
+    @Insert("insert into mail(sender,receiver,type,team_id,text) values(#{sender},#{receiver},#{type},#{team_id},#{text})")
+    void sendMail(Mail mail);
+
+    @Select("select * from mail where id=#{id}")
+    Mail getMail(Integer id);
+
+    @Delete("delete from mail where id=#{id}")
+    void deleteMail(Integer id);
+
     @Delete("delete from mail where sender=#{sender} and type =#{type}")
-    void deleteMail(Long sender,Integer type);
+    void deleteMails(Long sender,Integer type);
+
+    @Delete("delete from mail")
+    void deleteAllMails();
 }

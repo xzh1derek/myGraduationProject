@@ -25,7 +25,7 @@ public interface CourseMapper
     @Update("update course set stu_num=#{num} where id=#{courseId}")
     void updateStuNum(Integer courseId,Integer num);
 
-    @Update("update course set is_published={status} where id=#{id}")
+    @Update("update course set is_published=#{status} where id=#{id}")
     void updateIsPublished(Integer id,Boolean status);
 
     @Select("select * from course")
@@ -37,7 +37,6 @@ public interface CourseMapper
 
     @Insert("insert into class_course(class_id,course_id,school_id) values(#{class_id},#{course_id},#{school_id})")
     void newClassCourse(Integer class_id, Integer course_id,Integer school_id);
-
 
     @Delete("delete from class_course where course_id=#{courseId}")
     void deleteClassCourse(Integer courseId);

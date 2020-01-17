@@ -57,7 +57,6 @@ public class UserServiceImpl implements IUserService
     public Boolean hasATeam(Long username,Integer courseId)
     {
         UserCourse userCourse = userDao.getUserCourse(username,courseId);
-        //System.out.println(userCourse);
         return userCourse.getTeam_id() != 0;
     }
 
@@ -65,7 +64,6 @@ public class UserServiceImpl implements IUserService
     public Boolean userMatchCourse(Long username, Integer courseId)
     {
         UserCourse userCourse = userDao.getUserCourse(username,courseId);
-        //System.out.println(userCourse);
         return userCourse == null;
     }
 
