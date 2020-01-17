@@ -22,5 +22,9 @@ public interface ITeamDao
 
     void updateDisplay(int teamId, boolean status);
 
-    Boolean existTeam(int teamId);
+    Integer queryTeamNumbers();
+
+    void deleteTeam(Integer teamId);
+
+    Integer queryTeamNumbersByCourse(Integer courseId);
 }

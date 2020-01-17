@@ -47,6 +47,12 @@ public class TeamDaoImpl implements ITeamDao
     }
 
     @Override
+    public void deleteTeam(Integer teamId)
+    {
+        teamMapper.deleteTeam(teamId);
+    }
+
+    @Override
     public Team getTeam(Integer teamId)
     {
         return teamRepository.getOne(teamId);
@@ -71,8 +77,14 @@ public class TeamDaoImpl implements ITeamDao
     }
 
     @Override
-    public Boolean existTeam(int teamId)
+    public Integer queryTeamNumbers()
     {
-        return teamRepository.existsById(teamId);
+        return teamMapper.queryTeamNumbers();
+    }
+
+    @Override
+    public Integer queryTeamNumbersByCourse(Integer courseId)
+    {
+        return teamMapper.queryTeamNumbersByCourse(courseId);
     }
 }

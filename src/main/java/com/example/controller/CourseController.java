@@ -5,8 +5,10 @@ import com.example.domain.*;
 import com.example.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -23,6 +25,8 @@ public class CourseController
     private ITeacherService teacherService;
     @Autowired
     private IMailService mailService;
+    @Autowired
+    private ITeamService teamService;
 
     /**
      * 返回所有课程
@@ -173,6 +177,17 @@ public class CourseController
     }
 
     /**
+     * 获得分页总页码数
+     * @param rows 每行显示数
+     * @param courseId 课程id
+     */
+    @RequestMapping("/students/pages")
+    public Integer queryStudentsPages(Integer courseId,Integer rows)
+    {
+        return courseService.queryStudentsPages(courseId)/rows;
+    }
+
+    /**
      * 查询该课程的所有学生 一次性查询
      * @param courseId 课程号
      * @return 学生的List 用于导出Excel
@@ -209,6 +224,102 @@ public class CourseController
         userCourse.setUsername(userId);
         userCourse.setCourse_id(courseId);
         courseService.newUserCourse(userCourse);
+        return "0";
+    }
+
+    /**
+     * 查询某个课程所有没有组队的同学
+     * @param courseId 课程id
+     */
+    @RequestMapping("/students/teamless")
+    public List<UserCourse> queryStudentsNotInTeams(Integer courseId)
+    {
+        return courseService.queryStudentsTeamless(courseId);
+    }
+
+    /**
+     * 给没组队的学生组队 每位同学单独成队 支持回滚
+     * @param courseId 课程id
+     * @param userId 学号的数组
+     */
+    @RequestMapping(value = "/students/group/alone",method = RequestMethod.POST)
+    public String groupStudentsSingleHandedly(Integer courseId, Long[] userId)
+    {
+        Course course = courseService.getCourse(courseId);
+        for(Long username : userId)
+        {
+            if(userService.hasATeam(username,courseId)){
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return "错误，学号"+username+"已经组队";
+            }
+            Integer teamId = teamService.createTeam(username,courseId,course.getMax_num());
+            userService.updateIsLeader(username,courseId,true);
+            userService.updateTeamId(username,courseId,teamId);
+            mailService.sendMail(0L,username,0,null,"系统自动组队通知，你已进入队伍id："+teamId);
+        }
+        return "0";
+    }
+
+    /**
+     * 给没组队的学生组队 按课程最大组员数 顺序配对 支持回滚
+     * @param courseId 课程id
+     * @param userId 学号的数组
+     */
+    @RequestMapping(value = "/students/group/together",method = RequestMethod.POST)
+    @Transactional
+    public String groupStudentsAltogether(Integer courseId, Long[] userId)
+    {
+        Arrays.sort(userId);
+        Course course = courseService.getCourse(courseId);
+        int i=1,teamId=0;
+        for(Long username : userId)
+        {
+            if(userService.hasATeam(username,courseId)){
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return "错误，学号"+username+"已经组队";
+            }
+            if(i==1){
+                teamId = teamService.createTeam(username,courseId,course.getMax_num());
+                userService.updateIsLeader(username,courseId,true);
+                userService.updateTeamId(username,courseId,teamId);
+                mailService.sendMail(0L,username,0,null,"系统自动组队通知，你已进入队伍id："+teamId);
+            }else if(i>1&&i<=course.getMax_num()){
+                teamService.addAMember(teamId,username);
+                userService.updateTeamId(username,courseId,teamId);
+                mailService.sendMail(0L,username,0,null,"系统自动组队通知，你已进入队伍id："+teamId);
+            }else{
+                i=0;
+            }
+            i++;
+        }
+        return "0";
+    }
+
+    /**
+     * 查询一个同学的所有队伍 多表联查
+     * @param userId 学号
+     * @return Team的list
+     */
+    @RequestMapping("/students/team/search")
+    public List<Team> queryTeamsByUser(Long userId)
+    {
+        return teamService.showMyTeam(userId);
+    }
+
+    /**
+     * 删除队伍 并把组员队伍状态置零
+     * @param teamId 队伍id
+     */
+    @RequestMapping(value = "/students/team/delete",method = RequestMethod.DELETE)
+    public String helpStudentOutOfTeam(Integer teamId)
+    {
+        List<Long> userId = teamService.queryUsernameByTeamId(teamId);
+        for(Long username : userId)
+        {
+            mailService.sendMail(0L,username,0,null,"管理员删除了队伍id："+teamId+"，请重新组队");
+        }
+        teamService.deleteTeamMembers(teamId);
+        teamService.deleteTeam(teamId);
         return "0";
     }
 }

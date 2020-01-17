@@ -36,6 +36,18 @@ public class TeamServiceImpl implements ITeamService
     }
 
     @Override
+    public Integer queryTeamNumbers()
+    {
+        return teamDao.queryTeamNumbers();
+    }
+
+    @Override
+    public Integer queryTeamNumbersByCourse(Integer courseId)
+    {
+        return teamDao.queryTeamNumbersByCourse(courseId);
+    }
+
+    @Override
     public List<Team> queryTeamsByCourse(Integer courseId,Integer rows, Integer page)
     {
         return teamDao.queryTeamsByCourse(courseId,rows,page);
@@ -90,39 +102,36 @@ public class TeamServiceImpl implements ITeamService
 
     /**
      * 返回自己的队伍所有成员信息，手动注入
-     * @param username 学号
+     * @param userId 学号
      * @return 队伍的List
      */
     @Override
-    public List<Team> showMyTeam(Long username)
+    public List<Team> showMyTeam(Long userId)
     {
         List<Team> teams = new ArrayList<>();
-        List<UserCourse> userCourses = userDao.getUser(username).getUserCourses();
-        System.out.println(userCourses);
+        List<UserCourse> userCourses = userDao.getUser(userId).getUserCourses();
         for(UserCourse userCourse : userCourses)
         {
             if(userCourse.getTeam_id()==0) continue;
-            Team team = teamDao.getTeam(userCourse.getTeam_id());
+            Integer teamId = userCourse.getTeam_id();
+            Team team = teamDao.getTeam(teamId);
             List<User> memberDetails = new ArrayList<>();
-            memberDetails.add(userDao.findAUser(team.getLeader()));
-            if(team.getMember1()!=0L){
-                memberDetails.add(userDao.findAUser(team.getMember1()));
-            }if(team.getMember2()!=0L){
-            memberDetails.add(userDao.findAUser(team.getMember2()));
-            }if(team.getMember3()!=0L){
-            memberDetails.add(userDao.findAUser(team.getMember3()));
-            }if(team.getMember4()!=0L){
-            memberDetails.add(userDao.findAUser(team.getMember4()));
-            }if(team.getMember5()!=0L){
-            memberDetails.add(userDao.findAUser(team.getMember5()));
-            }if(team.getMember6()!=0L){
-            memberDetails.add(userDao.findAUser(team.getMember6()));
+            List<Long> usernames = userDao.queryUsernameByTeamId(teamId);
+            for(Long username : usernames)
+            {
+                memberDetails.add(userDao.findAUser(username));
             }
             team.setMemberDetails(memberDetails);
             team.setCourse(courseDao.getCourse(team.getCourseId()));
             teams.add(team);
         }
         return teams;
+    }
+
+    @Override
+    public List<Long> queryUsernameByTeamId(Integer teamId)
+    {
+        return userDao.queryUsernameByTeamId(teamId);
     }
 
     @Override
@@ -138,8 +147,14 @@ public class TeamServiceImpl implements ITeamService
     }
 
     @Override
-    public Boolean existTeam(int teamId)
+    public void deleteTeam(Integer teamId)
     {
-        return teamDao.existTeam(teamId);
+        teamDao.deleteTeam(teamId);
+    }
+
+    @Override
+    public void deleteTeamMembers(Integer teamId)
+    {
+        userDao.deleteTeamMembers(teamId);
     }
 }

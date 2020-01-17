@@ -163,12 +163,13 @@ public class CourseDaoImpl implements ICourseDao
     @Override
     public List<UserCourse> queryStudentsByCoursePaging(Integer courseId, Integer rows, Integer page)
     {
-        List<UserCourse> userCourses = userCourseMapper.queryUserCourseByCoursePaging(courseId,rows,rows*(page-1));
-        for(UserCourse userCourse : userCourses)
-        {
-            userCourse.setUser(userMapper.findAUser(userCourse.getUsername()));
-        }
-        return userCourses;
+        return userCourseMapper.queryUserCourseByCoursePaging(courseId,rows,rows*(page-1));
+    }
+
+    @Override
+    public Integer queryUserCourseNumbers(Integer courseId)
+    {
+        return userCourseMapper.queryUserCourseNumbers(courseId);
     }
 
     /**
@@ -179,12 +180,7 @@ public class CourseDaoImpl implements ICourseDao
     @Override
     public List<UserCourse> queryStudentsByCourse(Integer courseId)
     {
-        List<UserCourse> userCourses = userCourseMapper.queryUserCourseByCourse(courseId);
-        for(UserCourse userCourse : userCourses)
-        {
-            userCourse.setUser(userMapper.findAUser(userCourse.getUsername()));
-        }
-        return userCourses;
+        return userCourseMapper.queryUserCourseByCourse(courseId);
     }
 
     /**
@@ -207,5 +203,11 @@ public class CourseDaoImpl implements ICourseDao
     public List<Integer> queryClassByCourse(Integer course_id)
     {
         return schoolAndClassMapper.queryClassByCourse(course_id);
+    }
+
+    @Override
+    public List<UserCourse> queryStudentsTeamless(Integer courseId)
+    {
+        return userCourseMapper.queryStudentsTeamless(courseId);
     }
 }

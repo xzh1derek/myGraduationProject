@@ -1,18 +1,14 @@
 package com.example.dao.daoImpl;
 
 import com.example.dao.IUserDao;
-import com.example.domain.Team;
 import com.example.domain.User;
 import com.example.domain.UserCourse;
-import com.example.mapper.AccountMapper;
 import com.example.mapper.UserCourseMapper;
 import com.example.mapper.UserMapper;
-import com.example.repository.UserCourseRepository;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.Max;
 import java.util.List;
 
 @Repository
@@ -24,14 +20,6 @@ public class UserDaoImpl implements IUserDao
     private UserCourseMapper userCourseMapper;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private UserCourseRepository userCourseRepository;
-
-    @Override
-    public void saveUserCourse(UserCourse userCourse)
-    {
-        userCourseRepository.save(userCourse);
-    }
 
     @Override
     public User getUser(Long num)
@@ -61,6 +49,24 @@ public class UserDaoImpl implements IUserDao
     public List<UserCourse> getUserCourses(Long u)
     {
         return userCourseMapper.getUserCourses(u);
+    }
+
+    @Override
+    public void updateIsLeader(UserCourse userCourse)
+    {
+        userCourseMapper.updateIsLeader(userCourse);
+    }
+
+    @Override
+    public void updateTeamId(UserCourse userCourse)
+    {
+        userCourseMapper.updateTeamId(userCourse);
+    }
+
+    @Override
+    public void deleteTeamMembers(Integer teamId)
+    {
+        userCourseMapper.deleteTeamMembers(teamId);
     }
 
     @Override
@@ -109,5 +115,17 @@ public class UserDaoImpl implements IUserDao
     public List<User> queryUserListPaging(Integer rows, Integer page)
     {
         return userMapper.queryUserListPaging(rows,rows*(page-1));
+    }
+
+    @Override
+    public Integer queryUserNumbers()
+    {
+        return userMapper.queryUserNumbers();
+    }
+
+    @Override
+    public List<Long> queryUsernameByTeamId(Integer teamId)
+    {
+        return userCourseMapper.queryUsernameByTeamId(teamId);
     }
 }

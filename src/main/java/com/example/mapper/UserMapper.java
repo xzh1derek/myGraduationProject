@@ -41,4 +41,7 @@ public interface UserMapper
 
     @Select("select * from user limit #{x} offset #{y}")
     List<User> queryUserListPaging(Integer x,Integer y);
+
+    @Select("select count(*) from user")
+    Integer queryUserNumbers();
 }

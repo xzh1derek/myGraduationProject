@@ -74,7 +74,7 @@ public class MailController
             if(userService.hasATeam(userId,team.getCourseId())) return "2";//You have a team
             if(!team.isAvailable()) return "3";//The team you applied is full or not available
             teamService.addAMember(teamId,userId);
-            userService.updateTeamId(userService.getUserCourse(userId,team.getCourseId()),teamId);
+            userService.updateTeamId(userId,team.getCourseId(),teamId);
             mailService.deleteMail(mailId);
             mailService.sendMail(0L,team.getLeader(),0,0,"邀请被通过，成员 "+ userId +" 已入队");//发一个系统邮件，告知队长入队成功
         }
@@ -87,7 +87,7 @@ public class MailController
             if(team.getCurrentNum()==team.getMaxNum()) return "7";//Your team is full
             if(userService.hasATeam(userId,team.getCourseId())) return "6";//He has a team
             teamService.addAMember(teamId,userId);
-            userService.updateTeamId(userService.getUserCourse(userId,team.getCourseId()),teamId);
+            userService.updateTeamId(userId,team.getCourseId(),teamId);
             mailService.deleteMail(mailId);
             mailService.sendMail(0L,userId,0,0,"队伍申请已通过，你已入队");//发送系统邮件告知申请通过
         }

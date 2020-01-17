@@ -21,7 +21,7 @@ public interface ModuleMapper
     @Update("update module set module_index=#{module_index},location=#{location},date=#{date},date_of_string=#{dateOfString},time=#{time},stu_num=#{stu_num} where id=#{id}")
     void updateModule(Module module);
 
-    @Select("select * from module ordered by date")
+    @Select("select * from module order by date")
     @Results(id="moduleMap",value = {
             @Result(column = "project_id", property = "project_id"),
             @Result(property = "project",column = "project_id", one = @One(select = "com.example.mapper.ProjectMapper.queryProjectWithCourse",fetchType = FetchType.EAGER)),

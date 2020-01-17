@@ -31,7 +31,7 @@ public class TeamController
      * @param userId 自己的学号
      * @return 队伍的List 多表联查 本地测试通过
      */
-    @RequestMapping(value = "",method = RequestMethod.GET)
+    @RequestMapping(value = "")
     public List<Team> showMyTeam(Long userId)
     {
         return teamService.showMyTeam(userId);
@@ -42,7 +42,7 @@ public class TeamController
      * @param userId 学号
      * @return 待选课程的List
      */
-    @RequestMapping(value = "/myCourse",method = RequestMethod.GET)
+    @RequestMapping(value = "/myCourse")
     public List<UserCourse> myCourse(Long userId)
     {
         List<UserCourse> myUserCourses = new ArrayList<>();
@@ -69,9 +69,8 @@ public class TeamController
     {
         if(userService.hasATeam(userId,courseId)) return "2";//You have a team
         Integer teamId = teamService.createTeam(userId,courseId,courseService.getCourse(courseId).getMax_num());
-        UserCourse userCourse = userService.getUserCourse(userId,courseId);
-        userService.updateLeader(userCourse);
-        userService.updateTeamId(userCourse,teamId);
+        userService.updateIsLeader(userId,courseId,true);
+        userService.updateTeamId(userId,courseId,teamId);
         return "0";
     }
 

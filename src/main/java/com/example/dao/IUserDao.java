@@ -7,13 +7,17 @@ import java.util.List;
 
 public interface IUserDao
 {
-    void saveUserCourse(UserCourse userCourse);
+    void updateIsLeader(UserCourse userCourse);
+
+    void updateTeamId(UserCourse userCourse);
 
     User getUser(Long num);
 
     List<UserCourse> getUserCourses(Long u);
 
     User findAUser(Long num);
+
+    void deleteTeamMembers(Integer teamId);
 
     Boolean existUser(Long num);
 
@@ -34,4 +38,8 @@ public interface IUserDao
     void updateUser(Long userId, User user);
 
     List<User> queryUserListPaging(Integer rows,Integer page);
+
+    Integer queryUserNumbers();
+
+    List<Long> queryUsernameByTeamId(Integer teamId);
 }

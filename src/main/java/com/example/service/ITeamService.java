@@ -8,9 +8,13 @@ public interface ITeamService
 {
     List<Team> queryTeamList(Integer rows, Integer page);
 
+    Integer queryTeamNumbers();
+
     List<Team> queryTeamsByLeader(Long leader);
 
     List<Team> queryTeamsByCourse(Integer courseId,Integer rows, Integer page);
+
+    Integer queryTeamNumbersByCourse(Integer courseId);
 
     List<Team> showMyTeam(Long username);
 
@@ -24,5 +28,9 @@ public interface ITeamService
 
     void updateDisplay(int teamId, boolean status);
 
-    Boolean existTeam(int teamId);
+    void deleteTeam(Integer teamId);
+
+    void deleteTeamMembers(Integer teamId);
+
+    List<Long> queryUsernameByTeamId(Integer teamId);
 }

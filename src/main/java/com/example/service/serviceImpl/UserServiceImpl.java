@@ -16,17 +16,23 @@ public class UserServiceImpl implements IUserService
     private IUserDao userDao;
 
     @Override
-    public void updateLeader(UserCourse userCourse)
+    public void updateIsLeader(Long username, Integer courseId, Boolean isLeader)
     {
-        userCourse.setIs_leader(true);
-        userDao.saveUserCourse(userCourse);
+        UserCourse userCourse = new UserCourse();
+        userCourse.setUsername(username);
+        userCourse.setCourse_id(courseId);
+        userCourse.setIs_leader(isLeader);
+        userDao.updateIsLeader(userCourse);
     }
 
     @Override
-    public void updateTeamId(UserCourse userCourse,Integer teamId)
+    public void updateTeamId(Long username, Integer courseId, Integer teamId)
     {
+        UserCourse userCourse = new UserCourse();
+        userCourse.setUsername(username);
+        userCourse.setCourse_id(courseId);
         userCourse.setTeam_id(teamId);
-        userDao.saveUserCourse(userCourse);
+        userDao.updateTeamId(userCourse);
     }
 
     @Override
@@ -113,5 +119,11 @@ public class UserServiceImpl implements IUserService
     public List<User> queryUserListPaging(Integer rows,Integer page)
     {
         return userDao.queryUserListPaging(rows,page);
+    }
+
+    @Override
+    public Integer queryUserNumbers()
+    {
+        return userDao.queryUserNumbers();
     }
 }

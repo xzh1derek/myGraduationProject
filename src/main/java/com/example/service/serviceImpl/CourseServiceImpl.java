@@ -114,6 +114,12 @@ public class CourseServiceImpl implements ICourseService
     }
 
     @Override
+    public Integer queryStudentsPages(Integer courseId)
+    {
+        return courseDao.queryUserCourseNumbers(courseId);
+    }
+
+    @Override
     public List<UserCourse> queryStudentsByCourse(Integer courseId)
     {
         return courseDao.queryStudentsByCourse(courseId);
@@ -129,5 +135,11 @@ public class CourseServiceImpl implements ICourseService
     public List<Integer> queryClassByCourse(Integer course_id)
     {
         return courseDao.queryClassByCourse(course_id);
+    }
+
+    @Override
+    public List<UserCourse> queryStudentsTeamless(Integer courseId)
+    {
+        return courseDao.queryStudentsTeamless(courseId);
     }
 }

@@ -20,10 +20,20 @@ public class Foyer
      * 进入大厅，显示所有（愿意被显示的）组的信息 分页查询
      * @return 组的列表 多表联查 本地测试通过
      */
-    @RequestMapping(value = "")
+    @RequestMapping("")
     public List<Team> queryTeamList(Integer rows, Integer page)
     {
         return teamService.queryTeamList(rows,page);
+    }
+
+    /**
+     * 获得分页总页码数
+     * @param rows 每行显示数
+     */
+    @RequestMapping("/pages")
+    public Integer queryTeamPages(Integer rows)
+    {
+        return teamService.queryTeamNumbers()/rows;
     }
 
     /**
@@ -31,7 +41,7 @@ public class Foyer
      * @param leader 队长学号
      * @return 组的列表 多表联查 本地测试通过
      */
-    @RequestMapping(value = "/searchLeader",method = RequestMethod.GET)
+    @RequestMapping("/search/leader")
     public List<Team> queryTeamsByLeader(Long leader)
     {
         return teamService.queryTeamsByLeader(leader);
@@ -42,9 +52,20 @@ public class Foyer
      * @param courseId 课程编号
      * @return 组的列表 多表联查 本地测试通过
      */
-    @RequestMapping(value = "/searchCourse",method = RequestMethod.GET)
-    public List<Team> queryTeamsByCourse(Integer courseId,Integer rows, Integer page)
+    @RequestMapping("/search/course")
+    public List<Team> queryTeamsByCoursePaging(Integer courseId,Integer rows, Integer page)
     {
         return teamService.queryTeamsByCourse(courseId,rows,page);
+    }
+
+    /**
+     * 获得分页总页码数
+     * @param rows 每行显示数
+     * @param courseId 课程id
+     */
+    @RequestMapping("/search/course/pages")
+    public Integer queryTeamsByCoursePages(Integer courseId,Integer rows)
+    {
+        return teamService.queryTeamNumbersByCourse(courseId)/rows;
     }
 }

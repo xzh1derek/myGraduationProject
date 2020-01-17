@@ -1,8 +1,8 @@
 package com.example.controller;
-
 import com.example.domain.Account;
 import com.example.domain.User;
 import com.example.service.IAccountService;
+import com.example.service.IMailService;
 import com.example.service.IUserService;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -25,6 +24,8 @@ public class StudentController
     private IUserService userService;
     @Autowired
     private IAccountService accountService;
+    @Autowired
+    private IMailService mailService;
 
     /**
      * 查看所有学生列表 分页查询
@@ -36,6 +37,16 @@ public class StudentController
     public List<User> queryUserList(Integer rows, Integer page)
     {
         return userService.queryUserListPaging(rows,page);
+    }
+
+    /**
+     * 获得分页总页码数
+     * @param rows 每行显示数
+     */
+    @RequestMapping("/pages")
+    public Integer queryUserPages(Integer rows)
+    {
+        return userService.queryUserNumbers()/rows;
     }
 
     /**
@@ -144,6 +155,22 @@ public class StudentController
     public String updatePassword(Long userId)
     {
         accountService.updatePassword(userId.toString(),"123");
+        mailService.sendMail(0L,userId,0,null,"密码已重置为123，请尽快修改密码");
+        return "0";
+    }
+
+    /**
+     * 管理员批量给学生发布公告
+     * @param text 公告文
+     * @param userId 学号的数组
+     */
+    @RequestMapping(value = "/announce",method = RequestMethod.POST)
+    public String sendAnnouncement(String text,@RequestBody Long[] userId)
+    {
+        for(Long username : userId)
+        {
+            mailService.sendMail(0L,username,0,null,text);
+        }
         return "0";
     }
 }

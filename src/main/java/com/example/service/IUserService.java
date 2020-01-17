@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface IUserService
 {
-    void updateLeader(UserCourse userCourse);
+    void updateIsLeader(Long username, Integer courseId, Boolean isLeader);
 
-    void updateTeamId(UserCourse userCourse, Integer teamId);
+    void updateTeamId(Long username, Integer courseId, Integer teamId);
 
     User getUser(Long num);
 
@@ -38,4 +38,6 @@ public interface IUserService
     void updateUser(Long userId, User user);
 
     List<User> queryUserListPaging(Integer rows,Integer page);
+
+    Integer queryUserNumbers();
 }

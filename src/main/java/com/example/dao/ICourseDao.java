@@ -40,9 +40,13 @@ public interface ICourseDao
 
     List<UserCourse> queryStudentsByCoursePaging(Integer courseId,Integer rows, Integer page);
 
+    Integer queryUserCourseNumbers(Integer courseId);
+
     List<UserCourse> queryStudentsByCourse(Integer courseId);
 
     List<School> querySchoolWithClassesLimited(Integer courseId);
 
     List<Integer> queryClassByCourse(Integer course_id);
+
+    List<UserCourse> queryStudentsTeamless(Integer courseId);
 }

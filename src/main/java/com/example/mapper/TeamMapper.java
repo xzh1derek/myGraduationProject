@@ -37,4 +37,13 @@ public interface TeamMapper
 
     @Delete("delete from team")
     void deleteTeams();
+
+    @Delete("delete from team where id=#{teamId}")
+    void deleteTeam(Integer teamId);
+
+    @Select("select count(*) from team")
+    Integer queryTeamNumbers();
+
+    @Select("select count(course_id) from team where course_id=#{courseId}")
+    Integer queryTeamNumbersByCourse(Integer courseId);
 }
