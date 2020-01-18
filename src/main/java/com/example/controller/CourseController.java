@@ -177,14 +177,13 @@ public class CourseController
     }
 
     /**
-     * 获得分页总页码数
-     * @param rows 每行显示数
+     * 获得记录总数
      * @param courseId 课程id
      */
     @RequestMapping("/students/pages")
-    public Integer queryStudentsPages(Integer courseId,Integer rows)
+    public Integer queryStudentsPages(Integer courseId)
     {
-        return courseService.queryStudentsPages(courseId)/rows+1;
+        return courseService.queryStudentsPages(courseId);
     }
 
     /**

@@ -40,13 +40,12 @@ public class StudentController
     }
 
     /**
-     * 获得分页总页码数
-     * @param rows 每行显示数
+     * 获得记录总数
      */
     @RequestMapping("/pages")
-    public Integer queryUserPages(Integer rows)
+    public Integer queryUserPages()
     {
-        return userService.queryUserNumbers()/rows+1;
+        return userService.queryUserNumbers();
     }
 
     /**

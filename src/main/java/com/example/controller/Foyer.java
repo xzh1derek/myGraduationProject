@@ -27,13 +27,12 @@ public class Foyer
     }
 
     /**
-     * 获得分页总页码数
-     * @param rows 每行显示数
+     * 获得记录总数
      */
     @RequestMapping("/pages")
-    public Integer queryTeamPages(Integer rows)
+    public Integer queryTeamPages()
     {
-        return teamService.queryTeamNumbers()/rows+1;
+        return teamService.queryTeamNumbers();
     }
 
     /**
@@ -59,13 +58,12 @@ public class Foyer
     }
 
     /**
-     * 获得分页总页码数
-     * @param rows 每行显示数
+     * 获得记录总数
      * @param courseId 课程id
      */
     @RequestMapping("/search/course/pages")
-    public Integer queryTeamsByCoursePages(Integer courseId,Integer rows)
+    public Integer queryTeamsByCoursePages(Integer courseId)
     {
-        return teamService.queryTeamNumbersByCourse(courseId)/rows+1;
+        return teamService.queryTeamNumbersByCourse(courseId);
     }
 }
