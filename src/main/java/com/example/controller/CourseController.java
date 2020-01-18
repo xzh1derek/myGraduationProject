@@ -184,7 +184,7 @@ public class CourseController
     @RequestMapping("/students/pages")
     public Integer queryStudentsPages(Integer courseId,Integer rows)
     {
-        return courseService.queryStudentsPages(courseId)/rows;
+        return courseService.queryStudentsPages(courseId)/rows+1;
     }
 
     /**

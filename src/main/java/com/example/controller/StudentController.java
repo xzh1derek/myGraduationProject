@@ -46,7 +46,7 @@ public class StudentController
     @RequestMapping("/pages")
     public Integer queryUserPages(Integer rows)
     {
-        return userService.queryUserNumbers()/rows;
+        return userService.queryUserNumbers()/rows+1;
     }
 
     /**

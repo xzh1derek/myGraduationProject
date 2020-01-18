@@ -33,7 +33,7 @@ public class Foyer
     @RequestMapping("/pages")
     public Integer queryTeamPages(Integer rows)
     {
-        return teamService.queryTeamNumbers()/rows;
+        return teamService.queryTeamNumbers()/rows+1;
     }
 
     /**
@@ -66,6 +66,6 @@ public class Foyer
     @RequestMapping("/search/course/pages")
     public Integer queryTeamsByCoursePages(Integer courseId,Integer rows)
     {
-        return teamService.queryTeamNumbersByCourse(courseId)/rows;
+        return teamService.queryTeamNumbersByCourse(courseId)/rows+1;
     }
 }
