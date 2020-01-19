@@ -241,7 +241,7 @@ public class CourseController
      * @param courseId 课程id
      * @param userId 学号的数组
      */
-    @RequestMapping(value = "/students/group/alone",method = RequestMethod.POST)
+    @RequestMapping(value = "/students/team/alone",method = RequestMethod.POST)
     public String groupStudentsSingleHandedly(Integer courseId, Long[] userId)
     {
         Course course = courseService.getCourse(courseId);
@@ -264,7 +264,7 @@ public class CourseController
      * @param courseId 课程id
      * @param userId 学号的数组
      */
-    @RequestMapping(value = "/students/group/together",method = RequestMethod.POST)
+    @RequestMapping(value = "/students/team/together",method = RequestMethod.POST)
     @Transactional
     public String groupStudentsAltogether(Integer courseId, Long[] userId)
     {
@@ -309,7 +309,7 @@ public class CourseController
      * 删除队伍 并把组员队伍状态置零
      * @param teamId 队伍id
      */
-    @RequestMapping(value = "/students/team/delete",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/students/team/clear",method = RequestMethod.DELETE)
     public String helpStudentOutOfTeam(Integer teamId)
     {
         List<Long> userId = teamService.queryUsernameByTeamId(teamId);
