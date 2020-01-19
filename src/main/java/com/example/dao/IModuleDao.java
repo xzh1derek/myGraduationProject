@@ -25,8 +25,6 @@ public interface IModuleDao
 
     void updateStuNum(Integer moduleId,Integer num);
 
-    List<Module> queryModulesWithProjectAndCourse();
-
     List<User> queryStudentsByModule(Integer moduleId);
 
     void deleteModule(Integer moduleId);
@@ -42,4 +40,8 @@ public interface IModuleDao
     void newUserModule(Long username,Integer module_id);
 
     void updateUserModule(Integer module_id,Long teacher,Boolean is_team,Boolean is_fixed);
+
+    List<Module> queryModuleOrderByDate(Long teacher);
+
+    List<Module> queryModuleAfterToday(Long teacher);
 }

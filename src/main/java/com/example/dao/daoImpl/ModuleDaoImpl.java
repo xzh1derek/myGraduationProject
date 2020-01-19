@@ -58,12 +58,6 @@ public class ModuleDaoImpl implements IModuleDao
     }
 
     @Override
-    public List<Module> queryModulesWithProjectAndCourse()
-    {
-        return moduleMapper.queryModuleWithProjectAndCourse();
-    }
-
-    @Override
     public List<User> queryStudentsByModule(Integer moduleId)
     {
         List<UserModule> userModules = userModuleMapper.queryUserModuleByModule(moduleId);
@@ -136,5 +130,17 @@ public class ModuleDaoImpl implements IModuleDao
     public void updateUserModule(Integer module_id, Long teacher, Boolean is_team, Boolean is_fixed)
     {
         userModuleMapper.updateUserModule(module_id,teacher,is_team,is_fixed);
+    }
+
+    @Override
+    public List<Module> queryModuleOrderByDate(Long teacher)
+    {
+        return moduleMapper.queryModuleOrderByDate(teacher);
+    }
+
+    @Override
+    public List<Module> queryModuleAfterToday(Long teacher)
+    {
+        return moduleMapper.queryModuleAfterToday(teacher);
     }
 }

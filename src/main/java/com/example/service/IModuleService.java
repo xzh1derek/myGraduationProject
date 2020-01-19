@@ -16,8 +16,6 @@ public interface IModuleService
 
     void updateStuNum(Integer moduleId,Integer num);
 
-    List<Module> queryModulesWithProjectAndCourse();
-
     List<Module> queryModulesByProject(Integer projectId);
 
     List<User> queryStudentsByModule(Integer moduleId);
@@ -41,4 +39,8 @@ public interface IModuleService
     void newUserModule(Long username,Integer module_id);
 
     void updateUserModule(Integer module_id,Long teacher,Boolean is_team,Boolean is_fixed);
+
+    List<Module> queryModuleOrderByDate(Long teacher);
+
+    List<Module> queryModuleAfterToday(Long teacher);
 }

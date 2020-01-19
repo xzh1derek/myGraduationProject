@@ -73,6 +73,7 @@ public class CourseController
     @RequestMapping(value = "/teachers/bind",method = RequestMethod.POST)
     public String bindTeachers(Integer courseId,@RequestBody Integer[] teachers)
     {
+        if(courseService.getCourse(courseId).getIs_published()) return "已发布课程，不能绑定班级";
         Long teachersEncoded = ByteConverter.convertIndexToLong(teachers);
         courseService.updateTeachers(courseId,teachersEncoded);
         return "0";

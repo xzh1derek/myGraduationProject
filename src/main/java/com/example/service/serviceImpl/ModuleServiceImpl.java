@@ -41,12 +41,6 @@ public class ModuleServiceImpl implements IModuleService
     }
 
     @Override
-    public List<Module> queryModulesWithProjectAndCourse()
-    {
-        return moduleDao.queryModulesWithProjectAndCourse();
-    }
-
-    @Override
     public List<User> queryStudentsByModule(Integer moduleId)
     {
         return moduleDao.queryStudentsByModule(moduleId);
@@ -116,5 +110,17 @@ public class ModuleServiceImpl implements IModuleService
     public void updateUserModule(Integer module_id, Long teacher, Boolean is_team, Boolean is_fixed)
     {
         moduleDao.updateUserModule(module_id,teacher,is_team,is_fixed);
+    }
+
+    @Override
+    public List<Module> queryModuleOrderByDate(Long teacher)
+    {
+        return moduleDao.queryModuleOrderByDate(teacher);
+    }
+
+    @Override
+    public List<Module> queryModuleAfterToday(Long teacher)
+    {
+        return moduleDao.queryModuleAfterToday(teacher);
     }
 }
