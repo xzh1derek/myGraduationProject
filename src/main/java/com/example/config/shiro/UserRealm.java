@@ -29,7 +29,6 @@ public class UserRealm extends AuthorizingRealm
     /**
      * 执行认证逻辑
      * @param authenticationToken
-     * @return
      * @throws AuthenticationException
      */
     @Override
@@ -38,7 +37,6 @@ public class UserRealm extends AuthorizingRealm
         UsernamePasswordToken token = (UsernamePasswordToken)authenticationToken;
         if(!accountService.existAccount(token.getUsername())) return null;//会抛出UnknownAccountException 用户不存在
         Account account = accountService.getAccount(token.getUsername());
-        AuthenticationInfo info = new SimpleAuthenticationInfo("",account.getPassword(),"");
-        return info;
+        return new SimpleAuthenticationInfo("",account.getPassword(),"");
     }
 }

@@ -32,13 +32,16 @@ public class Login
     {
         if(!accountService.existAccount(username)) return "n";//账号不存在
         Account account = accountService.getAccount(username);
-        String psw = account.getPassword(),passwordEncrypted=new Md5Hash(password).toString();
+        String psw = account.getPassword();
+        if(!password.equals("123")){
+            password = new Md5Hash(password).toString();
+        }
         Integer identity = account.getIdentity();
         if(identity==1){
-            if(passwordEncrypted.equals(psw)) return userService.getUser(Long.parseLong(username));//登陆成功，转入学生个人界面
+            if(password.equals(psw)) return userService.getUser(Long.parseLong(username));//登陆成功，转入学生个人界面
             else return "f";//登录失败，重新登录
         }else{
-            if(passwordEncrypted.equals(psw)) return "t";//转入老师/管理员界面
+            if(password.equals(psw)) return "t";//转入老师/管理员界面
             else return "f";
         }
     }
@@ -52,7 +55,10 @@ public class Login
     public Object loginMethod(String username,String password)
     {
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username,new Md5Hash(password).toString());
+        if(!password.equals("123")){
+            password = new Md5Hash(password).toString();
+        }
+        UsernamePasswordToken token = new UsernamePasswordToken(username,password);
         try{
             subject.login(token);
             Account account = accountService.getAccount(username);
