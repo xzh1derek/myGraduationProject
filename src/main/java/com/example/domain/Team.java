@@ -32,24 +32,24 @@ public class Team implements Serializable
     @Transient
     private List<User> memberDetails;
 
-    public int getId()
+    public Integer getId()
     {
         return id;
     }
 
-    public void setId(int id)
+    public void setId(Integer id)
     {
         this.id = id;
     }
 
-    public int getCourseId()
+    public Integer getCourse_id()
     {
         return course_id;
     }
 
-    public void setCourseId(int courseId)
+    public void setCourse_id(Integer course_id)
     {
-        this.course_id = courseId;
+        this.course_id = course_id;
     }
 
     public Long getLeader()
@@ -122,34 +122,34 @@ public class Team implements Serializable
         this.member6 = member6;
     }
 
-    public int getCurrentNum()
+    public Integer getCurrent_num()
     {
         return current_num;
     }
 
-    public void setCurrentNum(int currentNum)
+    public void setCurrent_num(Integer current_num)
     {
-        this.current_num = currentNum;
+        this.current_num = current_num;
     }
 
-    public int getMaxNum()
+    public Integer getMax_num()
     {
         return max_num;
     }
 
-    public void setMaxNum(int maxNum)
+    public void setMax_num(Integer max_num)
     {
-        this.max_num = maxNum;
+        this.max_num = max_num;
     }
 
-    public boolean isDisplay()
+    public Boolean getIs_display()
     {
         return is_display;
     }
 
-    public void setDisplay(boolean display)
+    public void setIs_display(Boolean is_display)
     {
-        is_display = display;
+        this.is_display = is_display;
     }
 
     public String getDescription()
@@ -162,12 +162,12 @@ public class Team implements Serializable
         this.description = description;
     }
 
-    public boolean isAvailable()
+    public Boolean getAvailable()
     {
         return available;
     }
 
-    public void setAvailable(boolean available)
+    public void setAvailable(Boolean available)
     {
         this.available = available;
     }

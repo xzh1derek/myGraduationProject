@@ -71,10 +71,10 @@ public class MailController
             Long userId = myMail.getReceiver();
             Integer teamId = myMail.getTeamId();
             Team team = teamService.getTeam(teamId);
-            if(userService.hasATeam(userId,team.getCourseId())) return "2";//You have a team
-            if(!team.isAvailable()) return "3";//The team you applied is full or not available
+            if(userService.hasATeam(userId,team.getCourse_id())) return "2";//You have a team
+            if(!team.getAvailable()) return "3";//The team you applied is full or not available
             teamService.addAMember(teamId,userId);
-            userService.updateTeamId(userId,team.getCourseId(),teamId);
+            userService.updateTeamId(userId,team.getCourse_id(),teamId);
             mailService.deleteMail(mailId);
             mailService.sendMail(0L,team.getLeader(),0,0,"邀请被通过，成员 "+ userId +" 已入队");//发一个系统邮件，告知队长入队成功
         }
@@ -83,11 +83,11 @@ public class MailController
             Long userId = myMail.getSender();
             Integer teamId = myMail.getTeamId();
             Team team = teamService.getTeam(teamId);
-            if(!team.isAvailable()) return "5";//Your team is full or not available
-            if(team.getCurrentNum()==team.getMaxNum()) return "7";//Your team is full
-            if(userService.hasATeam(userId,team.getCourseId())) return "6";//He has a team
+            if(!team.getAvailable()) return "5";//Your team is full or not available
+            if(team.getCurrent_num().equals(team.getMax_num())) return "7";//Your team is full
+            if(userService.hasATeam(userId,team.getCourse_id())) return "6";//He has a team
             teamService.addAMember(teamId,userId);
-            userService.updateTeamId(userId,team.getCourseId(),teamId);
+            userService.updateTeamId(userId,team.getCourse_id(),teamId);
             mailService.deleteMail(mailId);
             mailService.sendMail(0L,userId,0,0,"队伍申请已通过，你已入队");//发送系统邮件告知申请通过
         }

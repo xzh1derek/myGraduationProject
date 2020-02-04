@@ -21,6 +21,8 @@ public class Module implements Serializable
     private String time;
     private String location;
     private Integer stu_num;
+    @Transient
+    private Integer cur_num;
     private Integer class1;
     private Integer class2;
     @Transient
@@ -98,6 +100,16 @@ public class Module implements Serializable
         this.stu_num = stu_num;
     }
 
+    public Integer getCur_num()
+    {
+        return cur_num;
+    }
+
+    public void setCur_num(Integer cur_num)
+    {
+        this.cur_num = cur_num;
+    }
+
     public Project getProject()
     {
         return project;
@@ -149,6 +161,7 @@ public class Module implements Serializable
                 ", time='" + time + '\'' +
                 ", location='" + location + '\'' +
                 ", stu_num=" + stu_num +
+                ", cur_num=" + cur_num +
                 ", class1=" + class1 +
                 ", class2=" + class2 +
                 ", project=" + project +

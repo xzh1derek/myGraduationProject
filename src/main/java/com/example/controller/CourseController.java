@@ -207,8 +207,8 @@ public class CourseController
     @RequestMapping("/students/search")
     public Object searchStudentInCourse(Integer courseId,Long userId)
     {
-        if(userService.userMatchCourse(userId,courseId)) return "n";
-        return userService.getUserCourse(userId,courseId);
+        if(!userService.userMatchCourse(userId,courseId)) return "n";
+        return userService.getUserCourseWithUser(userId,courseId);
     }
 
     /**

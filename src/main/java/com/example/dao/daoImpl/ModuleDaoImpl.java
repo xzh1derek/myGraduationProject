@@ -40,9 +40,10 @@ public class ModuleDaoImpl implements IModuleDao
     }
 
     @Override
-    public void createModule(Module module)
+    public Integer createModule(Module module)
     {
         moduleMapper.createModule(module);
+        return module.getId();
     }
 
     @Override
@@ -60,11 +61,11 @@ public class ModuleDaoImpl implements IModuleDao
     @Override
     public List<User> queryStudentsByModule(Integer moduleId)
     {
-        List<UserModule> userModules = userModuleMapper.queryUserModuleByModule(moduleId);
+        List<Long> usernames = userModuleMapper.queryUsernameByModule(moduleId);
         List<User> userList = new ArrayList<>();
-        for(UserModule userModule : userModules)
+        for(Long username : usernames)
         {
-            userList.add(userMapper.findAUser(userModule.getUsername()));
+            userList.add(userMapper.findAUser(username));
         }
         return userList;
     }
@@ -127,12 +128,6 @@ public class ModuleDaoImpl implements IModuleDao
     }
 
     @Override
-    public void updateUserModule(Integer module_id, Long teacher, Boolean is_team, Boolean is_fixed)
-    {
-        userModuleMapper.updateUserModule(module_id,teacher,is_team,is_fixed);
-    }
-
-    @Override
     public List<Module> queryModuleOrderByDate(Long teacher)
     {
         return moduleMapper.queryModuleOrderByDate(teacher);
@@ -142,5 +137,41 @@ public class ModuleDaoImpl implements IModuleDao
     public List<Module> queryModuleAfterToday(Long teacher)
     {
         return moduleMapper.queryModuleAfterToday(teacher);
+    }
+
+    @Override
+    public Integer countUserNumbersByModule(Integer moduleId)
+    {
+        return userModuleMapper.countUserNumbersByModule(moduleId);
+    }
+
+    @Override
+    public List<Module> queryModuleOfArbitrary(Long teacher)
+    {
+        return moduleMapper.queryModuleOfArbitrary(teacher);
+    }
+
+    @Override
+    public List<Module> queryModuleByUsername(Long userId)
+    {
+        return moduleMapper.queryModuleByUsername(userId);
+    }
+
+    @Override
+    public List<Module> queryModuleByUsernameAfterToday(Long userId)
+    {
+        return moduleMapper.queryModuleByUsernameAfterToday(userId);
+    }
+
+    @Override
+    public List<Module> queryModuleExpired()
+    {
+        return moduleMapper.queryModuleExpired();
+    }
+
+    @Override
+    public void deleteUserModuleByModule(Integer moduleId)
+    {
+        userModuleMapper.deleteUserModuleByModule(moduleId);
     }
 }

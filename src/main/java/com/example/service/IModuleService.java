@@ -12,7 +12,7 @@ public interface IModuleService
 
     List<Project> queryProjectWithModules();
 
-    void createModule(Module module);
+    Integer createModule(Module module);
 
     void updateStuNum(Integer moduleId,Integer num);
 
@@ -38,9 +38,17 @@ public interface IModuleService
 
     void newUserModule(Long username,Integer module_id);
 
-    void updateUserModule(Integer module_id,Long teacher,Boolean is_team,Boolean is_fixed);
-
     List<Module> queryModuleOrderByDate(Long teacher);
 
     List<Module> queryModuleAfterToday(Long teacher);
+
+    List<Module> queryModuleOfArbitrary(Long teacher);
+
+    List<Module> queryModuleByUsername(Long userId);
+
+    List<Module> queryModuleByUsernameAfterToday(Long userId);
+
+    List<Module> queryModuleExpired();
+
+    void deleteUserModuleByModule(Integer moduleId);
 }

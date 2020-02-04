@@ -49,4 +49,6 @@ public interface ICourseService
     List<Integer> queryClassByCourse(Integer course_id);
 
     List<UserCourse> queryStudentsTeamless(Integer courseId);
+
+    List<Project> queryProjectByCourseToChoose(Integer courseId);
 }

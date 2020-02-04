@@ -22,6 +22,8 @@ public class Project implements Serializable
     private Boolean is_fixed;//true为固定，false为任选
     private Boolean is_published;
     @Transient
+    private Boolean is_chosen;
+    @Transient
     private Course course;
     @Transient
     private List<Module> modules;
@@ -116,6 +118,16 @@ public class Project implements Serializable
         this.modules = modules;
     }
 
+    public Boolean getIs_chosen()
+    {
+        return is_chosen;
+    }
+
+    public void setIs_chosen(Boolean is_chosen)
+    {
+        this.is_chosen = is_chosen;
+    }
+
     @Override
     public String toString()
     {
@@ -127,6 +139,7 @@ public class Project implements Serializable
                 ", hours=" + hours +
                 ", is_fixed=" + is_fixed +
                 ", is_published=" + is_published +
+                ", is_chosen=" + is_chosen +
                 ", course=" + course +
                 ", modules=" + modules +
                 '}';

@@ -25,6 +25,13 @@ public interface UserCourseMapper
     })
     UserCourse getUserCourse(Long u, Integer c);
 
+    @Select("select * from user_course where username=#{u} and course_id=#{c}")
+    UserCourse queryUserCourse(Long u, Integer c);
+
+    @Select("select * from user_course where username=#{u} and course_id=#{c}")
+    @ResultMap(value = "userCourseMapWithCourse")
+    UserCourse queryUserCourseWithCourse(Long u, Integer c);
+
     @Update("update user_course set is_leader=#{is_leader} where username=#{username} and course_id=#{course_id}")
     void updateIsLeader(UserCourse userCourse);
 

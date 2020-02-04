@@ -15,7 +15,7 @@ public interface IModuleDao
 
     List<Module> queryModulesByProject(Integer projectId);
 
-    void createModule(Module module);
+    Integer createModule(Module module);
 
     void updateProject(Project project);
 
@@ -39,9 +39,19 @@ public interface IModuleDao
 
     void newUserModule(Long username,Integer module_id);
 
-    void updateUserModule(Integer module_id,Long teacher,Boolean is_team,Boolean is_fixed);
-
     List<Module> queryModuleOrderByDate(Long teacher);
 
     List<Module> queryModuleAfterToday(Long teacher);
+
+    Integer countUserNumbersByModule(Integer moduleId);
+
+    List<Module> queryModuleOfArbitrary(Long teacher);
+
+    List<Module> queryModuleByUsername(Long userId);
+
+    List<Module> queryModuleByUsernameAfterToday(Long userId);
+
+    List<Module> queryModuleExpired();
+
+    void deleteUserModuleByModule(Integer moduleId);
 }

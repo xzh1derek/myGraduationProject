@@ -1,5 +1,5 @@
 package com.example.controller;
-
+import com.example.config.redis.RedisService;
 import com.example.domain.Course;
 import com.example.domain.Module;
 import com.example.domain.Project;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
+import redis.clients.jedis.JedisPool;
 import java.util.HashSet;
 import java.util.List;
 
@@ -30,6 +30,10 @@ public class ProjectController
     private IUserService userService;
     @Autowired
     private IMailService mailService;
+    @Autowired
+    private JedisPool jedisPool;
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 查询所有课程以及其所有子项目
@@ -89,7 +93,7 @@ public class ProjectController
     }
 
     /**
-     * 管理员发布排课
+     * 管理员发布排课 (撤销排课或者redis重启后都要重新发布 区别在于 撤销后已经选了的记录不消失 而redis清空后就消失了需要重新选课)
      * @param id project的id
      * @return 状态信息
      */
@@ -133,25 +137,30 @@ public class ProjectController
                 Integer class1 = module.getClass1(),class2 = module.getClass2();
                 List<Long> usernameList = userService.findUsersByClass(class1);
                 if(class2!=null) usernameList.addAll(userService.findUsersByClass(class2));
-                String text = "课程【"+course.getCourse_name()+"】新增批次 [+"+project.getProject_name()+"+]，时间["+
-                        module.getDate()+module.getTime()+"]，地点["+module.getLocation()+"]，学时["+
-                        project.getHours()+"]。请到【选课管理】中查看。";
+                String text = "课程【"+course.getCourse_name()+"】新增["+project.getProject_name()+"]，时间["+
+                        module.getDate()+" "+module.getTime()+"]，地点["+module.getLocation()+"]。请到【课程管理】->【我的课表】中查看";
                 for(Long username : usernameList){
                     moduleService.newUserModule(username,module.getId());
                     mailService.sendMail(0L,username,0,null,text);
                 }
-                moduleService.updateUserModule(module.getId(),course.getTeacher(),course.getIs_team(),project.getIs_fixed());
                 moduleService.updateStuNum(module.getId(),usernameList.size());
             }
         }
-        else //任选排课，将module传到redis里
+        else //任选排课，还需要管理员设置选课的截止时间，传到redis里
         {
             Integer stuNums = course.getStu_num(),nums=0;
             for(Module module : modules){
                 nums+=module.getStu_num();
             }
             if(nums<=stuNums) return "排课被驳回，排课各批次人数和少于该课程的总人数";
-            System.out.println("任选排课");
+            //redis里放入course
+            redisService.insertCourseIntoRedis(course);
+            //redis里放入project
+            redisService.insertProjectIntoRedis(project);
+            //redis里放入module
+            for(Module module : modules){
+                redisService.insertModuleIntoRedis(module);
+            }
         }
         moduleService.updateIsPublished(id,true);
         return "0";

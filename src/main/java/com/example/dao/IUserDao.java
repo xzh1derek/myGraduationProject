@@ -23,6 +23,10 @@ public interface IUserDao
 
     UserCourse getUserCourse(Long u, Integer c);
 
+    UserCourse queryUserCourse(Long u, Integer c);
+
+    UserCourse queryUserCourseWithCourse(Long u, Integer c);
+
     void updateQQ(Long u, String qq);
 
     List<Long> findUsersByClass(Integer c);

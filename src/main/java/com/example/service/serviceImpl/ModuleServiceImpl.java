@@ -29,9 +29,9 @@ public class ModuleServiceImpl implements IModuleService
     }
 
     @Override
-    public void createModule(Module module)
+    public Integer createModule(Module module)
     {
-        moduleDao.createModule(module);
+        return moduleDao.createModule(module);
     }
 
     @Override
@@ -107,12 +107,6 @@ public class ModuleServiceImpl implements IModuleService
     }
 
     @Override
-    public void updateUserModule(Integer module_id, Long teacher, Boolean is_team, Boolean is_fixed)
-    {
-        moduleDao.updateUserModule(module_id,teacher,is_team,is_fixed);
-    }
-
-    @Override
     public List<Module> queryModuleOrderByDate(Long teacher)
     {
         return moduleDao.queryModuleOrderByDate(teacher);
@@ -122,5 +116,35 @@ public class ModuleServiceImpl implements IModuleService
     public List<Module> queryModuleAfterToday(Long teacher)
     {
         return moduleDao.queryModuleAfterToday(teacher);
+    }
+
+    @Override
+    public List<Module> queryModuleOfArbitrary(Long teacher)
+    {
+        return moduleDao.queryModuleOfArbitrary(teacher);
+    }
+
+    @Override
+    public List<Module> queryModuleByUsername(Long userId)
+    {
+        return moduleDao.queryModuleByUsername(userId);
+    }
+
+    @Override
+    public List<Module> queryModuleByUsernameAfterToday(Long userId)
+    {
+        return moduleDao.queryModuleByUsernameAfterToday(userId);
+    }
+
+    @Override
+    public List<Module> queryModuleExpired()
+    {
+        return moduleDao.queryModuleExpired();
+    }
+
+    @Override
+    public void deleteUserModuleByModule(Integer moduleId)
+    {
+        moduleDao.deleteUserModuleByModule(moduleId);
     }
 }

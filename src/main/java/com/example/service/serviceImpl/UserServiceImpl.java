@@ -54,9 +54,21 @@ public class UserServiceImpl implements IUserService
     }
 
     @Override
-    public UserCourse getUserCourse(Long username,Integer courseId)
+    public UserCourse getUserCourseWithUser(Long username,Integer courseId)
     {
         return userDao.getUserCourse(username,courseId);
+    }
+
+    @Override
+    public UserCourse queryUserCourseWithCourse(Long username, Integer courseId)
+    {
+        return userDao.queryUserCourseWithCourse(username,courseId);
+    }
+
+    @Override
+    public List<Long> queryUsernameByTeamId(Integer teamId)
+    {
+        return userDao.queryUsernameByTeamId(teamId);
     }
 
     @Override
@@ -69,8 +81,8 @@ public class UserServiceImpl implements IUserService
     @Override
     public Boolean userMatchCourse(Long username, Integer courseId)
     {
-        UserCourse userCourse = userDao.getUserCourse(username,courseId);
-        return userCourse == null;
+        UserCourse userCourse = userDao.queryUserCourse(username,courseId);
+        return userCourse != null;
     }
 
     @Override

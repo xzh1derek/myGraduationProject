@@ -32,9 +32,9 @@ public class Apply
     public String apply(Long sender, Integer teamId)
     {
         Team team = teamService.getTeam(teamId);
-        if(userService.userMatchCourse(sender,team.getCourseId())) return "9";//Your course does not match the team's curriculum
-        if(userService.hasATeam(sender,team.getCourseId())) return "2";//You have a team
-        if(!team.isAvailable()) return "3";//The team you applied is full or not available.
+        if(!userService.userMatchCourse(sender,team.getCourse_id())) return "9";//Your course does not match the team's curriculum
+        if(userService.hasATeam(sender,team.getCourse_id())) return "2";//You have a team
+        if(!team.getAvailable()) return "3";//The team you applied is full or not available.
         if(mailService.hasApplied(sender)) return "4";//You have an untreated application, you can't apply for another team.
         mailService.sendMail(sender,team.getLeader(),2,teamId,sender+" 同学申请加入队伍ID: "+teamId);
         return "0";

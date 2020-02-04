@@ -17,7 +17,9 @@ public interface IUserService
 
     Boolean existUser(Long num);
 
-    UserCourse getUserCourse(Long username, Integer courseId);
+    UserCourse getUserCourseWithUser(Long username, Integer courseId);
+
+    UserCourse queryUserCourseWithCourse(Long username, Integer courseId);
 
     List<UserCourse> getUserCourses(Long u);
 
@@ -28,6 +30,8 @@ public interface IUserService
     void updateQQ(Long u, String qq);
 
     List<Long> findUsersByClass(Integer c);
+
+    List<Long> queryUsernameByTeamId(Integer teamId);
 
     void updateMessage(Long u);
 

@@ -85,9 +85,9 @@ public class TeamController
     {
         if(!userService.existUser(receiver)) return "1";//User does not exist.
         Team team = teamService.getTeam(teamId);
-        if(userService.userMatchCourse(receiver,team.getCourseId())) return "8";//He is not involved in this course.
-        if(userService.hasATeam(receiver,team.getCourseId())) return "6";//He has a team.
-        else if(team.getCurrentNum()==team.getMaxNum()) return "7";//Your team is full
+        if(!userService.userMatchCourse(receiver,team.getCourse_id())) return "8";//He is not involved in this course.
+        if(userService.hasATeam(receiver,team.getCourse_id())) return "6";//He has a team.
+        else if(team.getCurrent_num().equals(team.getMax_num())) return "7";//Your team is full
         else{
             mailService.sendMail(team.getLeader(),receiver,1,teamId,team.getLeader()+" 同学邀请你加入队伍ID: "+teamId);
             return "0";
@@ -106,7 +106,7 @@ public class TeamController
         Team team = teamService.getTeam(teamId);
         if(status)
         {
-            if(team.getCurrentNum()==team.getMaxNum()) return "7";//Your team is full
+            if(team.getCurrent_num().equals(team.getMax_num())) return "7";//Your team is full
             else teamService.updateAvailable(teamId,true);
         }
         else

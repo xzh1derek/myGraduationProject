@@ -74,29 +74,29 @@ public class TeamServiceImpl implements ITeamService
     public void addAMember(int teamId, Long id)
     {
         Team team = teamDao.getTeam(teamId);
-        if(!team.isAvailable()) return;
-        int currentNum = team.getCurrentNum(),maxNum=team.getMaxNum();
+        if(!team.getAvailable()) return;
+        int currentNum = team.getCurrent_num(),maxNum=team.getMax_num();
         if(currentNum==maxNum) return;
         else if(currentNum==1&&maxNum>1){
             team.setMember1(id);
-            team.setCurrentNum(2);
+            team.setCurrent_num(2);
         }else if(currentNum==2&&maxNum>2){
             team.setMember2(id);
-            team.setCurrentNum(3);
+            team.setCurrent_num(3);
         }else if(currentNum==3&&maxNum>3){
             team.setMember3(id);
-            team.setCurrentNum(4);
+            team.setCurrent_num(4);
         }else if(currentNum==4&&maxNum>4){
             team.setMember4(id);
-            team.setCurrentNum(5);
+            team.setCurrent_num(5);
         }else if(currentNum==5&&maxNum>5){
             team.setMember5(id);
-            team.setCurrentNum(6);
+            team.setCurrent_num(6);
         }else if(currentNum==6&&maxNum>6){
             team.setMember6(id);
-            team.setCurrentNum(7);
+            team.setCurrent_num(7);
         }
-        if(team.getCurrentNum()==team.getMaxNum()) team.setAvailable(false);
+        if(team.getCurrent_num()==team.getMax_num()) team.setAvailable(false);
         teamDao.updateTeam(team);
     }
 
@@ -122,7 +122,7 @@ public class TeamServiceImpl implements ITeamService
                 memberDetails.add(userDao.findAUser(username));
             }
             team.setMemberDetails(memberDetails);
-            team.setCourse(courseDao.getCourse(team.getCourseId()));
+            team.setCourse(courseDao.getCourse(team.getCourse_id()));
             teams.add(team);
         }
         return teams;

@@ -67,11 +67,11 @@ public class CourseDaoImpl implements ICourseDao
         List<Course> courses = courseRepository.findAll();
         for(Course course : courses)
         {
-            List<Teacher> teachers = new ArrayList<>();
+            List<String> teachers = new ArrayList<>();
             List<Integer> teacherIndex = ByteConverter.convertLongToIndex(course.getTeacher());
             for(Integer index : teacherIndex)
             {
-                teachers.add(teacherMapper.getTeacher(index));
+                teachers.add(teacherMapper.getTeacher(index).getName());
             }
             course.setTeachers(teachers);
         }
@@ -107,11 +107,11 @@ public class CourseDaoImpl implements ICourseDao
         List<Course> courses = courseMapper.queryCourseWithProjects();
         for(Course course : courses)
         {
-            List<Teacher> teachers = new ArrayList<>();
+            List<String> teachers = new ArrayList<>();
             List<Integer> teacherIndex = ByteConverter.convertLongToIndex(course.getTeacher());
             for(Integer index : teacherIndex)
             {
-                teachers.add(teacherMapper.getTeacher(index));
+                teachers.add(teacherMapper.getTeacher(index).getName());
             }
             course.setTeachers(teachers);
         }
@@ -209,5 +209,11 @@ public class CourseDaoImpl implements ICourseDao
     public List<UserCourse> queryStudentsTeamless(Integer courseId)
     {
         return userCourseMapper.queryStudentsTeamless(courseId);
+    }
+
+    @Override
+    public List<Project> queryProjectByCourseToChoose(Integer courseId)
+    {
+        return projectMapper.queryProjectByCourseToChoose(courseId);
     }
 }

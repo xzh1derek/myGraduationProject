@@ -47,4 +47,6 @@ public interface ProjectMapper
     })
     List<Project> queryProjectWithModules();
 
+    @Select("select * from project where course_id=#{courseId} and is_published=true and is_fixed=false")
+    List<Project> queryProjectByCourseToChoose(Integer courseId);
 }

@@ -28,7 +28,7 @@ public class Course implements Serializable
     @Transient
     private List<Project> projects;
     @Transient
-    private List<Teacher> teachers;
+    private List<String> teachers;
 
     public Integer getId()
     {
@@ -150,12 +150,12 @@ public class Course implements Serializable
         this.projects = projects;
     }
 
-    public List<Teacher> getTeachers()
+    public List<String> getTeachers()
     {
         return teachers;
     }
 
-    public void setTeachers(List<Teacher> teachers)
+    public void setTeachers(List<String> teachers)
     {
         this.teachers = teachers;
     }

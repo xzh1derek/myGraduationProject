@@ -40,8 +40,8 @@ public class TeamDaoImpl implements ITeamDao
     {
         Team team = new Team();
         team.setLeader(num);
-        team.setCourseId(courseId);
-        team.setMaxNum(maxNum);
+        team.setCourse_id(courseId);
+        team.setMax_num(maxNum);
         teamMapper.createTeam(team);
         return team.getId();
     }

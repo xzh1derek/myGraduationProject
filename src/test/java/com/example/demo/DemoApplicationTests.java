@@ -10,6 +10,9 @@ import jxl.Workbook;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,12 +24,11 @@ import java.util.Objects;
 class DemoApplicationTests
 {
     @Autowired
-    private CourseMapper courseMapper;
+    private JedisPool jedisPool;
 
     @Test
     void test()
     {
-        Long teacher = ByteConverter.convertIndexToLong(new Integer[]{1});
-        System.out.println(courseMapper.queryCourseByTeacher(teacher));
+        System.out.println(jedisPool);
     }
 }

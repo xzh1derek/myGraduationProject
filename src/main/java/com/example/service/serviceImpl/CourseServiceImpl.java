@@ -142,4 +142,10 @@ public class CourseServiceImpl implements ICourseService
     {
         return courseDao.queryStudentsTeamless(courseId);
     }
+
+    @Override
+    public List<Project> queryProjectByCourseToChoose(Integer courseId)
+    {
+        return courseDao.queryProjectByCourseToChoose(courseId);
+    }
 }

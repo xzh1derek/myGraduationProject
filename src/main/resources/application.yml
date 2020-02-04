@@ -12,3 +12,13 @@ spring:
     mode: HTML # Template mode to be applied to templates. See also Thymeleaf's TemplateMode enum.
     prefix: classpath:/templates/ # Prefix that gets prepended to view names when building a URL.
     suffix: .html # Suffix that gets appended to view names when building a URL.
+  redis:
+    port: 6379
+    password: fuckthebugs
+    host: 127.0.0.1
+    jedis:
+      pool:
+        max-idle: 6 #最大空闲数
+        max-active: 10 #最大连接数
+        min-idle: 2 #最小空闲数
+    timeout: 2000 #连接超时
