@@ -59,6 +59,12 @@ public class TeamDaoImpl implements ITeamDao
     }
 
     @Override
+    public Team queryTeamById(Integer teamId)
+    {
+        return teamMapper.queryTeamById(teamId);
+    }
+
+    @Override
     public void updateTeam(Team team)
     {
         teamRepository.save(team);

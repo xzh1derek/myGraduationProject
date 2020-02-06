@@ -16,6 +16,8 @@ public interface ITeamDao
 
     Team getTeam(Integer teamId);
 
+    Team queryTeamById(Integer teamId);
+
     void updateTeam(Team team);
 
     void updateAvailable(int teamId,boolean status);

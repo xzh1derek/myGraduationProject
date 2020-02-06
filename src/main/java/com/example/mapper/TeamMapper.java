@@ -17,6 +17,10 @@ public interface TeamMapper
     })
     List<Team> queryTeamList(Integer x, Integer y);
 
+    @Select("select * from team where id=#{teamId}")
+    @ResultMap(value = "teamMap")
+    Team queryTeamById(Integer teamId);
+
     @Select("select * from team where leader=#{num}")
     @ResultMap(value = "teamMap")
     List<Team> queryTeamsByLeader(Long num);

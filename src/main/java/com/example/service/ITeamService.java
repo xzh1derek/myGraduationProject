@@ -16,6 +16,8 @@ public interface ITeamService
 
     Integer queryTeamNumbersByCourse(Integer courseId);
 
+    Team queryTeamById(Integer teamId);
+
     List<Team> showMyTeam(Long username);
 
     Integer createTeam(Long leader,Integer courseId,Integer maxNum);

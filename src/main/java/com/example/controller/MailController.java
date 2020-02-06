@@ -54,7 +54,7 @@ public class MailController
     @RequestMapping("/teamDetail")
     public Team showTeamDetail(Integer teamId)
     {
-        return teamService.getTeam(teamId);
+        return teamService.queryTeamById(teamId);
     }
 
     /**

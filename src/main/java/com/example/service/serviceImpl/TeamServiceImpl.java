@@ -65,6 +65,12 @@ public class TeamServiceImpl implements ITeamService
         return teamDao.getTeam(teamId);
     }
 
+    @Override
+    public Team queryTeamById(Integer teamId)
+    {
+        return teamDao.queryTeamById(teamId);
+    }
+
     /**
      * 队伍加人时
      * @param teamId:队伍编号

@@ -52,8 +52,8 @@ public class CourseController
     public String newCourse(String code, String name, Float credit, Integer hours, Boolean isTeam,
                             @RequestParam(defaultValue = "1")Integer maxNum)
     {
-        Integer courseId = courseService.newCourse(code,name,credit,hours,isTeam,maxNum);
-        return courseId.toString();
+        courseService.newCourse(code,name,credit,hours,isTeam,maxNum);
+        return "0";
     }
 
     /**
