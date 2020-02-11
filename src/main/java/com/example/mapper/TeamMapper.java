@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface TeamMapper
 {
-    @Select("select * from team where is_display=1 limit #{x} offset #{y}")
+    @Select("select * from team where is_display=1 and available=1 limit #{x} offset #{y}")
     @Results(id="teamMap",value = {
             @Result(column = "leader", property = "leader"),
             @Result(column = "course_id", property = "course_id"),
@@ -21,11 +21,11 @@ public interface TeamMapper
     @ResultMap(value = "teamMap")
     Team queryTeamById(Integer teamId);
 
-    @Select("select * from team where leader=#{num}")
+    @Select("select * from team where is_display=1 and available=1 and leader=#{num}")
     @ResultMap(value = "teamMap")
     List<Team> queryTeamsByLeader(Long num);
 
-    @Select("select * from team where course_id=#{c} limit #{x} offset #{y}")
+    @Select("select * from team where is_display=1 and available=1 and course_id=#{c} limit #{x} offset #{y}")
     @ResultMap(value = "teamMap")
     List<Team> queryTeamsByCourse(Integer courseId,Integer x,Integer y);
 
