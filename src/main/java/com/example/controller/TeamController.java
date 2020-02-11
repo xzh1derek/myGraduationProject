@@ -95,16 +95,15 @@ public class TeamController
     }
 
     /**
-     * 在组队管理界面中关闭/打开一支队伍的申请
+     * 在组队管理界面提交发布申请和对外展示
      * @param teamId 队伍编号
-     * @param status 1=接收申请 0=不接受申请
      * @return 状态码 本地测试通过
      */
-    @RequestMapping(value = "/setAvailable",method = RequestMethod.POST)
-    public String setAvailable(Integer teamId, Boolean status)
+    @RequestMapping(value = "/setStatus",method = RequestMethod.POST)
+    public String setStatus(Integer teamId, Boolean available, Boolean display)
     {
         Team team = teamService.getTeam(teamId);
-        if(status)
+        if(available)
         {
             if(team.getCurrent_num().equals(team.getMax_num())) return "7";//Your team is full
             else teamService.updateAvailable(teamId,true);
@@ -114,19 +113,7 @@ public class TeamController
             teamService.updateAvailable(teamId,false);
             teamService.updateDisplay(teamId,false);
         }
-        return "0";
-    }
-
-    /**
-     * 甲同学在组队管理界面中打开/关闭发布组队
-     * @param teamId 队伍编号
-     * @param status 1=打开发布组队 0=关闭发布
-     * @return 状态码 本地测试通过
-     */
-    @RequestMapping(value = "/setDisplay", method = RequestMethod.POST)
-    public String setDisplay(Integer teamId, Boolean status)
-    {
-        if(status) teamService.updateDisplay(teamId,true);
+        if(display) teamService.updateDisplay(teamId,true);
         else teamService.updateDisplay(teamId,false);
         return "0";
     }
