@@ -157,19 +157,4 @@ public class StudentController
         mailService.sendMail(0L,userId,0,null,"密码已重置为123，请尽快修改密码");
         return "0";
     }
-
-    /**
-     * 管理员批量给学生发布公告
-     * @param text 公告文
-     * @param userId 学号的数组
-     */
-    @RequestMapping(value = "/announce",method = RequestMethod.POST)
-    public String sendAnnouncement(String text,@RequestBody Long[] userId)
-    {
-        for(Long username : userId)
-        {
-            mailService.sendMail(0L,username,0,null,text);
-        }
-        return "0";
-    }
 }

@@ -147,7 +147,7 @@ public class ChoosingModule
         Integer courseId = redisService.queryCourseIdByProjectId(projectId);
         key = "project"+projectId+"user:"+userId;
         if(jedis.exists(key)){
-            return "已预约，无法重复预约";
+            return "已预约，无法重复选择";
         }
         jedis.set(key,module.getId().toString());
         //选课成功，下面开始添加进redis

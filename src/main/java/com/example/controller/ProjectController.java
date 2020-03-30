@@ -31,8 +31,6 @@ public class ProjectController
     @Autowired
     private IMailService mailService;
     @Autowired
-    private JedisPool jedisPool;
-    @Autowired
     private RedisService redisService;
 
     /**

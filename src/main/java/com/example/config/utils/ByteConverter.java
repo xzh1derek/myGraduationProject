@@ -5,19 +5,19 @@ import java.util.List;
 
 public class ByteConverter
 {
-    static byte[] getByteList(Integer[] pos)
+    static byte[] getByteList(Integer[] pos) //把长整型转换成字节数组
     {
-        byte[] bytes = new byte[8];
+        byte[] bytes = new byte[8]; //64位数拆成8字节的字节数组
         for(int p : pos)
         {
             if(p<1||p>64) continue;
             int x=(p-1)/8,y=(p-1)%8;
-            bytes[x] |= 1 << y;
+            bytes[x] |= 1 << y; //将字节数组的第x位赋2的y次方
         }
         return bytes;
     }
 
-    static long convertByteToLong(byte[] bytes)
+    static long convertByteToLong(byte[] bytes) //把字节数组拼在一起成为一个长整形long
     {
         long l0 = bytes[0] & 0x00000000000000ffL;
         long l1 = ((long)bytes[1]<<8 ) & 0x000000000000ff00L;
@@ -27,10 +27,10 @@ public class ByteConverter
         long l5 = ((long)bytes[5]<<40) & 0x0000ff0000000000L;
         long l6 = ((long)bytes[6]<<48) & 0x00ff000000000000L;
         long l7 = ((long)bytes[7]<<56) & 0xff00000000000000L;
-        return l0 | l1 | l2 | l3 | l4 | l5 | l6 | l7;
+        return l0 | l1 | l2 | l3 | l4 | l5 | l6 | l7; //把8个长整型数的各个字节位取出来拼在一起
     }
 
-    static byte[] convertLongToByte(long num)
+    static byte[] convertLongToByte(long num) //把长整型拆成长度为8的字节数组
     {
         byte[] bytes = new byte[8];
         bytes[0] = (byte)num;
@@ -44,7 +44,7 @@ public class ByteConverter
         return bytes;
     }
 
-    static List<Integer> getIndexList(byte[] bytes)
+    static List<Integer> getIndexList(byte[] bytes) //提取字节数组中标志位1的下标
     {
         List<Integer> indexList = new ArrayList<>();
         for(int i=0;i<8;i++)

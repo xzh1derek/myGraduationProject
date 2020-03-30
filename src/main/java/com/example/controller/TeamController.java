@@ -47,7 +47,6 @@ public class TeamController
     {
         List<UserCourse> myUserCourses = new ArrayList<>();
         List<UserCourse> userCourses = userService.getUserCourses(userId);
-        System.out.println(userCourses);
         for(UserCourse userCourse : userCourses)
         {
             if(userCourse.getTeam_id()==0&&userCourse.getCourse().getIs_team())

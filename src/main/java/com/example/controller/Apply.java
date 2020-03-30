@@ -28,7 +28,7 @@ public class Apply
      * @param teamId 队伍编号
      * @return 返回状态码 本地测试通过
      */
-    @RequestMapping(value = "apply",method = RequestMethod.POST)
+    @RequestMapping(value = "/apply",method = RequestMethod.POST)
     public String apply(Long sender, Integer teamId)
     {
         Team team = teamService.getTeam(teamId);
