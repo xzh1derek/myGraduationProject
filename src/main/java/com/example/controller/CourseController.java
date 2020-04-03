@@ -1,15 +1,19 @@
 package com.example.controller;
-
 import com.example.config.utils.ByteConverter;
 import com.example.domain.*;
 import com.example.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("course")
@@ -26,7 +30,7 @@ public class CourseController
     @Autowired
     private IMailService mailService;
     @Autowired
-    private ITeamService teamService;
+    private JedisPool jedisPool;
 
     /**
      * 返回所有课程
@@ -225,5 +229,28 @@ public class CourseController
         userCourse.setCourse_id(courseId);
         courseService.newUserCourse(userCourse);
         return "0";
+    }
+
+    @RequestMapping(value = "/template",method = RequestMethod.GET)
+    public Object getTemplate(Integer courseId)
+    {
+        return null;
+    }
+
+    @RequestMapping(value = "/template/post",method = RequestMethod.POST)
+    public String postTemplate(Integer courseId,@RequestParam("file") MultipartFile multipartFile) throws IOException
+    {
+        if(multipartFile.isEmpty()){
+            return "false";
+        }
+        File file = new File(getClass().getResource("template/course"+courseId+"/").getFile(), Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        multipartFile.transferTo(file);
+        return "0";
+    }
+
+    @RequestMapping(value = "/template/download",method = RequestMethod.GET)
+    public File downloadATemplate(Integer courseId, String fileName)
+    {
+        return null;
     }
 }

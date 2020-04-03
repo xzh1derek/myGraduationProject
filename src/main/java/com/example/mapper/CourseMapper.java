@@ -1,6 +1,7 @@
 package com.example.mapper;
 
 import com.example.domain.Course;
+import com.example.domain.Project;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import redis.clients.jedis.JedisPool;
 import java.util.HashSet;
 import java.util.List;
 
@@ -57,7 +56,7 @@ public class ProjectController
         {
             if(course.getIs_team()&&project.getIs_fixed()) {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return "组队类课程只支持任选排课";
+                return "组队类课程不支持固定排课";
             }
             moduleService.createProject(project);
         }

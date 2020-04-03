@@ -7,11 +7,6 @@ import com.example.dao.ITeamDao;
 import com.example.dao.IUserDao;
 import com.example.domain.*;
 import com.example.domain.Module;
-import com.example.mapper.ModuleMapper;
-import com.example.service.IModuleService;
-import com.example.service.ITeacherService;
-import com.example.service.ITeamService;
-import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
@@ -50,6 +45,7 @@ public class RedisService
         map.put("is_team",course.getIs_team().toString());
         map.put("teacher",course.getTeacher().toString());
         jedis.hmset(key,map);
+        jedis.save();
         jedis.close();
     }
 
@@ -79,6 +75,7 @@ public class RedisService
         projectMap.put("name",project.getProject_name());
         jedis.hmset(key,projectMap);
         jedis.set("projectId:"+project.getId(),project.getCourse_id().toString());
+        jedis.save();
         jedis.close();
     }
 
@@ -119,6 +116,7 @@ public class RedisService
         moduleMap.put("curNum",String.valueOf(mysqlNum+redisNum));
         jedis.hmset(key,moduleMap);
         jedis.set("moduleId:"+module.getId(),module.getProject_id().toString());
+        jedis.save();
         jedis.close();
     }
 

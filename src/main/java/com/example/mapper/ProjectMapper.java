@@ -25,6 +25,9 @@ public interface ProjectMapper
     @Select("select * from project where id=#{id}")
     Project getProject(Integer id);
 
+    @Select("select * from project")
+    List<Project> queryAllProjects();
+
     @Select("select * from project where id=#{id}")
     @Results(id="projectMapWithCourse",value = {
             @Result(column = "course_id", property = "course_id"),

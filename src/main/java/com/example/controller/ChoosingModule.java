@@ -171,6 +171,7 @@ public class ChoosingModule
             key = "project"+projectId+"module:"+moduleId;
             jedis.hincrBy(key,"curNum",1);
         }
+        jedis.save();
         jedis.close();
         return "0";
     }

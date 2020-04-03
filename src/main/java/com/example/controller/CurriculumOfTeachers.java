@@ -114,10 +114,26 @@ public class CurriculumOfTeachers //老师课表 处理选课
         {
             jedis.srem("studentsOfModule:"+moduleId,userId.toString());
             moduleService.newUserModule(userId,moduleId);
-            String text = "预约批次成功。课程【"+course.getCourse_name()+"】新增["+project.getProject_name()+"]，时间["+
+            String text = "预约实验成功。课程【"+course.getCourse_name()+"】新增["+project.getProject_name()+"]，时间["+
                     module.getDate()+" "+module.getTime()+"]，地点["+module.getLocation()+"]。请到【课程管理】->【我的课表】中查看。";
             mailService.sendMail(0L,userId,0,null,text);
         }
+        jedis.close();
+        return "0";
+    }
+
+    @RequestMapping(value = "/module/reject",method = RequestMethod.POST)
+    public String rejectUserModule(Integer moduleId,Long userId)
+    {
+        Jedis jedis = jedisPool.getResource();
+        Module module = moduleService.getModule(moduleId);
+        Project project = moduleService.getProject(module.getProject_id());
+        Course course = courseService.getCourse(project.getCourse_id());
+        jedis.srem("studentsOfModule:"+moduleId,userId.toString());
+        String key = "project"+project.getId()+"user:"+userId;
+        jedis.del(key);
+        String text = "实验【"+course.getCourse_name()+"】["+project.getProject_name()+"]预约未成功，详情请咨询老师或重新选课。";
+        mailService.sendMail(0L,userId,0,null,text);
         jedis.close();
         return "0";
     }
