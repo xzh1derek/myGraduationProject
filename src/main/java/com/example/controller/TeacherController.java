@@ -49,19 +49,6 @@ public class TeacherController
     }
 
     /**
-     * 修改老师密码 （主要用于密码找回）
-     * @param username 账号
-     * @param password 新密码
-     * @return 状态码
-     */
-    @RequestMapping(value = "/updatePassword",method = RequestMethod.POST)
-    public String updatePassword(String username,String password)
-    {
-        accountService.updatePassword(username,new Md5Hash(password).toString());
-        return "0";
-    }
-
-    /**
      * 删除一个老师
      */
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)

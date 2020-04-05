@@ -52,4 +52,10 @@ public class TeacherServiceImpl implements ITeacherService
     {
         teacherDao.deleteTeacher(id);
     }
+
+    @Override
+    public Teacher queryTeacherByUsername(String username)
+    {
+        return teacherDao.queryTeacherByUsername(username);
+    }
 }

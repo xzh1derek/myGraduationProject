@@ -91,7 +91,6 @@ public class MailController
             mailService.deleteMail(mailId);
             mailService.sendMail(0L,userId,0,0,"队伍申请已通过，你已入队");//发送系统邮件告知申请通过
         }
-        else return "error678";//错误
         return "0";
     }
 

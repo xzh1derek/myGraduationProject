@@ -23,7 +23,6 @@ public class Course implements Serializable
     private Boolean is_team;
     private Integer max_num;
     private Integer stu_num;
-    private String template;
     private Boolean is_published;
     @Transient
     private List<Project> projects;
@@ -120,16 +119,6 @@ public class Course implements Serializable
         this.stu_num = stu_num;
     }
 
-    public String getTemplate()
-    {
-        return template;
-    }
-
-    public void setTemplate(String template)
-    {
-        this.template = template;
-    }
-
     public Boolean getIs_published()
     {
         return is_published;
@@ -173,7 +162,6 @@ public class Course implements Serializable
                 ", is_team=" + is_team +
                 ", max_num=" + max_num +
                 ", stu_num=" + stu_num +
-                ", template='" + template + '\'' +
                 ", projects=" + projects +
                 ", teachers=" + teachers +
                 '}';

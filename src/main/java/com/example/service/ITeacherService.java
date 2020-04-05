@@ -15,4 +15,6 @@ public interface ITeacherService
     void updateTeacher(Integer id,String username,String name);
 
     void deleteTeacher(Integer id);
+
+    Teacher queryTeacherByUsername(String username);
 }

@@ -1,6 +1,7 @@
 package com.example.controller;
 import com.example.domain.Account;
 import com.example.service.IAccountService;
+import com.example.service.ITeacherService;
 import com.example.service.IUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -19,6 +20,8 @@ public class Login
     private IAccountService accountService;
     @Autowired
     private IUserService userService;
+    @Autowired
+    private ITeacherService teacherService;
 
     /**
      * 登录功能 不用shiro
@@ -38,10 +41,10 @@ public class Login
         }
         Integer identity = account.getIdentity();
         if(identity==1){
-            if(password.equals(psw)) return userService.getUser(Long.parseLong(username));//登陆成功，转入学生个人界面
+            if(password.equals(psw)) return userService.findAUser(Long.parseLong(username));//登陆成功，转入学生个人界面
             else return "f";//登录失败，重新登录
         }else{
-            if(password.equals(psw)) return "t";//转入老师/管理员界面
+            if(password.equals(psw)) return teacherService.queryTeacherByUsername(username);//转入老师/管理员界面
             else return "f";
         }
     }
@@ -62,8 +65,8 @@ public class Login
         try{
             subject.login(token);
             Account account = accountService.getAccount(username);
-            if(account.getIdentity()==1) return userService.getUser(Long.parseLong(username));//转入学生页面
-            else return "t";//转入老师管理员页面
+            if(account.getIdentity()==1) return userService.findAUser(Long.parseLong(username));//转入学生页面
+            else return teacherService.queryTeacherByUsername(username);//转入老师管理员页面
         }catch(UnknownAccountException e) {
             e.printStackTrace();
             return "n";//用户不存在

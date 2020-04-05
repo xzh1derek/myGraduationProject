@@ -54,4 +54,10 @@ public class TeacherDaoImpl implements ITeacherDao
     {
         teacherMapper.deleteTeacher(id);
     }
+
+    @Override
+    public Teacher queryTeacherByUsername(String username)
+    {
+        return teacherMapper.queryTeacherByUsername(username);
+    }
 }

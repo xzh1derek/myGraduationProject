@@ -11,6 +11,9 @@ public interface TeacherMapper
     @Select("select * from teacher where id=#{id}")
     Teacher getTeacher(Integer id);
 
+    @Select("select * from teacher where username=#{username}")
+    Teacher queryTeacherByUsername(String username);
+
     @Select("select * from teacher")
     List<Teacher> findAllTeachers();
 

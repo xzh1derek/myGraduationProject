@@ -1,16 +1,18 @@
 package com.example.controller;
 import com.example.config.utils.ByteConverter;
+import com.example.config.utils.FileExporter;
 import com.example.domain.*;
 import com.example.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -231,26 +233,50 @@ public class CourseController
         return "0";
     }
 
+    /**
+     * 查看课程资料文件名单
+     * @param courseId 课程id
+     * @return 文件名的数组
+     */
     @RequestMapping(value = "/template",method = RequestMethod.GET)
-    public Object getTemplate(Integer courseId)
+    public String[] getTemplate(Integer courseId)
     {
-        return null;
+        File dir = new File(getClass().getResource(".").getFile(),"course"+courseId);
+        if(!dir.exists()) return new String[0];
+        return dir.list();
     }
 
+    /**
+     * 给实验课上传资料文件
+     * @param courseId 课程id
+     * @param multipartFile 文件
+     */
     @RequestMapping(value = "/template/post",method = RequestMethod.POST)
     public String postTemplate(Integer courseId,@RequestParam("file") MultipartFile multipartFile) throws IOException
     {
         if(multipartFile.isEmpty()){
             return "false";
         }
-        File file = new File(getClass().getResource("template/course"+courseId+"/").getFile(), Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        File dir = new File(getClass().getResource(".").getFile(),"course"+courseId);
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        File file = new File(getClass().getResource("./course"+courseId).getFile(), Objects.requireNonNull(multipartFile.getOriginalFilename()));
         multipartFile.transferTo(file);
         return "0";
     }
 
+    /**
+     * 下载文件
+     * @param courseId 课程id
+     * @param fileName 文件名
+     * @return 文件
+     */
     @RequestMapping(value = "/template/download",method = RequestMethod.GET)
-    public File downloadATemplate(Integer courseId, String fileName)
+    public ResponseEntity<FileSystemResource> downloadATemplate(Integer courseId, String fileName)
     {
-        return null;
+        File file = new File(getClass().getResource("./course"+courseId).getFile(),fileName);
+        if(!file.exists()) return null;
+        return FileExporter.export(file);
     }
 }

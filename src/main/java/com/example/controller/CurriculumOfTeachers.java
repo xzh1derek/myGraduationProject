@@ -2,10 +2,8 @@ package com.example.controller;
 import com.example.config.utils.ByteConverter;
 import com.example.domain.*;
 import com.example.domain.Module;
-import com.example.service.ICourseService;
-import com.example.service.IMailService;
-import com.example.service.IModuleService;
-import com.example.service.IUserService;
+import com.example.service.*;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -115,7 +113,7 @@ public class CurriculumOfTeachers //老师课表 处理选课
             jedis.srem("studentsOfModule:"+moduleId,userId.toString());
             moduleService.newUserModule(userId,moduleId);
             String text = "预约实验成功。课程【"+course.getCourse_name()+"】新增["+project.getProject_name()+"]，时间["+
-                    module.getDate()+" "+module.getTime()+"]，地点["+module.getLocation()+"]。请到【课程管理】->【我的课表】中查看。";
+                    module.getDate()+" "+module.getTime()+"]，地点["+module.getLocation()+"]。";
             mailService.sendMail(0L,userId,0,null,text);
         }
         jedis.close();
