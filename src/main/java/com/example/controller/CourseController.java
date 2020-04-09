@@ -103,8 +103,10 @@ public class CourseController
     public String publishCourse(Integer courseId)
     {
         Course course = courseService.getCourse(courseId);
+        if(course.getIs_published()) return "已发布课程，不能再次发布";
         List<Long> usernameList = new ArrayList<>();
         List<Integer> classList = courseService.queryClassByCourse(courseId);
+        if(classList.isEmpty()) return "未绑定班级，无法发布课程";
         for(Integer classId : classList)
         {
             usernameList.addAll(userService.findUsersByClass(classId));

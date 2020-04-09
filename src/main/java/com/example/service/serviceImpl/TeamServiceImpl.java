@@ -102,7 +102,10 @@ public class TeamServiceImpl implements ITeamService
             team.setMember6(id);
             team.setCurrent_num(7);
         }
-        if(team.getCurrent_num()==team.getMax_num()) team.setAvailable(false);
+        if(team.getCurrent_num().equals(team.getMax_num())) {
+            team.setAvailable(false);
+            team.setIs_display(false);
+        }
         teamDao.updateTeam(team);
     }
 
