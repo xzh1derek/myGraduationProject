@@ -93,4 +93,34 @@ public class TeamDaoImpl implements ITeamDao
     {
         return teamMapper.queryTeamNumbersByCourse(courseId);
     }
+
+    @Override
+    public List<Team> queryAllTeamList(Integer rows, Integer page)
+    {
+        return teamMapper.queryAllTeamList(rows,rows*(page-1));
+    }
+
+    @Override
+    public List<Team> queryAllTeamsByLeader(Long num)
+    {
+        return teamMapper.queryAllTeamsByLeader(num);
+    }
+
+    @Override
+    public List<Team> queryAllTeamsByCourse(Integer courseId, Integer rows, Integer page)
+    {
+        return teamMapper.queryAllTeamsByCourse(courseId,rows,rows*(page-1));
+    }
+
+    @Override
+    public Integer queryAllTeamNumbers()
+    {
+        return teamMapper.queryAllTeamNumbers();
+    }
+
+    @Override
+    public Integer queryAllTeamNumbersByCourse(Integer courseId)
+    {
+        return teamMapper.queryAllTeamNumbersByCourse(courseId);
+    }
 }

@@ -17,4 +17,6 @@ public interface ITeacherDao
     void deleteTeacher(Integer id);
 
     Teacher queryTeacherByUsername(String username);
+
+    void updateIdentity(Integer id,String identity);
 }

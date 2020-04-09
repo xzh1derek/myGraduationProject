@@ -51,4 +51,8 @@ public interface ICourseDao
     List<UserCourse> queryStudentsTeamless(Integer courseId);
 
     List<Project> queryProjectByCourseToChoose(Integer courseId);
+
+    List<Course> queryCourseByTeacher(Integer teacherId);
+
+    List<Course> queryCourseIsTeam(Boolean status);
 }

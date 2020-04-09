@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class UserDaoImpl implements IUserDao
@@ -139,5 +140,11 @@ public class UserDaoImpl implements IUserDao
     public List<Long> queryUsernameByTeamId(Integer teamId)
     {
         return userCourseMapper.queryUsernameByTeamId(teamId);
+    }
+
+    @Override
+    public List<User> sqlStudent(Map<String, String> map)
+    {
+        return userMapper.queryStudentsDynamically(map);
     }
 }

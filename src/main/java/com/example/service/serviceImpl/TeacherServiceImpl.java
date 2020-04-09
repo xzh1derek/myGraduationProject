@@ -38,16 +38,6 @@ public class TeacherServiceImpl implements ITeacherService
     }
 
     @Override
-    public void updateTeacher(Integer id, String username, String name)
-    {
-        Teacher teacher = new Teacher();
-        teacher.setId(id);
-        teacher.setUsername(username);
-        teacher.setName(name);
-        teacherDao.updateTeacher(teacher);
-    }
-
-    @Override
     public void deleteTeacher(Integer id)
     {
         teacherDao.deleteTeacher(id);
@@ -57,5 +47,11 @@ public class TeacherServiceImpl implements ITeacherService
     public Teacher queryTeacherByUsername(String username)
     {
         return teacherDao.queryTeacherByUsername(username);
+    }
+
+    @Override
+    public void updateIdentity(Integer id, String identity)
+    {
+        teacherDao.updateIdentity(id,identity);
     }
 }

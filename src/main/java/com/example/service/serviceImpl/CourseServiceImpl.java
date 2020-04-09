@@ -148,4 +148,16 @@ public class CourseServiceImpl implements ICourseService
     {
         return courseDao.queryProjectByCourseToChoose(courseId);
     }
+
+    @Override
+    public List<Course> queryCourseByTeacher(Integer teacherId)
+    {
+        return courseDao.queryCourseByTeacher(teacherId);
+    }
+
+    @Override
+    public List<Course> queryCourseIsTeam(Boolean status)
+    {
+        return courseDao.queryCourseIsTeam(status);
+    }
 }

@@ -4,6 +4,7 @@ import com.example.domain.User;
 import com.example.domain.UserCourse;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IUserService
 {
@@ -44,4 +45,6 @@ public interface IUserService
     List<User> queryUserListPaging(Integer rows,Integer page);
 
     Integer queryUserNumbers();
+
+    List<User> sqlStudent(Map<String,String> map);
 }

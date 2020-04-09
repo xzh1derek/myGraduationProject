@@ -1,10 +1,8 @@
 package com.example.controller;
+
 import com.example.config.utils.FileExporter;
-import com.example.domain.Module;
-import com.example.domain.UserCourse;
+import com.example.domain.Course;
 import com.example.service.ICourseService;
-import com.example.service.IModuleService;
-import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
@@ -13,49 +11,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.JedisPool;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
-@RequestMapping("curricula")
-public class CurriculumOfStudents
+@RequestMapping("task")
+public class TaskController
 {
     @Autowired
-    private IModuleService moduleService;
-    @Autowired
-    private IUserService userService;
-    @Autowired
     private ICourseService courseService;
+    @Autowired
+    private JedisPool jedisPool;
 
     /**
-     * 查询某个学生的所有module 按时间顺序
-     * @param userId 学号
+     * 查询某个老师下已发布的课程
+     * @param teacherId 老师id
      */
-    @RequestMapping("/all")
-    public List<Module> queryModuleByUser(Long userId)
+    @RequestMapping("")
+    public List<Course> queryCourseByTeacher(Integer teacherId)
     {
-        return moduleService.queryModuleByUsername(userId);
-    }
-
-    /**
-     * 查询某个学生的所有module 只显示当前日期之后的记录
-     * @param userId 学号
-     */
-    @RequestMapping("/future")
-    public List<Module> queryModuleByUserAfterToday(Long userId)
-    {
-        return moduleService.queryModuleByUsernameAfterToday(userId);
-    }
-
-    /**
-     * 显示所有课程
-     * @param userId 学号
-     */
-    @RequestMapping("/course")
-    public List<UserCourse> queryUserCourses(Long userId)
-    {
-        return userService.getUserCourses(userId);
+        return courseService.queryCourseByTeacher(teacherId);
     }
 
     /**
@@ -72,6 +51,26 @@ public class CurriculumOfStudents
     }
 
     /**
+     * 给实验课上传资料文件
+     * @param courseId 课程id
+     * @param multipartFile 文件
+     */
+    @RequestMapping(value = "/template/post",method = RequestMethod.POST)
+    public String postTemplate(Integer courseId,@RequestParam("file") MultipartFile multipartFile) throws IOException
+    {
+        if(multipartFile.isEmpty()){
+            return "false";
+        }
+        File dir = new File(getClass().getResource(".").getFile(),"course"+courseId);
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        File file = new File(getClass().getResource("./course"+courseId).getFile(), Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        multipartFile.transferTo(file);
+        return "0";
+    }
+
+    /**
      * 下载文件
      * @param courseId 课程id
      * @param fileName 文件名
@@ -83,11 +82,5 @@ public class CurriculumOfStudents
         File file = new File(getClass().getResource("./course"+courseId).getFile(),fileName);
         if(!file.exists()) return null;
         return FileExporter.export(file);
-    }
-
-    @RequestMapping(value = "/upload",method = RequestMethod.POST)
-    public String UploadFile(Long userId,Integer courseId,@RequestParam("file") MultipartFile multipartFile)
-    {
-        return null;
     }
 }

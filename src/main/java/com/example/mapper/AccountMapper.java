@@ -20,4 +20,7 @@ public interface AccountMapper
 
     @Delete("delete from account where identity=#{identity}")
     void deleteAccountByIdentity(Integer identity);
+
+    @Update("update account set identity=#{identity} where username=#{username}")
+    void updateIdentity(String username,Integer identity);
 }

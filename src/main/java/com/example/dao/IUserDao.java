@@ -4,6 +4,7 @@ import com.example.domain.User;
 import com.example.domain.UserCourse;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IUserDao
 {
@@ -46,4 +47,6 @@ public interface IUserDao
     Integer queryUserNumbers();
 
     List<Long> queryUsernameByTeamId(Integer teamId);
+
+    List<User> sqlStudent(Map<String,String> map);
 }

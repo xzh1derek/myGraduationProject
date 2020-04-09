@@ -1,6 +1,7 @@
 package com.example.config.initializer;
 import com.example.domain.Project;
 import com.example.mapper.ProjectMapper;
+import com.example.mapper.TeamMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

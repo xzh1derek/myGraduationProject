@@ -60,4 +60,10 @@ public class TeacherDaoImpl implements ITeacherDao
     {
         return teacherMapper.queryTeacherByUsername(username);
     }
+
+    @Override
+    public void updateIdentity(Integer id, String identity)
+    {
+        teacherMapper.updateIdentity(id,identity);
+    }
 }

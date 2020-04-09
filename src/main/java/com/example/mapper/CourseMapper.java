@@ -1,7 +1,6 @@
 package com.example.mapper;
 
 import com.example.domain.Course;
-import com.example.domain.Project;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 
@@ -42,6 +41,9 @@ public interface CourseMapper
     @Delete("delete from class_course where course_id=#{courseId}")
     void deleteClassCourse(Integer courseId);
 
-    @Select("select * from course where teacher&#{teacher}=#{teacher}")
+    @Select("select * from course where teacher&#{teacher}=#{teacher} and is_published=true")
     List<Course> queryCourseByTeacher(Long teacher);
+
+    @Select("select * from course where is_team=#{status}")
+    List<Course> queryCourseIsTeam(Boolean status);
 }

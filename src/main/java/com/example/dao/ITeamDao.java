@@ -29,4 +29,14 @@ public interface ITeamDao
     void deleteTeam(Integer teamId);
 
     Integer queryTeamNumbersByCourse(Integer courseId);
+
+    List<Team> queryAllTeamList(Integer rows,Integer page);
+
+    List<Team> queryAllTeamsByLeader(Long num);
+
+    List<Team> queryAllTeamsByCourse(Integer courseId,Integer rows,Integer page);
+
+    Integer queryAllTeamNumbers();
+
+    Integer queryAllTeamNumbersByCourse(Integer courseId);
 }

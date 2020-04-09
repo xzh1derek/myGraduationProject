@@ -44,4 +44,10 @@ public class AccountDaoImpl implements IAccountDao
     {
         accountMapper.deleteAccount(username);
     }
+
+    @Override
+    public void updateIdentity(String username, Integer identity)
+    {
+        accountMapper.updateIdentity(username,identity);
+    }
 }

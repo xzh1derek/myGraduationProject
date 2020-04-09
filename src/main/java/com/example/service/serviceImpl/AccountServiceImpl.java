@@ -42,4 +42,10 @@ public class AccountServiceImpl implements IAccountService
     {
         accountDao.deleteAccount(username);
     }
+
+    @Override
+    public void updateIdentity(String username, Integer identity)
+    {
+        accountDao.updateIdentity(username,identity);
+    }
 }

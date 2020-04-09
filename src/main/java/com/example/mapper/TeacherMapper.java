@@ -20,7 +20,7 @@ public interface TeacherMapper
     @Select("select id from teacher")
     LinkedHashSet<Integer> queryTeachersIdAsHashSet();
 
-    @Insert("insert into teacher(id,username,name) value(#{id},#{username},#{name})")
+    @Insert("insert into teacher(id,username,name,identity) value(#{id},#{username},#{name},教师)")
     void createTeacher(Teacher teacher);
 
     @Update("update teacher set username=#{username},name=#{name} where id=#{id}")
@@ -28,4 +28,7 @@ public interface TeacherMapper
 
     @Delete("delete from teacher where id=#{id}")
     void deleteTeacher(Integer id);
+
+    @Update("update teacher set identity=#{identity} where id=#{id}")
+    void updateIdentity(Integer id,String identity);
 }

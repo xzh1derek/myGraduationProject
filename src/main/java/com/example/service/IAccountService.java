@@ -14,4 +14,5 @@ public interface IAccountService
 
     void deleteAccount(String username);
 
+    void updateIdentity(String username, Integer identity);
 }

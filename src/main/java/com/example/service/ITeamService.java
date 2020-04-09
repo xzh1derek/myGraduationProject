@@ -35,4 +35,14 @@ public interface ITeamService
     void deleteTeamMembers(Integer teamId);
 
     List<Long> queryUsernameByTeamId(Integer teamId);
+
+    List<Team> queryAllTeamList(Integer x,Integer y);
+
+    List<Team> queryAllTeamsByLeader(Long num);
+
+    List<Team> queryAllTeamsByCourse(Integer courseId,Integer x,Integer y);
+
+    Integer queryAllTeamNumbers();
+
+    Integer queryAllTeamNumbersByCourse(Integer courseId);
 }

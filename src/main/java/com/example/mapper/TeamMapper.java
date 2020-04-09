@@ -4,6 +4,7 @@ import com.example.domain.Team;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface TeamMapper
@@ -17,6 +18,10 @@ public interface TeamMapper
     })
     List<Team> queryTeamList(Integer x, Integer y);
 
+    @Select("select * from team limit #{x} offset #{y}")
+    @ResultMap(value = "teamMap")
+    List<Team> queryAllTeamList(Integer x,Integer y);
+
     @Select("select * from team where id=#{teamId}")
     @ResultMap(value = "teamMap")
     Team queryTeamById(Integer teamId);
@@ -25,9 +30,17 @@ public interface TeamMapper
     @ResultMap(value = "teamMap")
     List<Team> queryTeamsByLeader(Long num);
 
+    @Select("select * from team where leader=#{num}")
+    @ResultMap(value = "teamMap")
+    List<Team> queryAllTeamsByLeader(Long num);
+
     @Select("select * from team where is_display=1 and available=1 and course_id=#{c} limit #{x} offset #{y}")
     @ResultMap(value = "teamMap")
     List<Team> queryTeamsByCourse(Integer courseId,Integer x,Integer y);
+
+    @Select("select * from team where course_id=#{c} limit #{x} offset #{y}")
+    @ResultMap(value = "teamMap")
+    List<Team> queryAllTeamsByCourse(Integer courseId,Integer x,Integer y);
 
     @Insert("insert into team(leader,course_id,max_num) values(#{leader},#{course_id},#{max_num})")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
@@ -45,9 +58,15 @@ public interface TeamMapper
     @Delete("delete from team where id=#{teamId}")
     void deleteTeam(Integer teamId);
 
-    @Select("select count(*) from team")
+    @Select("select count(*) from team where is_display=1 and available=1")
     Integer queryTeamNumbers();
 
-    @Select("select count(course_id) from team where course_id=#{courseId}")
+    @Select("select count(course_id) from team where is_display=1 and available=1 and course_id=#{courseId}")
     Integer queryTeamNumbersByCourse(Integer courseId);
+
+    @Select("select count(*) from team")
+    Integer queryAllTeamNumbers();
+
+    @Select("select count(course_id) from team where course_id=#{courseId}")
+    Integer queryAllTeamNumbersByCourse(Integer courseId);
 }

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -150,11 +152,26 @@ public class StudentController
      * 重置学生密码为 “123”
      * @param userId 学号
      */
-    @RequestMapping(value = "/updatePassword",method = RequestMethod.POST)
+    @RequestMapping(value = "/resetPassword",method = RequestMethod.POST)
     public String updatePassword(Long userId)
     {
         accountService.updatePassword(userId.toString(),"123");
         mailService.sendMail(0L,userId,0,null,"密码已重置为123，请尽快修改密码");
         return "0";
+    }
+
+    /**
+     * 搜索学生
+     */
+    @RequestMapping(value = "/search",method = RequestMethod.GET)
+    public List<User> searchStudentsByConditions(String username,String name,String class_id,String school,String year)
+    {
+        Map<String,String> map = new HashMap<>();
+        map.put("username",username);
+        map.put("name",name);
+        map.put("class",class_id);
+        map.put("school",school);
+        map.put("year",year);
+        return userService.sqlStudent(map);
     }
 }

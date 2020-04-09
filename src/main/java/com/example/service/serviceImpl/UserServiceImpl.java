@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements IUserService
@@ -137,5 +138,11 @@ public class UserServiceImpl implements IUserService
     public Integer queryUserNumbers()
     {
         return userDao.queryUserNumbers();
+    }
+
+    @Override
+    public List<User> sqlStudent(Map<String, String> map)
+    {
+        return userDao.sqlStudent(map);
     }
 }

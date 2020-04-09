@@ -163,4 +163,34 @@ public class TeamServiceImpl implements ITeamService
     {
         userDao.deleteTeamMembers(teamId);
     }
+
+    @Override
+    public List<Team> queryAllTeamList(Integer x, Integer y)
+    {
+        return teamDao.queryAllTeamList(x,y);
+    }
+
+    @Override
+    public List<Team> queryAllTeamsByLeader(Long num)
+    {
+        return teamDao.queryAllTeamsByLeader(num);
+    }
+
+    @Override
+    public List<Team> queryAllTeamsByCourse(Integer courseId, Integer x, Integer y)
+    {
+        return teamDao.queryAllTeamsByCourse(courseId,x,y);
+    }
+
+    @Override
+    public Integer queryAllTeamNumbers()
+    {
+        return teamDao.queryAllTeamNumbers();
+    }
+
+    @Override
+    public Integer queryAllTeamNumbersByCourse(Integer courseId)
+    {
+        return teamDao.queryAllTeamNumbersByCourse(courseId);
+    }
 }

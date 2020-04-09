@@ -216,4 +216,16 @@ public class CourseDaoImpl implements ICourseDao
     {
         return projectMapper.queryProjectByCourseToChoose(courseId);
     }
+
+    @Override
+    public List<Course> queryCourseByTeacher(Integer teacherId)
+    {
+        return courseMapper.queryCourseByTeacher(ByteConverter.convertIndexToLong(new Integer[]{teacherId}));
+    }
+
+    @Override
+    public List<Course> queryCourseIsTeam(Boolean status)
+    {
+        return courseMapper.queryCourseIsTeam(status);
+    }
 }

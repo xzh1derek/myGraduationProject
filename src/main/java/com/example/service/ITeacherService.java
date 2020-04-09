@@ -12,9 +12,9 @@ public interface ITeacherService
 
     void createTeacher(String username,String name);
 
-    void updateTeacher(Integer id,String username,String name);
-
     void deleteTeacher(Integer id);
 
     Teacher queryTeacherByUsername(String username);
+
+    void updateIdentity(Integer id,String identity);
 }

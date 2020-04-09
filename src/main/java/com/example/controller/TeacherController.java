@@ -58,4 +58,16 @@ public class TeacherController
         return "0";
     }
 
+    /**
+     * 给老师赋予管理权限
+     * @param id 老师id
+     */
+    @RequestMapping(value = "/authorize",method = RequestMethod.POST)
+    public String authorizeTeacher(Integer id)
+    {
+        Teacher teacher = teacherService.getTeacher(id);
+        accountService.updateIdentity(teacher.getUsername(),0);
+        teacherService.updateIdentity(id,"管理员");
+        return "0";
+    }
 }

@@ -13,4 +13,6 @@ public interface IAccountDao
     void createAccount(Account account);
 
     void deleteAccount(String username);
+
+    void updateIdentity(String username,Integer identity);
 }

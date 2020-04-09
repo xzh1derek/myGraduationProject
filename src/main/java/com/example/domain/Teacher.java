@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 @Entity
@@ -16,6 +17,7 @@ public class Teacher implements Serializable
     private Integer id;
     private String username;
     private String name;
+    private String identity;
 
     public Integer getId()
     {
@@ -47,6 +49,16 @@ public class Teacher implements Serializable
         this.name = name;
     }
 
+    public String getIdentity()
+    {
+        return identity;
+    }
+
+    public void setIdentity(String identity)
+    {
+        this.identity = identity;
+    }
+
     @Override
     public String toString()
     {
@@ -54,6 +66,7 @@ public class Teacher implements Serializable
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
+                ", identity='" + identity + '\'' +
                 '}';
     }
 }

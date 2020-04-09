@@ -1,9 +1,11 @@
 package com.example.mapper;
+import com.example.config.sql.StudentProvider;
 import com.example.domain.User;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper
@@ -17,6 +19,9 @@ public interface UserMapper
 
     @Select("select * from user where username=#{u}")
     User findAUser(Long u);
+
+    @SelectProvider(type = StudentProvider.class ,method = "sqlStudent")
+    List<User> queryStudentsDynamically(Map<String,String> map);
 
     @Select("select username from user where class_id=#{c}")
     List<Long> findUsersByClass(Integer c);
