@@ -17,7 +17,6 @@ import redis.clients.jedis.JedisPool;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -55,13 +54,13 @@ public class TaskController
     /**
      * 给实验课上传资料文件
      * @param courseId 课程id
-     * @param multipartFile 文件
+     * @param multipartFile 文件 格式不限 大小小于10MB
      */
     @RequestMapping(value = "/template/post",method = RequestMethod.POST)
     public String postTemplate(Integer courseId,@RequestParam("file") MultipartFile multipartFile) throws IOException
     {
         if(multipartFile.isEmpty()){
-            return "false";
+            return "f";
         }
         File dir = new File(getClass().getResource(".").getFile(),"course"+courseId);
         if(!dir.exists()){
@@ -76,7 +75,7 @@ public class TaskController
      * 下载文件
      * @param courseId 课程id
      * @param fileName 文件名
-     * @return 文件
+     * @return 文件流
      */
     @RequestMapping(value = "/template/download",method = RequestMethod.GET)
     public ResponseEntity<FileSystemResource> downloadATemplate(Integer courseId, String fileName)
@@ -88,39 +87,39 @@ public class TaskController
 
     /**
      * 查看作业要求
+     * @param courseId 课程id
+     * @return json
      */
     @RequestMapping("/homework")
     public Map<String,String> getHomeworkRequirement(Integer courseId)
     {
         Jedis jedis = jedisPool.getResource();
         Map<String,String> map = new HashMap<>();
-        if(!jedis.exists("course"+courseId+"isTeamwork")) return map;
-        map.put("isTeamwork",jedis.get("course"+courseId+"isTeamwork"));
-        Date now = new Date();
-        long seconds = now.getTime()+ jedis.ttl("course"+courseId+"isTeamwork")*1000;
-        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
-        Date time = new Date(seconds);
-        map.put("deadline",ft.format(time));
+        if(!jedis.exists("course"+courseId+"requirement")) return map;
+        map = jedis.hgetAll("course"+courseId+"requirement");
         jedis.close();
         return map;
     }
 
     /**
      * 发布作业要求
+     * @param courseId 课程id
+     * @param isTeamwork 是否合作完成
+     * @param deadline 截止时间
      */
     @RequestMapping(value = "/homework/publish",method = RequestMethod.POST)
     public String publishHomework(Integer courseId,Boolean isTeamwork,String deadline)
     {
         Date date = DateConverter.convert2(deadline);
         Date now = new Date();
-        long seconds = (date.getTime()-now.getTime())/1000;
+        long seconds = (date.getTime()-now.getTime());
         if(seconds<=0) return "错误，时间已过期";
-        else if(seconds>=Integer.MAX_VALUE) return "日期过久，设置失败";
         Course course = courseService.getCourse(courseId);
         if(!course.getIs_team() && isTeamwork) return "非组队类型课程，作业不能设置为合作完成";
         Jedis jedis = jedisPool.getResource();
-        jedis.set("course"+courseId+"isTeamwork",isTeamwork.toString());
-        jedis.expire("course"+courseId+"isTeamwork",(int)seconds);
+        jedis.hset("course"+courseId+"requirement","isTeamwork",isTeamwork.toString());
+        jedis.hset("course"+courseId+"requirement","deadline",deadline);
+        jedis.save();
         jedis.close();
         return "0";
     }
