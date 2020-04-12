@@ -23,6 +23,9 @@ public interface UserMapper
     @SelectProvider(type = StudentProvider.class ,method = "sqlStudent")
     List<User> queryStudentsDynamically(Map<String,String> map);
 
+    @SelectProvider(type = StudentProvider.class ,method = "sqlStudentRecords")
+    Integer queryStudentsRecords(Map<String,String> map);
+
     @Select("select username from user where class_id=#{c}")
     List<Long> findUsersByClass(Integer c);
 

@@ -161,10 +161,10 @@ public class StudentController
     }
 
     /**
-     * 搜索学生
+     * 学生筛选器
      */
     @RequestMapping(value = "/search",method = RequestMethod.GET)
-    public List<User> searchStudentsByConditions(String username,String name,String class_id,String school,String year)
+    public List<User> searchStudentsByConditions(String username,String name,String class_id,String school,String year,Integer rows,Integer page)
     {
         Map<String,String> map = new HashMap<>();
         map.put("username",username);
@@ -172,6 +172,23 @@ public class StudentController
         map.put("class",class_id);
         map.put("school",school);
         map.put("year",year);
+        map.put("rows",rows.toString());
+        map.put("page",page.toString());
         return userService.sqlStudent(map);
+    }
+
+    /**
+     * 获得记录条数
+     */
+    @RequestMapping(value = "/search/pages",method = RequestMethod.GET)
+    public Integer searchStudentsRecords(String username,String name,String class_id,String school,String year)
+    {
+        Map<String,String> map = new HashMap<>();
+        map.put("username",username);
+        map.put("name",name);
+        map.put("class",class_id);
+        map.put("school",school);
+        map.put("year",year);
+        return userService.queryStudentsRecords(map);
     }
 }

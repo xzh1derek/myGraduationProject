@@ -47,4 +47,6 @@ public interface IUserService
     Integer queryUserNumbers();
 
     List<User> sqlStudent(Map<String,String> map);
+
+    Integer queryStudentsRecords(Map<String,String> map);
 }

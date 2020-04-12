@@ -145,4 +145,10 @@ public class UserServiceImpl implements IUserService
     {
         return userDao.sqlStudent(map);
     }
+
+    @Override
+    public Integer queryStudentsRecords(Map<String, String> map)
+    {
+        return userDao.queryStudentsRecords(map);
+    }
 }

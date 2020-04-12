@@ -49,4 +49,6 @@ public interface IUserDao
     List<Long> queryUsernameByTeamId(Integer teamId);
 
     List<User> sqlStudent(Map<String,String> map);
+
+    Integer queryStudentsRecords(Map<String,String> map);
 }

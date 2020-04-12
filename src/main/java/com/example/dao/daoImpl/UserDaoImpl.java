@@ -147,4 +147,10 @@ public class UserDaoImpl implements IUserDao
     {
         return userMapper.queryStudentsDynamically(map);
     }
+
+    @Override
+    public Integer queryStudentsRecords(Map<String, String> map)
+    {
+        return userMapper.queryStudentsRecords(map);
+    }
 }
