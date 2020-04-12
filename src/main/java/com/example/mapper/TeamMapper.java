@@ -34,11 +34,11 @@ public interface TeamMapper
     @ResultMap(value = "teamMap")
     List<Team> queryAllTeamsByLeader(Long num);
 
-    @Select("select * from team where is_display=1 and available=1 and course_id=#{c} limit #{x} offset #{y}")
+    @Select("select * from team where is_display=1 and available=1 and course_id=#{courseId} limit #{x} offset #{y}")
     @ResultMap(value = "teamMap")
     List<Team> queryTeamsByCourse(Integer courseId,Integer x,Integer y);
 
-    @Select("select * from team where course_id=#{c} limit #{x} offset #{y}")
+    @Select("select * from team where course_id=#{courseId} limit #{x} offset #{y}")
     @ResultMap(value = "teamMap")
     List<Team> queryAllTeamsByCourse(Integer courseId,Integer x,Integer y);
 

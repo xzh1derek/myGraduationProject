@@ -112,7 +112,7 @@ public class GroupController
      * @param userId 学号的数组
      */
     @RequestMapping(value = "/students/single",method = RequestMethod.POST)
-    public String groupStudentsSingleHandedly(Integer courseId, Long[] userId)
+    public String groupStudentsSingleHandedly(Integer courseId, @RequestBody Long[] userId)
     {
         Course course = courseService.getCourse(courseId);
         for(Long username : userId)
@@ -136,7 +136,7 @@ public class GroupController
      */
     @RequestMapping(value = "/students/together",method = RequestMethod.POST)
     @Transactional
-    public String groupStudentsAltogether(Integer courseId, Long[] userId)
+    public String groupStudentsAltogether(Integer courseId, @RequestBody Long[] userId)
     {
         Course course = courseService.getCourse(courseId);
         if(userId.length>course.getMax_num()) return "f";

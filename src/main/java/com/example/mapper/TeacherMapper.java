@@ -20,7 +20,7 @@ public interface TeacherMapper
     @Select("select id from teacher")
     LinkedHashSet<Integer> queryTeachersIdAsHashSet();
 
-    @Insert("insert into teacher(id,username,name,identity) value(#{id},#{username},#{name},教师)")
+    @Insert("insert into teacher(id,username,name) value(#{id},#{username},#{name})")
     void createTeacher(Teacher teacher);
 
     @Update("update teacher set username=#{username},name=#{name} where id=#{id}")

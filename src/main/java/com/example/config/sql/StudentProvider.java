@@ -16,7 +16,7 @@ public class StudentProvider
         SQL sql = new SQL();
         sql.SELECT("*").FROM("user");
         if (map.get("username") != null && !map.get("username").equals("")) {
-            sql.WHERE(" name = " + map.get("username"));
+            sql.WHERE(" username = " + map.get("username"));
         }
         if (map.get("name") != null && !map.get("name").equals("")) {
             String name = "'%" + map.get("name") + "%'";

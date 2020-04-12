@@ -13,4 +13,14 @@ public class DateConverter
             throw new RuntimeException("日期输入错误");
         }
     }
+
+    static public java.util.Date convert2(String source)
+    {
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return df.parse(source);
+        } catch (Exception e) {
+            throw new RuntimeException("日期时间输入错误");
+        }
+    }
 }
