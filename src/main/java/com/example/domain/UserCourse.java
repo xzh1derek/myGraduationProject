@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name="user_course")
@@ -17,7 +18,7 @@ public class UserCourse implements Serializable
     private Boolean is_leader;
     private Integer team_id;
     private Float score;
-    private String file;
+    private String teacher;
     @Transient
     private Course course;
     @Transient
@@ -83,16 +84,6 @@ public class UserCourse implements Serializable
         this.score = grade;
     }
 
-    public String getFile()
-    {
-        return file;
-    }
-
-    public void setFile(String file)
-    {
-        this.file = file;
-    }
-
     public Course getCourse()
     {
         return course;
@@ -113,6 +104,16 @@ public class UserCourse implements Serializable
         this.user = user;
     }
 
+    public String getTeacher()
+    {
+        return teacher;
+    }
+
+    public void setTeacher(String teacher)
+    {
+        this.teacher = teacher;
+    }
+
     @Override
     public String toString()
     {
@@ -123,7 +124,7 @@ public class UserCourse implements Serializable
                 ", is_leader=" + is_leader +
                 ", team_id=" + team_id +
                 ", score=" + score +
-                ", file='" + file + '\'' +
+                ", teacher='" + teacher + '\'' +
                 ", course=" + course +
                 ", user=" + user +
                 '}';

@@ -151,4 +151,10 @@ public class UserServiceImpl implements IUserService
     {
         return userDao.queryStudentsRecords(map);
     }
+
+    @Override
+    public void updateScore(Long username, Integer courseId, Float score,String teacher)
+    {
+        userDao.updateScore(username,courseId,score,teacher);
+    }
 }

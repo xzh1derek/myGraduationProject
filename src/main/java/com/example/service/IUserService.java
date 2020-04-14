@@ -49,4 +49,6 @@ public interface IUserService
     List<User> sqlStudent(Map<String,String> map);
 
     Integer queryStudentsRecords(Map<String,String> map);
+
+    void updateScore(Long username,Integer courseId,Float score,String teacher);
 }

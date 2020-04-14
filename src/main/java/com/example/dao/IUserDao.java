@@ -2,6 +2,7 @@ package com.example.dao;
 
 import com.example.domain.User;
 import com.example.domain.UserCourse;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 import java.util.Map;
@@ -51,4 +52,6 @@ public interface IUserDao
     List<User> sqlStudent(Map<String,String> map);
 
     Integer queryStudentsRecords(Map<String,String> map);
+
+    void updateScore(Long username,Integer courseId,Float score,String teacher);
 }

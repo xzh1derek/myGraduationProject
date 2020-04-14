@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -70,30 +67,18 @@ public class CurriculumOfStudents
     }
 
     /**
-     * 查看课程资料文件名单
-     * @param courseId 课程id
-     * @return 文件名的数组
-     */
-    @RequestMapping(value = "/template", method = RequestMethod.GET)
-    public String[] getTemplate(Integer courseId)
-    {
-        File dir = new File(getClass().getResource(".").getFile(), "course" + courseId);
-        if (!dir.exists()) return new String[0];
-        return dir.list();
-    }
-
-    /**
      * 下载文件
      * @param courseId 课程id
-     * @param fileName 文件名
      * @return 文件流 content-type=application/octet-stream
      */
     @RequestMapping(value = "/template/download", method = RequestMethod.GET)
-    public ResponseEntity<FileSystemResource> downloadATemplate(Integer courseId, String fileName)
+    public ResponseEntity<FileSystemResource> downloadATemplate(Integer courseId)
     {
-        File file = new File(getClass().getResource("./course" + courseId).getFile(), fileName);
-        if (!file.exists()) return null;
-        return FileExporter.export(file);
+        File dir = new File(getClass().getResource(".").getFile(),"course"+courseId);
+        if(!dir.exists()) return null;
+        File[] files = dir.listFiles();
+        if(files==null||files.length==0) return null;
+        return FileExporter.export(files[0]);
     }
 
     /**
@@ -125,11 +110,11 @@ public class CurriculumOfStudents
         } else if (!Objects.equals(multipartFile.getContentType(), "application/pdf")) {
             return "格式错误，请上传pdf文件";
         }
-        File dir = new File(getClass().getResource(".").getFile(), "course" + courseId + "report");
+        File dir = new File(getClass().getResource(".").getFile(), "course_" + courseId + "_report");
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        File file = new File(getClass().getResource("./course" + courseId + "report").getFile(), userId + ".pdf");
+        File file = new File(getClass().getResource("./course_" + courseId + "_report").getFile(), userId + ".pdf");
         multipartFile.transferTo(file);
         jedis.close();
         return "0";
@@ -147,7 +132,7 @@ public class CurriculumOfStudents
         FileInputStream in;
         OutputStream out;
         try {
-            in = new FileInputStream(new File(getClass().getResource("./course"+courseId+"report").getFile(),userId+".pdf"));
+            in = new FileInputStream(new File(getClass().getResource("./course_"+courseId+"_report").getFile(),userId+".pdf"));
             out = response.getOutputStream();
             byte[] b = new byte[512];
             while ((in.read(b)) != -1) {

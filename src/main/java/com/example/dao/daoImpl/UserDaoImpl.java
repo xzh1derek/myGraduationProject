@@ -153,4 +153,10 @@ public class UserDaoImpl implements IUserDao
     {
         return userMapper.queryStudentsRecords(map);
     }
+
+    @Override
+    public void updateScore(Long username, Integer courseId, Float score,String teacher)
+    {
+        userCourseMapper.updateScore(username,courseId,score,teacher);
+    }
 }

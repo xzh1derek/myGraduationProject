@@ -38,6 +38,9 @@ public interface UserCourseMapper
     @Update("update user_course set team_id=#{team_id} where username=#{username} and course_id=#{course_id}")
     void updateTeamId(UserCourse userCourse);
 
+    @Update("update user_course set score=#{score},teacher=#{teacher} where username=#{username} and course_id=#{courseId}")
+    void updateScore(Long username,Integer courseId,Float score,String teacher);
+
     @Update("update user_course set is_leader=false, team_id=0 where team_id<>0")
     void deleteMembers();
 

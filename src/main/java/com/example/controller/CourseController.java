@@ -1,12 +1,10 @@
 package com.example.controller;
 import com.example.config.utils.ByteConverter;
-import com.example.config.utils.FileExporter;
 import com.example.domain.*;
 import com.example.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import redis.clients.jedis.JedisPool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +69,6 @@ public class CourseController
     @RequestMapping(value = "/teachers/bind",method = RequestMethod.POST)
     public String bindTeachers(Integer courseId,@RequestBody Integer[] teachers)
     {
-        if(courseService.getCourse(courseId).getIs_published()) return "已发布课程，不能绑定班级";
         Long teachersEncoded = ByteConverter.convertIndexToLong(teachers);
         courseService.updateTeachers(courseId,teachersEncoded);
         return "0";
