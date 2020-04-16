@@ -33,7 +33,7 @@ public class StudentProvider
             String year = "'%" + map.get("year") + "%'";
             sql.WHERE(" year like" + year);
         }
-        Integer x = Integer.parseInt(map.get("rows")), y = Integer.parseInt(map.get("page"));
+        int x = Integer.parseInt(map.get("rows")), y = Integer.parseInt(map.get("page"));
         sql.LIMIT(x);
         sql.OFFSET(x*(y-1));
         return sql.toString();

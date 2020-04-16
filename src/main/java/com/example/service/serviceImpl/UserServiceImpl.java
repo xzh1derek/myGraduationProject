@@ -157,4 +157,22 @@ public class UserServiceImpl implements IUserService
     {
         userDao.updateScore(username,courseId,score,teacher);
     }
+
+    @Override
+    public List<UserCourse> queryUserCourseDynamically(Map<String, String> map)
+    {
+        return userDao.queryUserCourseDynamically(map);
+    }
+
+    @Override
+    public Integer queryUserCourseRecords(Map<String, String> map)
+    {
+        return userDao.queryUserCourseRecords(map);
+    }
+
+    @Override
+    public Map<String, Object> queryScoreData(Integer courseId)
+    {
+        return userDao.queryScoreData(courseId);
+    }
 }

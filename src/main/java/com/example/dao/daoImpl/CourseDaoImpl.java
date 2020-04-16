@@ -155,6 +155,12 @@ public class CourseDaoImpl implements ICourseDao
         courseMapper.deleteClassCourse(courseId);
     }
 
+    @Override
+    public void deleteTeamsByCourse(Integer courseId)
+    {
+        courseMapper.deleteTeamsByCourse(courseId);
+    }
+
     /**
      * 查询要上某个课程的学生名单 分页查询
      * @param courseId 课程id

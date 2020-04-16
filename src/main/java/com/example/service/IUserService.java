@@ -51,4 +51,10 @@ public interface IUserService
     Integer queryStudentsRecords(Map<String,String> map);
 
     void updateScore(Long username,Integer courseId,Float score,String teacher);
+
+    List<UserCourse> queryUserCourseDynamically(Map<String,String> map);
+
+    Integer queryUserCourseRecords(Map<String,String> map);
+
+    Map<String,Object> queryScoreData(Integer courseId);
 }

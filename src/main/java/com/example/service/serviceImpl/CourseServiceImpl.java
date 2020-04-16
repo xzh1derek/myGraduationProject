@@ -108,6 +108,12 @@ public class CourseServiceImpl implements ICourseService
     }
 
     @Override
+    public void deleteTeamsByCourse(Integer courseId)
+    {
+        courseDao.deleteTeamsByCourse(courseId);
+    }
+
+    @Override
     public List<UserCourse> queryStudentsByCoursePaging(Integer courseId, Integer rows, Integer page)
     {
         return courseDao.queryStudentsByCoursePaging(courseId,rows,page);

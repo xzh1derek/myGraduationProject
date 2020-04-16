@@ -41,6 +41,9 @@ public interface CourseMapper
     @Delete("delete from class_course where course_id=#{courseId}")
     void deleteClassCourse(Integer courseId);
 
+    @Delete("delete from team where course_id=#{courseId]")
+    void deleteTeamsByCourse(Integer courseId);
+
     @Select("select * from course where teacher&#{teacher}=#{teacher} and is_published=true")
     List<Course> queryCourseByTeacher(Long teacher);
 

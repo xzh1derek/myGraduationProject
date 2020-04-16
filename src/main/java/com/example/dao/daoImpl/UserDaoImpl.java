@@ -9,6 +9,8 @@ import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -158,5 +160,53 @@ public class UserDaoImpl implements IUserDao
     public void updateScore(Long username, Integer courseId, Float score,String teacher)
     {
         userCourseMapper.updateScore(username,courseId,score,teacher);
+    }
+
+    @Override
+    public List<UserCourse> queryUserCourseDynamically(Map<String, String> map)
+    {
+        return userCourseMapper.sqlUserCourse(map);
+    }
+
+    @Override
+    public Integer queryUserCourseRecords(Map<String, String> map)
+    {
+        return userCourseMapper.sqlUserCourseRecords(map);
+    }
+
+    @Override
+    public Map<String,Object> queryScoreData(Integer courseId)
+    {
+        List<Float> scores = userCourseMapper.queryScoreNotNull(courseId);
+        Map<String,Object> map = new LinkedHashMap<>();
+        Integer hasScore = scores.size();
+        Integer a=0,b=0,c=0,d=0,e=0;
+        float sum=0f,max=Float.MIN_VALUE,min=Float.MAX_VALUE;
+        for(Float score : scores){
+            if(score>=90f){
+                a++;
+            }else if(score>=80){
+                b++;
+            }else if(score>=70){
+                c++;
+            }else if(score>=60){
+                d++;
+            }else{
+                e++;
+            }
+            sum+=score;
+            max=Math.max(max,score);
+            min=Math.min(min,score);
+        }
+        map.put("hasScore",hasScore);
+        map.put("90plus",a);
+        map.put("80to90",b);
+        map.put("70to80",c);
+        map.put("60ro70",d);
+        map.put("60below",e);
+        map.put("average",sum/(float)hasScore);
+        map.put("max",max);
+        map.put("min",min);
+        return map;
     }
 }

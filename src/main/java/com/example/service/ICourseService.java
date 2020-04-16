@@ -38,6 +38,8 @@ public interface ICourseService
 
     void deleteClassCourse(Integer courseId);
 
+    void deleteTeamsByCourse(Integer courseId);
+
     List<UserCourse> queryStudentsByCoursePaging(Integer courseId,Integer rows, Integer page);
 
     Integer queryStudentsPages(Integer courseId);

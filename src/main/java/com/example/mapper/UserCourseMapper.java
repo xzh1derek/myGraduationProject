@@ -1,9 +1,13 @@
 package com.example.mapper;
+import com.example.config.sql.StudentProvider;
+import com.example.config.sql.UserCourseProvider;
+import com.example.domain.User;
 import com.example.domain.UserCourse;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserCourseMapper
@@ -73,4 +77,14 @@ public interface UserCourseMapper
     @Select("select * from user_course where course_id=#{courseId} and team_id=0")
     @ResultMap(value = "userCourseMapWithUser")
     List<UserCourse> queryStudentsTeamless(Integer courseId);
+
+    @SelectProvider(type = UserCourseProvider.class ,method = "sqlUserCourse")
+    @ResultMap(value = "userCourseMapWithUser")
+    List<UserCourse> sqlUserCourse(Map<String,String> map);
+
+    @SelectProvider(type = UserCourseProvider.class ,method = "sqlUserCourseRecords")
+    Integer sqlUserCourseRecords(Map<String,String> map);
+
+    @Select("select score from user_course where course_id = #{courseId} and score is not null")
+    List<Float> queryScoreNotNull(Integer courseId);
 }

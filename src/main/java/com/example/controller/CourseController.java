@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,7 +136,7 @@ public class CourseController
     }
 
     /**
-     * 删除课程 同时删除绑定的班级和学生 同时删除旗下的projects和modules
+     * 删除课程 同时删除绑定的班级和学生 同时删除旗下的projects和modules 同时删除队伍 以及课程资料+所有学生报告
      * @param courseId 课程编号
      */
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
@@ -144,12 +145,29 @@ public class CourseController
         courseService.deleteCourse(courseId);
         courseService.deleteClassCourse(courseId);
         courseService.deleteUserCourse(courseId);
+        courseService.deleteTeamsByCourse(courseId);
         List<Project> projects = courseService.queryProjectByCourse(courseId);
         for(Project project : projects)
         {
             moduleService.deleteModules(project.getId());
         }
         courseService.deleteProjects(courseId);
+        File dir = new File(getClass().getResource(".").getFile(),"course"+courseId);
+        if(dir.exists()){
+            File[] files = dir.listFiles();
+            for(File file : files){
+                file.delete();
+            }
+            dir.delete();
+        }
+        dir = new File(getClass().getResource(".").getFile(),"course_"+courseId+"_report");
+        if(dir.exists()){
+            File[] files = dir.listFiles();
+            for(File file : files){
+                file.delete();
+            }
+            dir.delete();
+        }
         return "0";
     }
 

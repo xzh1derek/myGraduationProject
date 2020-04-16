@@ -32,6 +32,8 @@ public interface ICourseDao
 
     void deleteProjects(Integer courseId);
 
+    void deleteTeamsByCourse(Integer courseId);
+
     void newClassCourse(Integer classId,Integer courseId);
 
     void deleteUserCourse(Integer courseId);
