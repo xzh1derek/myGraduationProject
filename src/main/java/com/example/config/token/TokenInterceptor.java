@@ -19,7 +19,7 @@ public class TokenInterceptor implements HandlerInterceptor
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=utf-8");
         String token = request.getHeader("token");
-        if (token.isEmpty()) {
+        if (token==null||token.isEmpty()) {
             response.getWriter().print("用户未登录，请登录后操作");
             return false;
         }
