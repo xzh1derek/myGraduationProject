@@ -30,7 +30,7 @@ public class ScoreController
      * 查询某个老师下已发布的课程
      */
     @RequestMapping("")
-    public List<Course> queryCourseByTeacher(@RequestHeader("Token")String token)
+    public List<Course> queryCourseByTeacher(@RequestHeader("token")String token)
     {
         Integer teacherId = redisService.getTeacherId(token);
         return courseService.queryCourseByTeacher(teacherId);
@@ -92,7 +92,7 @@ public class ScoreController
      * @param score 成绩
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String updateScore(@RequestHeader("Token")String token,Integer courseId,Long userId,Float score)
+    public String updateScore(@RequestHeader("token")String token,Integer courseId,Long userId,Float score)
     {
         Integer teacherId = redisService.getTeacherId(token);
         String name = teacherService.getTeacher(teacherId).getName();

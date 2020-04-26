@@ -48,7 +48,7 @@ public class ChoosingModule
      */
     @RequestMapping(value = "/project",method = RequestMethod.POST)
     @Transactional
-    public Object projectToChoose(@RequestHeader("Token")String token, Integer courseId)
+    public Object projectToChoose(@RequestHeader("token")String token, Integer courseId)
     {
         Jedis jedis = jedisPool.getResource();
         Long userId = redisService.getUserId(token);
@@ -91,7 +91,7 @@ public class ChoosingModule
      * @return project已选时返回"f"，未选时返回其下的所有module的List
      */
     @RequestMapping(value = "/module/all",method = RequestMethod.POST)
-    public Object moduleAll(@RequestHeader("Token")String token, Integer projectId)
+    public Object moduleAll(@RequestHeader("token")String token, Integer projectId)
     {
         List<Module> modules = new ArrayList<>();
         Jedis jedis = jedisPool.getResource();
@@ -114,7 +114,7 @@ public class ChoosingModule
      * @return project未选时返回"n"，已选时返回module实体+是否已处理字段
      */
     @RequestMapping(value = "/module/my",method = RequestMethod.POST)
-    public Module myModule(@RequestHeader("Token")String token, Integer projectId)
+    public Module myModule(@RequestHeader("token")String token, Integer projectId)
     {
         Jedis jedis = jedisPool.getResource();
         Long userId = redisService.getUserId(token);
@@ -133,7 +133,7 @@ public class ChoosingModule
      */
     @RequestMapping(value = "/module/choose",method = RequestMethod.POST)
     @Transactional
-    public String moduleChoose(@RequestHeader("Token")String token, Integer moduleId)
+    public String moduleChoose(@RequestHeader("token")String token, Integer moduleId)
     {
         Jedis jedis = jedisPool.getResource();
         Integer projectId = redisService.queryProjectIdByModuleId(moduleId);

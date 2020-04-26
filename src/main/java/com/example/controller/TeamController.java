@@ -31,7 +31,7 @@ public class TeamController
      * 返回自己所有加的队伍
      */
     @RequestMapping(value = "")
-    public List<Team> showMyTeam(@RequestHeader("Token")String token)
+    public List<Team> showMyTeam(@RequestHeader("token")String token)
     {
         return teamService.showMyTeam(redisService.getUserId(token));
     }
@@ -40,7 +40,7 @@ public class TeamController
      * 所有可组队的课程（需要组队且未组队）
      */
     @RequestMapping(value = "/myCourse")
-    public List<UserCourse> myCourse(@RequestHeader("Token")String token)
+    public List<UserCourse> myCourse(@RequestHeader("token")String token)
     {
         Long userId = redisService.getUserId(token);
         List<UserCourse> myUserCourses = new ArrayList<>();
@@ -59,7 +59,7 @@ public class TeamController
      * 点击创建队伍并绑定课程
      */
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public String createTeam(@RequestHeader("Token")String token, Integer courseId)
+    public String createTeam(@RequestHeader("token")String token, Integer courseId)
     {
         Long userId = redisService.getUserId(token);
         if(userService.hasATeam(userId,courseId)) return "2";//You have a team

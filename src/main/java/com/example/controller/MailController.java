@@ -35,7 +35,7 @@ public class MailController
      * 甲进入消息界面
      */
     @RequestMapping("")
-    public List<Mail> showMails(@RequestHeader("Token")String token)
+    public List<Mail> showMails(@RequestHeader("token")String token)
     {
         Long userId = redisService.getUserId(token);
         Jedis jedis = jedisPool.getResource();
@@ -79,7 +79,7 @@ public class MailController
      * @return 状态字符串
      */
     @RequestMapping("/approve")
-    public String approve(@RequestHeader("Token")String token,Integer mailId)
+    public String approve(@RequestHeader("token")String token,Integer mailId)
     {
         Long userId = redisService.getUserId(token);
         Jedis jedis = jedisPool.getResource();
@@ -119,7 +119,7 @@ public class MailController
      * @return 状态字符串
      */
     @RequestMapping("/reject")
-    public String reject(@RequestHeader("Token")String token,Integer mailId)
+    public String reject(@RequestHeader("token")String token,Integer mailId)
     {
         Long userId = redisService.getUserId(token);
         Jedis jedis = jedisPool.getResource();
@@ -148,7 +148,7 @@ public class MailController
      * @return 本地测试通过
      */
     @RequestMapping(value="/delete",method = RequestMethod.DELETE)
-    public String deleteMail(@RequestHeader("Token")String token,Integer mailId)
+    public String deleteMail(@RequestHeader("token")String token,Integer mailId)
     {
         Long userId = redisService.getUserId(token);
         Jedis jedis = jedisPool.getResource();

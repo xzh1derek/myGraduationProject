@@ -39,7 +39,7 @@ public class CurriculumOfStudents
      * 查询某个学生的所有module 按时间顺序
      */
     @RequestMapping("/all")
-    public List<Module> queryModuleByUser(@RequestHeader("Token")String token)
+    public List<Module> queryModuleByUser(@RequestHeader("token")String token)
     {
         Long userId = redisService.getUserId(token);
         return moduleService.queryModuleByUsername(userId);
@@ -49,7 +49,7 @@ public class CurriculumOfStudents
      * 查询某个学生的所有module 只显示当前日期之后的记录
      */
     @RequestMapping("/future")
-    public List<Module> queryModuleByUserAfterToday(@RequestHeader("Token")String token)
+    public List<Module> queryModuleByUserAfterToday(@RequestHeader("token")String token)
     {
         Long userId = redisService.getUserId(token);
         return moduleService.queryModuleByUsernameAfterToday(userId);
@@ -59,7 +59,7 @@ public class CurriculumOfStudents
      * 显示所有课程
      */
     @RequestMapping("/course")
-    public List<UserCourse> queryUserCourses(@RequestHeader("Token")String token)
+    public List<UserCourse> queryUserCourses(@RequestHeader("token")String token)
     {
         Long userId = redisService.getUserId(token);
         return userService.getUserCourses(userId);
@@ -86,7 +86,7 @@ public class CurriculumOfStudents
      * @param multipartFile 文件
      */
     @RequestMapping(value = "pdf/post", method = RequestMethod.POST)
-    public String UploadFile(@RequestHeader("Token")String token, Integer courseId, @RequestParam("file") MultipartFile multipartFile) throws IOException
+    public String UploadFile(@RequestHeader("token")String token, Integer courseId, @RequestParam("file") MultipartFile multipartFile) throws IOException
     {
         Jedis jedis = jedisPool.getResource();
         if (!jedis.exists("course" + courseId + "requirement")) {
@@ -124,7 +124,7 @@ public class CurriculumOfStudents
      * @param courseId 课程id
      */
     @RequestMapping("/pdf/view")
-    public void showPdf(@RequestHeader("Token")String token, Integer courseId, HttpServletResponse response)
+    public void showPdf(@RequestHeader("token")String token, Integer courseId, HttpServletResponse response)
     {
         response.setContentType("application/pdf");
         FileInputStream in;

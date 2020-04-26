@@ -32,7 +32,7 @@ public class CurriculumOfTeachers //老师课表 处理选课
      * @return 小课的List 多表联查
      */
     @RequestMapping("/all")
-    public List<Module> queryModulesWithProjectsAndCourses(@RequestHeader("Token")String token)
+    public List<Module> queryModulesWithProjectsAndCourses(@RequestHeader("token")String token)
     {
         Integer teacherId = redisService.getTeacherId(token);
         Long teacher = ByteConverter.convertIndexToLong(new Integer[]{teacherId});
@@ -44,7 +44,7 @@ public class CurriculumOfTeachers //老师课表 处理选课
      * @return 小课的List 多表联查
      */
     @RequestMapping("/future")
-    public List<Module> queryModulesWithProjectsAndCoursesAfterToday(@RequestHeader("Token")String token)
+    public List<Module> queryModulesWithProjectsAndCoursesAfterToday(@RequestHeader("token")String token)
     {
         Integer teacherId = redisService.getTeacherId(token);
         Long teacher = ByteConverter.convertIndexToLong(new Integer[]{teacherId});
@@ -67,7 +67,7 @@ public class CurriculumOfTeachers //老师课表 处理选课
      * @return Module的List 注入UserModules并带上User实体
      */
     @RequestMapping("/module")
-    public List<Module> queryUserModuleUnhandled(@RequestHeader("Token")String token)
+    public List<Module> queryUserModuleUnhandled(@RequestHeader("token")String token)
     {
         Jedis jedis = jedisPool.getResource();
         Integer teacherId = redisService.getTeacherId(token);

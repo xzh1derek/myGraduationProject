@@ -42,7 +42,7 @@ public class TaskController
      * 查询某个老师下已发布的课程
      */
     @RequestMapping("")
-    public List<Course> queryCourseByTeacher(@RequestHeader("Token")String token)
+    public List<Course> queryCourseByTeacher(@RequestHeader("token")String token)
     {
         Integer teacherId = redisService.getTeacherId(token);
         return courseService.queryCourseByTeacher(teacherId);
@@ -206,7 +206,7 @@ public class TaskController
      * @param score 成绩
      */
     @RequestMapping(value = "/homework/mark",method = RequestMethod.POST)
-    public String markTheHomework(@RequestHeader("Token")String token,Integer courseId,Long userId,Float score)
+    public String markTheHomework(@RequestHeader("token")String token,Integer courseId,Long userId,Float score)
     {
         Jedis jedis = jedisPool.getResource();
         boolean isTeamwork=false;

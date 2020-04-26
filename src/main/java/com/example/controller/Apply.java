@@ -34,7 +34,7 @@ public class Apply
      * @return 返回状态码 本地测试通过
      */
     @RequestMapping(value = "apply",method = RequestMethod.POST)
-    public String apply(@RequestHeader("Token")String token, Integer teamId)
+    public String apply(@RequestHeader("token")String token, Integer teamId)
     {
         Jedis jedis = jedisPool.getResource();
         Team team = teamService.getTeam(teamId);
