@@ -1,16 +1,13 @@
 package com.example.controller;
 
+import com.example.config.redis.RedisService;
 import com.example.domain.Course;
-import com.example.domain.User;
 import com.example.domain.UserCourse;
 import com.example.service.ICourseService;
 import com.example.service.ITeacherService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,14 +23,16 @@ public class ScoreController
     private ICourseService courseService;
     @Autowired
     private ITeacherService teacherService;
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 查询某个老师下已发布的课程
-     * @param teacherId 老师id
      */
     @RequestMapping("")
-    public List<Course> queryCourseByTeacher(Integer teacherId)
+    public List<Course> queryCourseByTeacher(@RequestHeader("Token")String token)
     {
+        Integer teacherId = redisService.getTeacherId(token);
         return courseService.queryCourseByTeacher(teacherId);
     }
 
@@ -91,11 +90,11 @@ public class ScoreController
      * @param courseId 课程id
      * @param userId 学号
      * @param score 成绩
-     * @param teacherId 老师id
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String updateScore(Integer courseId,Long userId,Float score,Integer teacherId)
+    public String updateScore(@RequestHeader("Token")String token,Integer courseId,Long userId,Float score)
     {
+        Integer teacherId = redisService.getTeacherId(token);
         String name = teacherService.getTeacher(teacherId).getName();
         UserCourse userCourse = userService.queryUserCourseWithCourse(userId,courseId);
         String teacher = userCourse.getTeacher();

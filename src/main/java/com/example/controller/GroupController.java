@@ -1,10 +1,9 @@
 package com.example.controller;
-
+import com.example.config.redis.RedisService;
 import com.example.domain.Course;
 import com.example.domain.Team;
 import com.example.domain.UserCourse;
 import com.example.service.ICourseService;
-import com.example.service.IMailService;
 import com.example.service.ITeamService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -22,7 +20,7 @@ public class GroupController
     @Autowired
     private ITeamService teamService;
     @Autowired
-    private IMailService mailService;
+    private RedisService redisService;
     @Autowired
     private IUserService userService;
     @Autowired
@@ -89,7 +87,7 @@ public class GroupController
         List<Long> userId = teamService.queryUsernameByTeamId(teamId);
         for(Long username : userId)
         {
-            mailService.sendMail(0L,username,0,null,"管理员删除了队伍id："+teamId+"，请重新组队");
+            redisService.sendMail(0L,username,0,0,"管理员删除了队伍id："+teamId+"，请重新组队");
         }
         teamService.deleteTeamMembers(teamId);
         teamService.deleteTeam(teamId);
@@ -124,7 +122,7 @@ public class GroupController
             Integer teamId = teamService.createTeam(username,courseId,course.getMax_num());
             userService.updateIsLeader(username,courseId,true);
             userService.updateTeamId(username,courseId,teamId);
-            mailService.sendMail(0L,username,0,null,"系统自动组队通知，你已进入队伍id："+teamId);
+            redisService.sendMail(0L,username,0,0,"系统自动组队通知，你已进入队伍id："+teamId);
         }
         return "0";
     }
@@ -151,11 +149,11 @@ public class GroupController
                 teamId = teamService.createTeam(username,courseId,course.getMax_num());
                 userService.updateIsLeader(username,courseId,true);
                 userService.updateTeamId(username,courseId,teamId);
-                mailService.sendMail(0L,username,0,null,"系统自动组队通知，你已进入队伍id："+teamId);
+                redisService.sendMail(0L,username,0,0,"系统自动组队通知，你已进入队伍id："+teamId);
             }else if(i>1&&i<=course.getMax_num()){
                 teamService.addAMember(teamId,username);
                 userService.updateTeamId(username,courseId,teamId);
-                mailService.sendMail(0L,username,0,null,"系统自动组队通知，你已进入队伍id："+teamId);
+                redisService.sendMail(0L,username,0,0,"系统自动组队通知，你已进入队伍id："+teamId);
             }else{
                 i=0;
             }

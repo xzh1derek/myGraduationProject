@@ -32,9 +32,6 @@ public interface UserMapper
     @Update("update user set qq=#{q} where username=#{u}")
     void updateQq(Long u, String q);
 
-    @Update("update user set new_message=0 where username=#{u}")
-    void updateMessage(Long u);
-
     @Insert("insert into user(username,name,class_id,school,year) values(#{username},#{name},#{class_id},#{school},#{year})")
     void newUser(User user);
 

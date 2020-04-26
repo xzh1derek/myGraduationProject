@@ -26,8 +26,6 @@ public class TestController
     private UserMapper userMapper;
     @Autowired
     private AccountMapper accountMapper;
-    @Autowired
-    private MailMapper mailMapper;
 
     /**测试功能
      * 删除所有队伍，清空组队状态
@@ -107,16 +105,6 @@ public class TestController
     public String deleteAllUserCourses()
     {
         userCourseMapper.deleteAllUserCourses();
-        return "0";
-    }
-
-    /**
-     * 删库接口 删除所有mail
-     */
-    @DeleteMapping(value = "/mails")
-    public String deleteAllMails()
-    {
-        mailMapper.deleteAllMails();
         return "0";
     }
 }

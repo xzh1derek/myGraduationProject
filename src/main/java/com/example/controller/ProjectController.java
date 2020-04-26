@@ -4,7 +4,6 @@ import com.example.domain.Course;
 import com.example.domain.Module;
 import com.example.domain.Project;
 import com.example.service.ICourseService;
-import com.example.service.IMailService;
 import com.example.service.IModuleService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,6 @@ public class ProjectController
     private ICourseService courseService;
     @Autowired
     private IUserService userService;
-    @Autowired
-    private IMailService mailService;
     @Autowired
     private RedisService redisService;
 
@@ -134,11 +131,8 @@ public class ProjectController
                 Integer class1 = module.getClass1(),class2 = module.getClass2();
                 List<Long> usernameList = userService.findUsersByClass(class1);
                 if(class2!=null) usernameList.addAll(userService.findUsersByClass(class2));
-                String text = "课程【"+course.getCourse_name()+"】新增["+project.getProject_name()+"]，时间["+
-                        module.getDate()+" "+module.getTime()+"]，地点["+module.getLocation()+"]。请到【课程管理】->【我的课表】中查看";
                 for(Long username : usernameList){
                     moduleService.newUserModule(username,module.getId());
-                    mailService.sendMail(0L,username,0,null,text);
                 }
                 moduleService.updateStuNum(module.getId(),usernameList.size());
             }

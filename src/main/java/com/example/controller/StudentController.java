@@ -1,8 +1,8 @@
 package com.example.controller;
+import com.example.config.redis.RedisService;
 import com.example.domain.Account;
 import com.example.domain.User;
 import com.example.service.IAccountService;
-import com.example.service.IMailService;
 import com.example.service.IUserService;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -27,7 +27,7 @@ public class StudentController
     @Autowired
     private IAccountService accountService;
     @Autowired
-    private IMailService mailService;
+    private RedisService redisService;
 
     /**
      * 查看所有学生列表 分页查询
@@ -69,6 +69,7 @@ public class StudentController
             multipartFile.transferTo(file);
             Workbook rwb = Workbook.getWorkbook(file);
             Sheet rs = rwb.getSheet(0);
+            file.deleteOnExit();
             int columns = rs.getColumns();// 得到所有的列
             int rows = rs.getRows();// 得到所有的行
             if(!rs.getCell(0,0).getContents().equals("学号")) return "错误，第一列不是'学号'";
@@ -156,7 +157,7 @@ public class StudentController
     public String updatePassword(Long userId)
     {
         accountService.updatePassword(userId.toString(),"123");
-        mailService.sendMail(0L,userId,0,null,"密码已重置为123，请尽快修改密码");
+        redisService.sendMail(0L,userId,0,0,"密码已重置为123，请尽快修改密码");
         return "0";
     }
 

@@ -6,6 +6,11 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipCompression
 {
+    /**
+     * 压缩文件
+     * @param zipFileName 压缩文件保存名
+     * @param target 目标文件路径
+     */
     public static void filetoZip(String zipFileName,File target)throws RuntimeException{
         ZipOutputStream zos = null ;
         try {

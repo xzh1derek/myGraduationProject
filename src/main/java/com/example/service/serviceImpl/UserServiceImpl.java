@@ -105,12 +105,6 @@ public class UserServiceImpl implements IUserService
     }
 
     @Override
-    public void updateMessage(Long u)
-    {
-        userDao.updateMessage(u);
-    }
-
-    @Override
     public void newUser(User user)
     {
         userDao.newUser(user);

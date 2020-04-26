@@ -1,38 +1,54 @@
 package com.example.controller;
+import com.example.config.redis.RedisService;
 import com.example.domain.Mail;
 import com.example.domain.Team;
 import com.example.domain.User;
-import com.example.service.IMailService;
 import com.example.service.ITeamService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("mail")
 public class MailController
 {
     @Autowired
-    private IMailService mailService;
-    @Autowired
     private IUserService userService;
     @Autowired
     private ITeamService teamService;
+    @Autowired
+    private JedisPool jedisPool;
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 甲进入消息界面
-     * @param userId 甲的学号
-     * @return 本地测试通过
      */
     @RequestMapping("")
-    public List<Mail> showMails(Long userId)
+    public List<Mail> showMails(@RequestHeader("Token")String token)
     {
-        userService.updateMessage(userId);
-        return mailService.getMailsByReceiver(userId);
+        Long userId = redisService.getUserId(token);
+        Jedis jedis = jedisPool.getResource();
+        List<Mail> mails = new ArrayList<>();
+        Set<String> keys = jedis.keys("mail"+userId+":*");
+        if(!keys.isEmpty()){
+            for(String key : keys){
+                Mail mail = redisService.queryMail(key);
+                mails.add(mail);
+            }
+        }
+        jedis.close();
+        return mails;
     }
 
     /**
@@ -63,24 +79,25 @@ public class MailController
      * @return 状态字符串
      */
     @RequestMapping("/approve")
-    public String approve(Integer mailId)
+    public String approve(@RequestHeader("Token")String token,Integer mailId)
     {
-        Mail myMail = mailService.getMail(mailId);
+        Long userId = redisService.getUserId(token);
+        Jedis jedis = jedisPool.getResource();
+        String key = "mail"+userId+":"+mailId;
+        Mail myMail = redisService.queryMail(key);
         if(myMail.getType()==1)//如果为邀请
         {
-            Long userId = myMail.getReceiver();
             Integer teamId = myMail.getTeamId();
             Team team = teamService.getTeam(teamId);
             if(userService.hasATeam(userId,team.getCourse_id())) return "2";//You have a team
             if(!team.getAvailable()) return "3";//The team you applied is full or not available
             teamService.addAMember(teamId,userId);
             userService.updateTeamId(userId,team.getCourse_id(),teamId);
-            mailService.deleteMail(mailId);
-            mailService.sendMail(0L,team.getLeader(),0,0,"邀请被通过，成员 "+ userId +" 已入队");//发一个系统邮件，告知队长入队成功
+            jedis.del(key);
+            redisService.sendMail(0L,team.getLeader(),0,0,"邀请被通过，成员 "+ userId +" 已入队");//发一个系统邮件，告知队长入队成功
         }
         else if(myMail.getType()==2)//如果为申请
         {
-            Long userId = myMail.getSender();
             Integer teamId = myMail.getTeamId();
             Team team = teamService.getTeam(teamId);
             if(!team.getAvailable()) return "5";//Your team is full or not available
@@ -88,9 +105,11 @@ public class MailController
             if(userService.hasATeam(userId,team.getCourse_id())) return "6";//He has a team
             teamService.addAMember(teamId,userId);
             userService.updateTeamId(userId,team.getCourse_id(),teamId);
-            mailService.deleteMail(mailId);
-            mailService.sendMail(0L,userId,0,0,"队伍申请已通过，你已入队");//发送系统邮件告知申请通过
+            jedis.del(key);
+            jedis.del("application:"+myMail.getSender().toString());
+            redisService.sendMail(0L,userId,0,0,"队伍申请已通过，你已入队");//发送系统邮件告知申请通过
         }
+        jedis.close();
         return "0";
     }
 
@@ -100,21 +119,26 @@ public class MailController
      * @return 状态字符串
      */
     @RequestMapping("/reject")
-    public String reject(Integer mailId)
+    public String reject(@RequestHeader("Token")String token,Integer mailId)
     {
-        Mail myMail = mailService.getMail(mailId);
-        mailService.deleteMail(mailId);
+        Long userId = redisService.getUserId(token);
+        Jedis jedis = jedisPool.getResource();
+        String key = "mail"+userId+":"+mailId;
+        Mail myMail = redisService.queryMail(key);
+        jedis.del(key);
+        if(myMail.getType()==2) jedis.del("application:"+myMail.getSender().toString());
+        jedis.close();
         String text;
         if(myMail.getType()==1)//如果为邀请
         {
-            text = "邀请未通过， "+ myMail.getReceiver() +" 同学没有同意入队";
+            text = "邀请未通过， "+ userId +" 同学没有同意入队";
         }
         else if(myMail.getType()==2)//如果为申请
         {
             text = "队伍申请未通过，队伍 ID:"+myMail.getTeamId()+" 已满员或不接受申请";
         }
         else return "error678";
-        mailService.sendMail(0L,myMail.getSender(),0,0,text);
+        redisService.sendMail(0L,myMail.getSender(),0,0,text);
         return "0";
     }
 
@@ -124,9 +148,12 @@ public class MailController
      * @return 本地测试通过
      */
     @RequestMapping(value="/delete",method = RequestMethod.DELETE)
-    public String deleteMail(Integer mailId)
+    public String deleteMail(@RequestHeader("Token")String token,Integer mailId)
     {
-        mailService.deleteMail(mailId);
+        Long userId = redisService.getUserId(token);
+        Jedis jedis = jedisPool.getResource();
+        jedis.del("mail"+userId+":"+mailId);
+        jedis.close();
         return "0";
     }
 }

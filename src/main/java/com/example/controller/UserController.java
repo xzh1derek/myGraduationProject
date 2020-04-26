@@ -1,14 +1,18 @@
 package com.example.controller;
 
+import com.example.config.redis.RedisService;
 import com.example.domain.Teacher;
 import com.example.domain.User;
 import com.example.service.IAccountService;
 import com.example.service.ITeacherService;
 import com.example.service.IUserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 @RestController
 public class UserController
@@ -19,41 +23,43 @@ public class UserController
     private IAccountService accountService;
     @Autowired
     private ITeacherService teacherService;
+    @Autowired
+    private JedisPool jedisPool;
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 进入个人主界面
-     * @param userId 当前用户学号
-     * @return 返回用户信息 多表联查 一对多 本地测试通过
      */
     @RequestMapping("userInfo")
-    public User userInfo(Long userId)
+    public User userInfo(@RequestHeader("token") String token)
     {
-        return userService.findAUser(userId);
+        Long userId = redisService.getUserId(token);
+        User user = userService.findAUser(userId);
+        Jedis jedis = jedisPool.getResource();
+        user.setNew_message(jedis.keys("mail"+userId+":*").size());
+        jedis.close();
+        return user;
     }
 
     /**
      * 修改qq号
-     * @param userId 学号
-     * @param qq QQ号
-     * @return 状态码
      */
     @RequestMapping(value = "userInfo/updateQQ",method = RequestMethod.POST)
-    public String updateQQ(Long userId, String qq)
+    public String updateQQ(@RequestHeader("token")String token, String qq)
     {
-        userService.updateQQ(userId,qq);
+        userService.updateQQ(redisService.getUserId(token),qq);
         return "0";
     }
 
     /**
      * 修改密码
-     * @param userId 账号
-     * @param password 原密码
      * @return 状态码
      */
     @RequestMapping(value = "password/update",method = RequestMethod.POST)
-    public String updatePassword(String userId,String password)
+    public String updatePassword(@RequestHeader("token")String token,String password)
     {
-        accountService.updatePassword(userId,new Md5Hash(password).toString());
+        accountService.updatePassword(redisService.getUserId(token).toString(),new Md5Hash(password).toString());
         return "0";
     }
 

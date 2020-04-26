@@ -1,11 +1,12 @@
 package com.example.controller;
+import com.example.config.redis.RedisService;
 import com.example.domain.Team;
 import com.example.domain.UserCourse;
 import com.example.service.ICourseService;
-import com.example.service.IMailService;
 import com.example.service.ITeamService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,27 +25,24 @@ public class TeamController
     @Autowired
     private ICourseService courseService;
     @Autowired
-    private IMailService mailService;
+    private RedisService redisService;
 
     /**
      * 返回自己所有加的队伍
-     * @param userId 自己的学号
-     * @return 队伍的List 多表联查 本地测试通过
      */
     @RequestMapping(value = "")
-    public List<Team> showMyTeam(Long userId)
+    public List<Team> showMyTeam(@RequestHeader("Token")String token)
     {
-        return teamService.showMyTeam(userId);
+        return teamService.showMyTeam(redisService.getUserId(token));
     }
 
     /**
      * 所有可组队的课程（需要组队且未组队）
-     * @param userId 学号
-     * @return 待选课程的List
      */
     @RequestMapping(value = "/myCourse")
-    public List<UserCourse> myCourse(Long userId)
+    public List<UserCourse> myCourse(@RequestHeader("Token")String token)
     {
+        Long userId = redisService.getUserId(token);
         List<UserCourse> myUserCourses = new ArrayList<>();
         List<UserCourse> userCourses = userService.getUserCourses(userId);
         for(UserCourse userCourse : userCourses)
@@ -59,13 +57,11 @@ public class TeamController
 
     /**
      * 点击创建队伍并绑定课程
-     * @param userId 学号
-     * @param courseId 绑定的课程序号
-     * @return 状态码 本地测试通过
      */
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public String createTeam(Long userId, Integer courseId)
+    public String createTeam(@RequestHeader("Token")String token, Integer courseId)
     {
+        Long userId = redisService.getUserId(token);
         if(userService.hasATeam(userId,courseId)) return "2";//You have a team
         Integer teamId = teamService.createTeam(userId,courseId,courseService.getCourse(courseId).getMax_num());
         userService.updateIsLeader(userId,courseId,true);
@@ -88,7 +84,7 @@ public class TeamController
         if(userService.hasATeam(receiver,team.getCourse_id())) return "6";//He has a team.
         else if(team.getCurrent_num().equals(team.getMax_num())) return "7";//Your team is full
         else{
-            mailService.sendMail(team.getLeader(),receiver,1,teamId,team.getLeader()+" 同学邀请你加入队伍ID: "+teamId);
+            redisService.sendMail(team.getLeader(),receiver,1,teamId,team.getLeader()+" 同学邀请你加入队伍ID: "+teamId);
             return "0";
         }
     }

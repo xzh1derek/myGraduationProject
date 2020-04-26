@@ -12,10 +12,7 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class RedisService
@@ -178,5 +175,46 @@ public class RedisService
         }
         jedis.close();
         return teacherNames;
+    }
+
+    public Mail queryMail(String key){
+        Jedis jedis = jedisPool.getResource();
+        Map<String,String> map = jedis.hgetAll(key);
+        Mail mail = new Mail();
+        mail.setId(Integer.parseInt(map.get("id")));
+        mail.setSender(Long.parseLong(map.get("sender")));
+        mail.setType(Integer.parseInt(map.get("type")));
+        mail.setTeamId(Integer.parseInt(map.get("teamId")));
+        mail.setText(map.get("text"));
+        jedis.close();
+        return mail;
+    }
+
+    public int sendMail(Long sender,Long receiver,Integer type,Integer teamId,String text){
+        Jedis jedis = jedisPool.getResource();
+        int id = new Random().nextInt();
+        String key = "mail"+receiver+":"+id;
+        jedis.hset(key,"id", Integer.toString(id));
+        jedis.hset(key,"sender",sender.toString());
+        jedis.hset(key,"type",type.toString());
+        jedis.hset(key,"teamId",teamId.toString());
+        jedis.hset(key,"text",text);
+        jedis.save();
+        jedis.close();
+        return id;
+    }
+
+    public Long getUserId(String token){
+        Jedis jedis = jedisPool.getResource();
+        String id = jedis.hget(token,"id");
+        jedis.close();
+        return Long.parseLong(id);
+    }
+
+    public Integer getTeacherId(String token){
+        Jedis jedis = jedisPool.getResource();
+        String id = jedis.hget(token,"id");
+        jedis.close();
+        return Integer.parseInt(id);
     }
 }

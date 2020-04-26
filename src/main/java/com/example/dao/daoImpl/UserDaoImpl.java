@@ -103,12 +103,6 @@ public class UserDaoImpl implements IUserDao
     }
 
     @Override
-    public void updateMessage(Long u)
-    {
-        userMapper.updateMessage(u);
-    }
-
-    @Override
     public void newUser(User user)
     {
         userMapper.newUser(user);

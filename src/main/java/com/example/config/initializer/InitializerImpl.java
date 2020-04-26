@@ -22,17 +22,17 @@ public class InitializerImpl implements ApplicationRunner
      * SpringBoot启动后自动执行脚本
      */
     @Override
-    public void run(ApplicationArguments args) throws Exception
+    public void run(ApplicationArguments args)
     {
-        Jedis jedis = jedisPool.getResource();
-        List<Project> projects = projectMapper.queryAllProjects();
-        for(Project project : projects){
-            if(!project.getIs_fixed()){
-                Integer courseId=project.getCourse_id(),projectId=project.getId();
-                if(jedis.exists("course"+courseId+"project:"+projectId)) projectMapper.updateIsPublished(projectId,true);
-                else projectMapper.updateIsPublished(projectId,false);
-            }
-        }
-        jedis.close();
+//        Jedis jedis = jedisPool.getResource();
+//        List<Project> projects = projectMapper.queryAllProjects();
+//        for(Project project : projects){
+//            if(!project.getIs_fixed()){
+//                Integer courseId=project.getCourse_id(),projectId=project.getId();
+//                if(jedis.exists("course"+courseId+"project:"+projectId)) projectMapper.updateIsPublished(projectId,true);
+//                else projectMapper.updateIsPublished(projectId,false);
+//            }
+//        }
+//        jedis.close();
     }
 }

@@ -18,6 +18,7 @@ public class User implements Serializable
     private Integer class_id;
     private String qq;
     private String year;
+    @Transient
     private Integer new_message;
     @Transient//属于实体的临时数据，jpa不写在数据库字段里
     private List<UserCourse> userCourses;

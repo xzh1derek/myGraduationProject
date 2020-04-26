@@ -34,8 +34,6 @@ public interface IUserService
 
     List<Long> queryUsernameByTeamId(Integer teamId);
 
-    void updateMessage(Long u);
-
     void newUser(User user);
 
     void deleteUser(Long username);

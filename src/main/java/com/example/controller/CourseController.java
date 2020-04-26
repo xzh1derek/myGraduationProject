@@ -1,4 +1,5 @@
 package com.example.controller;
+import com.example.config.redis.RedisService;
 import com.example.config.utils.ByteConverter;
 import com.example.domain.*;
 import com.example.service.*;
@@ -22,8 +23,6 @@ public class CourseController
     private IModuleService moduleService;
     @Autowired
     private ITeacherService teacherService;
-    @Autowired
-    private IMailService mailService;
 
     /**
      * 返回所有课程
@@ -111,14 +110,10 @@ public class CourseController
         }
         UserCourse userCourse = new UserCourse();
         userCourse.setCourse_id(courseId);
-        String text = "新增实验课程【"+course.getCourse_name()+"】，" +
-                "学时【"+course.getHours()+"】，学分【"+course.getCredit()+"】";
-        if(course.getIs_team()) text = text + "，本课程需要学生组队完成，请尽快组好队伍。";
         for(Long username : usernameList)
         {
             userCourse.setUsername(username);
             courseService.newUserCourse(userCourse);
-            mailService.sendMail(0L,username,0,null,text);
         }
         courseService.updateStuNum(courseId,usernameList.size());
         courseService.updateIsPublished(courseId,true);

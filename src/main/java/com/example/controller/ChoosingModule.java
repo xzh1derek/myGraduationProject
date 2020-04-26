@@ -5,6 +5,7 @@ import com.example.domain.Module;
 import com.example.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,14 +45,13 @@ public class ChoosingModule
 
     /**
      * 返回课程下所有待选project 标明已选或者未选 事务回滚
-     * @param userId 学号
-     * @param courseId 课程id
      */
     @RequestMapping(value = "/project",method = RequestMethod.POST)
     @Transactional
-    public Object projectToChoose(Long userId, Integer courseId)
+    public Object projectToChoose(@RequestHeader("Token")String token, Integer courseId)
     {
         Jedis jedis = jedisPool.getResource();
+        Long userId = redisService.getUserId(token);
         String k = "course"+courseId+"user:"+userId;
         if(!jedis.exists(k)){
             if(!userService.userMatchCourse(userId,courseId)) return "你没有该课程计划";
@@ -88,15 +88,14 @@ public class ChoosingModule
 
     /**
      * 如果project未选 则进入选课页面
-     * @param userId 学号
-     * @param projectId project的id
      * @return project已选时返回"f"，未选时返回其下的所有module的List
      */
     @RequestMapping(value = "/module/all",method = RequestMethod.POST)
-    public Object moduleAll(Long userId, Integer projectId)
+    public Object moduleAll(@RequestHeader("Token")String token, Integer projectId)
     {
         List<Module> modules = new ArrayList<>();
         Jedis jedis = jedisPool.getResource();
+        Long userId = redisService.getUserId(token);
         if(jedis.exists("project"+projectId+"user:"+userId)){
             return "f";//已选过 不能进入
         }
@@ -111,14 +110,14 @@ public class ChoosingModule
 
     /**
      * 如果project已选 则查看选课信息 （还可以同时显示在选课界面下面的“我的选课”区域）
-     * @param userId 学号
      * @param projectId project的id
      * @return project未选时返回"n"，已选时返回module实体+是否已处理字段
      */
     @RequestMapping(value = "/module/my",method = RequestMethod.POST)
-    public Module myModule(Long userId, Integer projectId)
+    public Module myModule(@RequestHeader("Token")String token, Integer projectId)
     {
         Jedis jedis = jedisPool.getResource();
+        Long userId = redisService.getUserId(token);
         String key = "project"+projectId+"user:"+userId;
         if(!jedis.exists(key)) return null; //project还未选 返回空
         int moduleId = Integer.parseInt(jedis.get(key));
@@ -130,12 +129,11 @@ public class ChoosingModule
 
     /**
      * 选择某个批次 加过了不能再加 人数满时无法加入（组队时批次人数能稍微多出一点） 事务回滚
-     * @param userId 学号
      * @param moduleId module的id
      */
     @RequestMapping(value = "/module/choose",method = RequestMethod.POST)
     @Transactional
-    public String moduleChoose(Long userId, Integer moduleId)
+    public String moduleChoose(@RequestHeader("Token")String token, Integer moduleId)
     {
         Jedis jedis = jedisPool.getResource();
         Integer projectId = redisService.queryProjectIdByModuleId(moduleId);
@@ -144,6 +142,7 @@ public class ChoosingModule
         if(module.getCur_num() >= module.getStu_num()){
             return "人数已满，无法选择";
         }
+        Long userId = redisService.getUserId(token);
         Integer courseId = redisService.queryCourseIdByProjectId(projectId);
         key = "project"+projectId+"user:"+userId;
         if(jedis.exists(key)){

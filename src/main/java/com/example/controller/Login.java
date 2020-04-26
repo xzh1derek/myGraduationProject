@@ -1,4 +1,5 @@
 package com.example.controller;
+import com.example.config.redis.RedisService;
 import com.example.domain.Account;
 import com.example.service.IAccountService;
 import com.example.service.ITeacherService;
@@ -12,74 +13,121 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
-@Controller
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+@RestController
 public class Login
 {
     @Autowired
     private IAccountService accountService;
     @Autowired
-    private IUserService userService;
-    @Autowired
     private ITeacherService teacherService;
+    @Autowired
+    private JedisPool jedisPool;
 
     /**
-     * 登录功能 不用shiro
+     * 登录功能
      * @param username 账号
      * @param password 密码
      * @return
      */
     @RequestMapping(value = "login",method = RequestMethod.POST)
-    @ResponseBody
     public Object login(String username,String password)
     {
-        if(!accountService.existAccount(username)) return "n";//账号不存在
+        Jedis jedis = jedisPool.getResource();
+        if(!accountService.existAccount(username)) return "账号不存在";//账号不存在
         Account account = accountService.getAccount(username);
         String psw = account.getPassword();
         if(!password.equals("123")){
             password = new Md5Hash(password).toString();
         }
+        Map<String,String> map = new HashMap<>();
         Integer identity = account.getIdentity();
+        String token = UUID.randomUUID().toString();
         if(identity==1){
-            if(password.equals(psw)) return userService.findAUser(Long.parseLong(username));//登陆成功，转入学生个人界面
-            else return "f";//登录失败，重新登录
+            if(password.equals(psw)) {
+                map.put("token",token);
+                map.put("identity","student");
+                jedis.hset(token,"id",account.getUsername());
+                jedis.hset(token,"auth",account.getIdentity().toString());
+            }
+            else return "密码错误，请重新输入";
         }else{
-            if(password.equals(psw)) return teacherService.queryTeacherByUsername(username);//转入老师/管理员界面
-            else return "f";
+            if(password.equals(psw)){
+                jedis.hset(token,"id",teacherService.queryTeacherByUsername(account.getUsername()).getId().toString());
+                jedis.hset(token,"auth",account.getIdentity().toString());
+                map.put("token",token);
+                map.put("identity","teacher");
+            }
+            else return "密码错误，请重新输入";
         }
+        jedis.expire(token,6*3600);
+        jedis.save();
+        jedis.close();
+        return map;
     }
 
     /**
-     * 使用shiro的登录
-     * @return
+     * 退出登录
      */
-    @RequestMapping(value = "loginShiro",method = RequestMethod.POST)
-    @ResponseBody
-    public Object loginMethod(String username,String password)
+    @RequestMapping(value = "logout",method = RequestMethod.POST)
+    public String logout(@RequestHeader("token")String token)
     {
-        Subject subject = SecurityUtils.getSubject();
-        if(!password.equals("123")){
-            password = new Md5Hash(password).toString();
-        }
-        UsernamePasswordToken token = new UsernamePasswordToken(username,password);
-        try{
-            subject.login(token);
-            Account account = accountService.getAccount(username);
-            if(account.getIdentity()==1) return userService.findAUser(Long.parseLong(username));//转入学生页面
-            else return teacherService.queryTeacherByUsername(username);//转入老师管理员页面
-        }catch(UnknownAccountException e) {
-            e.printStackTrace();
-            return "n";//用户不存在
-        }catch(IncorrectCredentialsException e){
-            e.printStackTrace();
-            return "f";//密码错误
-        }
+        Jedis jedis = jedisPool.getResource();
+        jedis.del(token);
+        jedis.close();
+        return "0";
     }
-
-    @RequestMapping("index")
-    public String index()
-    {
-        return "index";
-    }
-
+//    /**
+//     * 使用shiro的登录
+//     * @return
+//     */
+//    @RequestMapping(value = "loginShiro",method = RequestMethod.POST)
+//    @ResponseBody
+//    public Object loginMethod(String username, String password)
+//    {
+//        Jedis jedis = jedisPool.getResource();
+//        Subject subject = SecurityUtils.getSubject();
+//        if(!password.equals("123")){
+//            password = new Md5Hash(password).toString();
+//        }
+//        UsernamePasswordToken token = new UsernamePasswordToken(username,password);
+//        try{
+//            System.out.println(token);
+//            subject.login(token);
+//            Account account = accountService.getAccount(username);
+//            Map<String,String> map = new HashMap<>();
+//            String myToken = UUID.randomUUID().toString();
+//            System.out.println(myToken);
+//            map.put("token",myToken);
+//            if(account.getIdentity()==1) {
+//                jedis.set(myToken,account.getUsername());
+//                map.put("identity","student");
+//            }
+//            else{
+//                jedis.set(myToken,teacherService.queryTeacherByUsername(account.getUsername()).getId().toString());
+//                map.put("identity","teacher");
+//            }
+//            jedis.expire(myToken,24*3600);
+//            jedis.save();
+//            return map;
+//        }catch(UnknownAccountException e) {
+//            e.printStackTrace();
+//            return "用户不存在";//用户不存在
+//        }catch(IncorrectCredentialsException e){
+//            e.printStackTrace();
+//            return "密码错误";//密码错误
+//        }
+//    }
+//
+//    @RequestMapping("index")
+//    public Object index()
+//    {
+//        return SecurityUtils.getSubject().getSession();
+//    }
 }

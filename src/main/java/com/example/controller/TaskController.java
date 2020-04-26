@@ -1,4 +1,5 @@
 package com.example.controller;
+import com.example.config.redis.RedisService;
 import com.example.config.utils.DateConverter;
 import com.example.config.utils.FileExporter;
 import com.example.config.utils.ZipCompression;
@@ -10,10 +11,7 @@ import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -37,14 +35,16 @@ public class TaskController
     private IUserService userService;
     @Autowired
     private ITeacherService teacherService;
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 查询某个老师下已发布的课程
-     * @param teacherId 老师id
      */
     @RequestMapping("")
-    public List<Course> queryCourseByTeacher(Integer teacherId)
+    public List<Course> queryCourseByTeacher(@RequestHeader("Token")String token)
     {
+        Integer teacherId = redisService.getTeacherId(token);
         return courseService.queryCourseByTeacher(teacherId);
     }
 
@@ -204,16 +204,16 @@ public class TaskController
      * @param courseId 课程id
      * @param userId 学号
      * @param score 成绩
-     * @param teacherId 操作老师id
      */
     @RequestMapping(value = "/homework/mark",method = RequestMethod.POST)
-    public String markTheHomework(Integer courseId,Long userId,Float score,Integer teacherId)
+    public String markTheHomework(@RequestHeader("Token")String token,Integer courseId,Long userId,Float score)
     {
         Jedis jedis = jedisPool.getResource();
         boolean isTeamwork=false;
         if(jedis.exists("course"+courseId+"requirement")){
             isTeamwork=Boolean.parseBoolean(jedis.hget("course"+courseId+"requirement","isTeamwork"));
         }
+        Integer teacherId = redisService.getTeacherId(token);
         String teacher = teacherService.getTeacher(teacherId).getName();
         if(isTeamwork){
             UserCourse userCourse = userService.queryUserCourseWithCourse(userId,courseId);

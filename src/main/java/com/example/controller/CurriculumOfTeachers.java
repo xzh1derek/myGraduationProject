@@ -1,15 +1,12 @@
 package com.example.controller;
+import com.example.config.redis.RedisService;
 import com.example.config.utils.ByteConverter;
 import com.example.domain.*;
 import com.example.domain.Module;
 import com.example.service.*;
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -28,15 +25,16 @@ public class CurriculumOfTeachers //老师课表 处理选课
     @Autowired
     private ICourseService courseService;
     @Autowired
-    private IMailService mailService;
+    private RedisService redisService;
 
     /**
      * 查询某个老师下所有项目下的所有已发布批次的课表，按时间顺序
      * @return 小课的List 多表联查
      */
     @RequestMapping("/all")
-    public List<Module> queryModulesWithProjectsAndCourses(Integer teacherId)
+    public List<Module> queryModulesWithProjectsAndCourses(@RequestHeader("Token")String token)
     {
+        Integer teacherId = redisService.getTeacherId(token);
         Long teacher = ByteConverter.convertIndexToLong(new Integer[]{teacherId});
         return moduleService.queryModuleOrderByDate(teacher);
     }
@@ -46,8 +44,9 @@ public class CurriculumOfTeachers //老师课表 处理选课
      * @return 小课的List 多表联查
      */
     @RequestMapping("/future")
-    public List<Module> queryModulesWithProjectsAndCoursesAfterToday(Integer teacherId)
+    public List<Module> queryModulesWithProjectsAndCoursesAfterToday(@RequestHeader("Token")String token)
     {
+        Integer teacherId = redisService.getTeacherId(token);
         Long teacher = ByteConverter.convertIndexToLong(new Integer[]{teacherId});
         return moduleService.queryModuleAfterToday(teacher);
     }
@@ -65,13 +64,13 @@ public class CurriculumOfTeachers //老师课表 处理选课
 
     /**
      * 查看某老师下所有未处理的选课信息
-     * @param teacherId 老师的id
      * @return Module的List 注入UserModules并带上User实体
      */
     @RequestMapping("/module")
-    public List<Module> queryUserModuleUnhandled(Integer teacherId)
+    public List<Module> queryUserModuleUnhandled(@RequestHeader("Token")String token)
     {
         Jedis jedis = jedisPool.getResource();
+        Integer teacherId = redisService.getTeacherId(token);
         List<Module> modules = moduleService.queryModuleOfArbitrary(ByteConverter.convertIndexToLong(new Integer[]{teacherId}));
         List<Module> moduleList = new ArrayList<>();
         for(Module module : modules)
@@ -114,7 +113,7 @@ public class CurriculumOfTeachers //老师课表 处理选课
             moduleService.newUserModule(userId,moduleId);
             String text = "预约实验成功。课程【"+course.getCourse_name()+"】新增["+project.getProject_name()+"]，时间["+
                     module.getDate()+" "+module.getTime()+"]，地点["+module.getLocation()+"]。";
-            mailService.sendMail(0L,userId,0,null,text);
+            redisService.sendMail(0L,userId,0,0,text);
         }
         jedis.close();
         return "0";
@@ -130,8 +129,8 @@ public class CurriculumOfTeachers //老师课表 处理选课
         jedis.srem("studentsOfModule:"+moduleId,userId.toString());
         String key = "project"+project.getId()+"user:"+userId;
         jedis.del(key);
-        String text = "实验【"+course.getCourse_name()+"】["+project.getProject_name()+"]预约未成功，详情请咨询老师或重新选课。";
-        mailService.sendMail(0L,userId,0,null,text);
+        String text = "实验【"+course.getCourse_name()+"】["+project.getProject_name()+"]预约未成功，详情咨询老师或重新选课。";
+        redisService.sendMail(0L,userId,0,0,text);
         jedis.close();
         return "0";
     }

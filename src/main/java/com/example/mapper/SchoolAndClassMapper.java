@@ -44,13 +44,6 @@ public interface SchoolAndClassMapper
     })
     List<School> querySchoolWithClasses();
 
-//    @Select("select * from school")
-//    @Results(id="schoolMapWithLimitedClasses",value = {
-//            @Result(id=true, column = "id", property = "id"),
-//            @Result(property = "classesList", column = "id", many = @Many(select = "com.example.mapper.SchoolAndClassMapper.queryClassesBySchoolAndCourse",fetchType = FetchType.LAZY))
-//    })
-//    List<School> querySchoolWithClassesLimited(Integer course_id);
-
     @Select("select class_id from classes where school_id=#{school_id}")
     List<Integer> queryClassesBySchool(Integer school_id);
 

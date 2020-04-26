@@ -1,18 +1,15 @@
 package com.example.controller;
+import com.example.config.redis.RedisService;
 import com.example.config.utils.DateConverter;
 import com.example.config.utils.FileExporter;
 import com.example.domain.Module;
 import com.example.domain.UserCourse;
-import com.example.service.ICourseService;
 import com.example.service.IModuleService;
 import com.example.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -35,34 +32,36 @@ public class CurriculumOfStudents
     private IUserService userService;
     @Autowired
     private JedisPool jedisPool;
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 查询某个学生的所有module 按时间顺序
-     * @param userId 学号
      */
     @RequestMapping("/all")
-    public List<Module> queryModuleByUser(Long userId)
+    public List<Module> queryModuleByUser(@RequestHeader("Token")String token)
     {
+        Long userId = redisService.getUserId(token);
         return moduleService.queryModuleByUsername(userId);
     }
 
     /**
      * 查询某个学生的所有module 只显示当前日期之后的记录
-     * @param userId 学号
      */
     @RequestMapping("/future")
-    public List<Module> queryModuleByUserAfterToday(Long userId)
+    public List<Module> queryModuleByUserAfterToday(@RequestHeader("Token")String token)
     {
+        Long userId = redisService.getUserId(token);
         return moduleService.queryModuleByUsernameAfterToday(userId);
     }
 
     /**
      * 显示所有课程
-     * @param userId 学号
      */
     @RequestMapping("/course")
-    public List<UserCourse> queryUserCourses(Long userId)
+    public List<UserCourse> queryUserCourses(@RequestHeader("Token")String token)
     {
+        Long userId = redisService.getUserId(token);
         return userService.getUserCourses(userId);
     }
 
@@ -83,12 +82,11 @@ public class CurriculumOfStudents
 
     /**
      * 上传报告 限制为pdf文件 大小在1MB内
-     * @param userId        学号
      * @param courseId      课程id
      * @param multipartFile 文件
      */
     @RequestMapping(value = "pdf/post", method = RequestMethod.POST)
-    public String UploadFile(Long userId, Integer courseId, @RequestParam("file") MultipartFile multipartFile) throws IOException
+    public String UploadFile(@RequestHeader("Token")String token, Integer courseId, @RequestParam("file") MultipartFile multipartFile) throws IOException
     {
         Jedis jedis = jedisPool.getResource();
         if (!jedis.exists("course" + courseId + "requirement")) {
@@ -99,6 +97,7 @@ public class CurriculumOfStudents
         if (deadline.before(new Date())) {
             return "已过截止时间";
         }
+        Long userId = redisService.getUserId(token);
         UserCourse userCourse = userService.queryUserCourseWithCourse(userId, courseId);
         if (userCourse.getCourse().getIs_team() && !userCourse.getIs_leader() && isTeamwork) {
             return "小组合作完成报告，只需队长上传即可";
@@ -122,15 +121,15 @@ public class CurriculumOfStudents
 
     /**
      * 预览报告 返回pdf文件流 content-type=application/pdf
-     * @param userId   学号
      * @param courseId 课程id
      */
     @RequestMapping("/pdf/view")
-    public void showPdf(Long userId, Integer courseId, HttpServletResponse response)
+    public void showPdf(@RequestHeader("Token")String token, Integer courseId, HttpServletResponse response)
     {
         response.setContentType("application/pdf");
         FileInputStream in;
         OutputStream out;
+        Long userId = redisService.getUserId(token);
         try {
             in = new FileInputStream(new File(getClass().getResource("./course_"+courseId+"_report").getFile(),userId+".pdf"));
             out = response.getOutputStream();
