@@ -18,9 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 @RequestMapping("curricula")
@@ -78,6 +76,22 @@ public class CurriculumOfStudents
         File[] files = dir.listFiles();
         if(files==null||files.length==0) return null;
         return FileExporter.export(files[0]);
+    }
+
+    /**
+     * 查看作业要求
+     * @param courseId 课程id
+     * @return json
+     */
+    @RequestMapping("/homework")
+    public Map<String,String> getHomeworkRequirement(Integer courseId)
+    {
+        Jedis jedis = jedisPool.getResource();
+        Map<String,String> map = new HashMap<>();
+        if(!jedis.exists("course"+courseId+"requirement")) return map;
+        map = jedis.hgetAll("course"+courseId+"requirement");
+        jedis.close();
+        return map;
     }
 
     /**

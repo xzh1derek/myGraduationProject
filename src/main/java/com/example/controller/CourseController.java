@@ -47,6 +47,7 @@ public class CourseController
     public String newCourse(String code, String name, Float credit, Integer hours, Boolean isTeam,
                             @RequestParam(defaultValue = "1")Integer maxNum)
     {
+        if(maxNum>=7) return "队伍人数不能超过7人";
         courseService.newCourse(code,name,credit,hours,isTeam,maxNum);
         return "0";
     }

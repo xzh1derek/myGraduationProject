@@ -34,7 +34,6 @@ public class Login
      * 登录功能
      * @param username 账号
      * @param password 密码
-     * @return
      */
     @RequestMapping(value = "login",method = RequestMethod.POST)
     public Object login(String username,String password)

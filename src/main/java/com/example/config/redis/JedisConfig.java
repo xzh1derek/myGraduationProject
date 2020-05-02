@@ -16,8 +16,8 @@ public class JedisConfig
     private String host;
     @Value("${spring.redis.port}")
     private Integer port;
-    @Value("${spring.redis.password}")
-    private String password;
+//    @Value("${spring.redis.password}")
+//    private String password;
     @Value("${spring.redis.timeout}")
     private Integer timeout;
     @Value("${spring.redis.jedis.pool.max-active}")
@@ -33,7 +33,7 @@ public class JedisConfig
         jedisPoolConfig.setMaxIdle(maxIdle);
         jedisPoolConfig.setMinIdle(minIdle);
         jedisPoolConfig.setMaxTotal(maxActive);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig,host,port,timeout,password);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig,host,port,timeout);
 
         logger.info("JedisPool连接成功，host="+host+"，port="+port);
 
