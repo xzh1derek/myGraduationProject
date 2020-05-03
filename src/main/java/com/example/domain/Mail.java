@@ -9,6 +9,7 @@ public class Mail implements Serializable
 {
     private int id;
     private Long sender;
+    private String receiver;
     private Integer type;//0为系统通知，1为邀请函，2为申请信
     private Integer team_id;
     private String text;
@@ -31,6 +32,26 @@ public class Mail implements Serializable
     public void setSender(Long sender)
     {
         this.sender = sender;
+    }
+
+    public String getReceiver()
+    {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver)
+    {
+        this.receiver = receiver;
+    }
+
+    public Integer getTeam_id()
+    {
+        return team_id;
+    }
+
+    public void setTeam_id(Integer team_id)
+    {
+        this.team_id = team_id;
     }
 
     public Integer getType()
@@ -69,8 +90,9 @@ public class Mail implements Serializable
         return "Mail{" +
                 "id=" + id +
                 ", sender=" + sender +
+                ", receiver=" + receiver +
                 ", type=" + type +
-                ", teamId=" + team_id +
+                ", team_id=" + team_id +
                 ", text='" + text + '\'' +
                 '}';
     }

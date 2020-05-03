@@ -61,8 +61,10 @@ public class Apply
         List<Mail> mails = new ArrayList<>();
         Long userId = redisService.getUserId(token);
         if(jedis.exists("application:"+userId)){
-            String receiver = jedis.hget("application:"+userId,"mailId"),mailId = jedis.hget("application:"+userId,"mailId");
-            mails.add(redisService.queryMail("mail"+receiver+":"+mailId));
+            String receiver = jedis.hget("application:"+userId,"receiver"),mailId = jedis.hget("application:"+userId,"mailId");
+            Mail mail = redisService.queryMail("mail"+receiver+":"+mailId);
+            mail.setReceiver(receiver);
+            mails.add(mail);
         }
         jedis.close();
         return mails;

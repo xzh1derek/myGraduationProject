@@ -108,6 +108,7 @@ public class RedisService
         moduleMap.put("date",module.getDate().toString());
         moduleMap.put("time",module.getTime());
         moduleMap.put("stuNum",module.getStu_num().toString());
+        moduleMap.put("index",module.getModule_index().toString());
         Long mysqlNum = moduleDao.countUserNumbersByModule(module.getId()).longValue(),
              redisNum = jedis.scard("studentsOfModule:"+module.getId());
         moduleMap.put("curNum",String.valueOf(mysqlNum+redisNum));
@@ -127,6 +128,7 @@ public class RedisService
         module.setTime(jedis.hget(key,"time"));
         module.setStu_num(Integer.parseInt(jedis.hget(key,"stuNum")));
         module.setCur_num(Integer.parseInt(jedis.hget(key,"curNum")));
+        module.setModule_index(Integer.parseInt(jedis.hget(key,"index")));
         jedis.close();
         return module;
     }
