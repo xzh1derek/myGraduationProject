@@ -21,14 +21,14 @@ public interface SchoolAndClassMapper
     @Select("select * from school")
     List<School> querySchool();
 
-    @Select("select * from school where id=#{id}")
-    School GetSchool(Integer id);
-
     @Insert("insert into classes(class_id,school_id) values(#{class_id},#{school_id})")
     void newClass(Integer class_id, Integer school_id);
 
     @Delete("delete from classes where class_id=#{id}")
     void deleteClass(Integer id);
+
+    @Delete("delete from classes where school_id=#{id}")
+    void deleteClassBySchool(Integer id);
 
     @Select("select * from classes")
     @Results(id="classMap",value = {

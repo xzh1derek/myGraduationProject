@@ -84,7 +84,7 @@ public class TeamController
         if(userService.hasATeam(receiver,team.getCourse_id())) return "6";//He has a team.
         else if(team.getCurrent_num().equals(team.getMax_num())) return "7";//Your team is full
         else{
-            redisService.sendMail(team.getLeader(),receiver,1,teamId,team.getLeader()+" 同学邀请你加入队伍ID: "+teamId);
+            redisService.sendMail(team.getLeader(),receiver,1,teamId,"【组队邀请】"+team.getLeader()+" 同学邀请你加入队伍ID: "+teamId);
             return "0";
         }
     }

@@ -157,7 +157,7 @@ public class StudentController
     public String updatePassword(Long userId)
     {
         accountService.updatePassword(userId.toString(),"123");
-        redisService.sendMail(0L,userId,0,0,"密码已重置为123，请尽快修改密码");
+        redisService.sendMail(0L,userId,0,0,"【系统消息】密码已重置为123，请尽快修改密码");
         return "0";
     }
 

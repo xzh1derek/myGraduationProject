@@ -47,6 +47,6 @@ public interface CourseMapper
     @Select("select * from course where teacher&#{teacher}=#{teacher} and is_published=true")
     List<Course> queryCourseByTeacher(Long teacher);
 
-    @Select("select * from course where is_team=#{status}")
+    @Select("select * from course where is_team=#{status} and is_published=true")
     List<Course> queryCourseIsTeam(Boolean status);
 }

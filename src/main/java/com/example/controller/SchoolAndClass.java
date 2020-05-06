@@ -38,6 +38,7 @@ public class SchoolAndClass
     public String deleteSchool(Integer id)
     {
         mapper.deleteSchool(id);
+        mapper.deleteClassBySchool(id);
         return "0";
     }
 

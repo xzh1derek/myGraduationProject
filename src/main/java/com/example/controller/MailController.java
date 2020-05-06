@@ -94,7 +94,7 @@ public class MailController
             teamService.addAMember(teamId,userId);
             userService.updateTeamId(userId,team.getCourse_id(),teamId);
             jedis.del(key);
-            redisService.sendMail(0L,team.getLeader(),0,0,"邀请被通过，成员 "+ userId +" 已入队");//发一个系统邮件，告知队长入队成功
+            redisService.sendMail(0L,team.getLeader(),0,0,"【系统消息】邀请被通过，成员 "+ userId +" 已入队");//发一个系统邮件，告知队长入队成功
         }
         else if(myMail.getType()==2)//如果为申请
         {
@@ -107,7 +107,7 @@ public class MailController
             userService.updateTeamId(userId,team.getCourse_id(),teamId);
             jedis.del(key);
             jedis.del("application:"+myMail.getSender().toString());
-            redisService.sendMail(0L,userId,0,0,"队伍申请已通过，你已入队");//发送系统邮件告知申请通过
+            redisService.sendMail(0L,userId,0,0,"【系统消息】队伍申请已通过，你已入队");//发送系统邮件告知申请通过
         }
         jedis.close();
         return "0";
@@ -131,11 +131,11 @@ public class MailController
         String text;
         if(myMail.getType()==1)//如果为邀请
         {
-            text = "邀请未通过， "+ userId +" 同学没有同意入队";
+            text = "【系统消息】邀请未通过，"+ userId +"同学已有队伍或不同意入队";
         }
         else if(myMail.getType()==2)//如果为申请
         {
-            text = "队伍申请未通过，队伍 ID:"+myMail.getTeamId()+" 已满员或不接受申请";
+            text = "【系统消息】队伍申请未通过，队伍ID:"+myMail.getTeamId()+"已满员或不接受申请";
         }
         else return "error678";
         redisService.sendMail(0L,myMail.getSender(),0,0,text);

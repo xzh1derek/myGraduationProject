@@ -43,7 +43,7 @@ public class Apply
         if(userService.hasATeam(userId,team.getCourse_id())) return "2";//You have a team
         if(!team.getAvailable()) return "3";//The team you applied is full or not available.
         if(jedis.exists("application:"+userId)) return "4";//You have an untreated application, you can't apply for another team.
-        int mailId = redisService.sendMail(userId,team.getLeader(),2,teamId,userId+"申请加入队伍ID: "+teamId);
+        int mailId = redisService.sendMail(userId,team.getLeader(),2,teamId,"【入队申请】"+userId+"申请加入队伍ID: "+teamId);
         jedis.hset("application:"+userId,"receiver",Long.toString(team.getLeader()));
         jedis.hset("application:"+userId,"mailId",Integer.toString(mailId));
         jedis.close();
@@ -75,11 +75,13 @@ public class Apply
      * @return 状态码 本地测试通过
      */
     @RequestMapping(value = "withdraw",method = RequestMethod.POST)
-    public String withdraw(@RequestHeader("Token")String token)
+    public String withdraw(@RequestHeader("Token")String token,Integer mailId)
     {
         Jedis jedis = jedisPool.getResource();
         Long userId = redisService.getUserId(token);
+        String receiver = jedis.hget("application:"+userId,"receiver");
         jedis.del("application:"+userId);
+        jedis.del("mail"+receiver+":"+mailId);
         jedis.close();
         return "0";
     }

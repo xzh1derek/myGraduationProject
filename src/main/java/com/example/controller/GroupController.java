@@ -87,7 +87,7 @@ public class GroupController
         List<Long> userId = teamService.queryUsernameByTeamId(teamId);
         for(Long username : userId)
         {
-            redisService.sendMail(0L,username,0,0,"管理员删除了队伍id："+teamId+"，请重新组队");
+            redisService.sendMail(0L,username,0,0,"【系统通知】管理员解散了队伍ID："+teamId+"，请重新组队");
         }
         teamService.deleteTeamMembers(teamId);
         teamService.deleteTeam(teamId);
@@ -122,7 +122,7 @@ public class GroupController
             Integer teamId = teamService.createTeam(username,courseId,course.getMax_num());
             userService.updateIsLeader(username,courseId,true);
             userService.updateTeamId(username,courseId,teamId);
-            redisService.sendMail(0L,username,0,0,"系统自动组队通知，你已进入队伍id："+teamId);
+            redisService.sendMail(0L,username,0,0,"【系统通知】你已进入队伍id："+teamId);
         }
         return "0";
     }
@@ -149,11 +149,11 @@ public class GroupController
                 teamId = teamService.createTeam(username,courseId,course.getMax_num());
                 userService.updateIsLeader(username,courseId,true);
                 userService.updateTeamId(username,courseId,teamId);
-                redisService.sendMail(0L,username,0,0,"系统自动组队通知，你已进入队伍id："+teamId);
+                redisService.sendMail(0L,username,0,0,"【系统消息】你已进入队伍id："+teamId);
             }else if(i>1&&i<=course.getMax_num()){
                 teamService.addAMember(teamId,username);
                 userService.updateTeamId(username,courseId,teamId);
-                redisService.sendMail(0L,username,0,0,"系统自动组队通知，你已进入队伍id："+teamId);
+                redisService.sendMail(0L,username,0,0,"【系统消息】你已进入队伍id："+teamId);
             }else{
                 i=0;
             }

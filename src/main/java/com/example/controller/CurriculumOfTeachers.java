@@ -111,7 +111,7 @@ public class CurriculumOfTeachers //老师课表 处理选课
         {
             jedis.srem("studentsOfModule:"+moduleId,userId.toString());
             moduleService.newUserModule(userId,moduleId);
-            String text = "预约实验成功。课程【"+course.getCourse_name()+"】新增["+project.getProject_name()+"]，时间["+
+            String text = "【系统通知】预约实验成功。课程【"+course.getCourse_name()+"】新增["+project.getProject_name()+"]，时间["+
                     module.getDate()+" "+module.getTime()+"]，地点["+module.getLocation()+"]。";
             redisService.sendMail(0L,userId,0,0,text);
         }
@@ -129,7 +129,7 @@ public class CurriculumOfTeachers //老师课表 处理选课
         jedis.srem("studentsOfModule:"+moduleId,userId.toString());
         String key = "project"+project.getId()+"user:"+userId;
         jedis.del(key);
-        String text = "实验【"+course.getCourse_name()+"】["+project.getProject_name()+"]预约未成功，详情咨询老师或重新选课。";
+        String text = "【系统通知】实验【"+course.getCourse_name()+"】["+project.getProject_name()+"]预约未成功，详情咨询老师或重新选课。";
         redisService.sendMail(0L,userId,0,0,text);
         jedis.close();
         return "0";
